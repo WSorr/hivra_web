@@ -1,0 +1,30 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Local env
+.env
+.env.local
+
+# Temporary files
+tmp/
+temp/
+
+# Node (just in case)
+node_modules/
+
+# Build artifacts (not used, but forbidden)
+dist/
+build/
+
+# Termux / Android
+storage/
