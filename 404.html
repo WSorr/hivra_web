@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | HIVRA Network</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="pictures/favicon.png" type="image/png">
+    <style>
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .error-image {
+            max-width: 600px;
+            width: 100%;
+            margin: 2rem 0;
+        }
+        
+        .error-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid var(--surface-light);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 12px 24px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.3s;
+        }
+        
+        .back-link:hover {
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="/" class="logo">
+                <picture>
+                    <source srcset="pictures/logo.webp" type="image/webp">
+                    <img src="pictures/logo.png" alt="HIVRA" class="logo-img" width="32" height="32">
+                </picture>
+            </a>
+            <nav class="nav">
+                <a href="/" class="nav-link">Home</a>
+                <a href="network-v2.html" class="nav-link">Network</a>
+                <a href="coming-soon.html" class="nav-link">About</a>
+                <a href="support.html" class="nav-button">Support HIVRA</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="error-container">
+            <div class="error-image">
+                <img src="pictures/NotFound.png" alt="404 Not Found">
+            </div>
+            <a href="/" class="back-link">Return to Home</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 HIVRA Network. Communication through interconnected pathways.</p>
+        </div>
+    </footer>
+</body>
+</html>

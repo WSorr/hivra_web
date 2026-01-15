@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIVRA | Hive Integrated Value & Relationship Architecture</title>
+    <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="pictures/favicon.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .hero { text-align: center; padding: 6rem 2rem 4rem; background: linear-gradient(135deg, rgba(10,10,15,0.9), rgba(21,21,33,0.9)); }
+        .hero-title { font-size: 3.5rem; margin-bottom: 1.5rem; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-subtitle { font-size: 1.2rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 3rem; line-height: 1.8; }
+        .capsule-preview { display: flex; justify-content: center; gap: 3rem; margin: 3rem 0; flex-wrap: wrap; }
+        .capsule { width: 140px; height: 140px; border-radius: 70px; display: flex; align-items: center; justify-content: center; border: 3px solid; position: relative; overflow: hidden; }
+        .capsule::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent 70%); }
+        .genesis { background: rgba(124, 58, 237, 0.15); border-color: var(--primary); box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2); }
+        .proto { background: rgba(6, 182, 212, 0.15); border-color: var(--secondary); box-shadow: 0 10px 30px rgba(6, 182, 212, 0.2); }
+        .capsule-content { text-align: center; z-index: 1; }
+        .capsule-name { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .genesis .capsule-name { color: var(--primary); }
+        .proto .capsule-name { color: var(--secondary); }
+        .capsule-status { font-size: 0.85rem; color: var(--text-secondary); }
+        .starters-showcase { display: flex; justify-content: center; gap: 1rem; margin: 2rem 0 3rem; flex-wrap: wrap; }
+        .starter { padding: 0.5rem 1rem; background: var(--surface); border-radius: 6px; border: 1px solid var(--surface-light); font-weight: 500; }
+        .starter-juice { color: #f59e0b; }
+        .starter-spark { color: #ef4444; }
+        .starter-seed { color: #10b981; }
+        .starter-pulse { color: #8b5cf6; }
+        .starter-kick { color: #ec4899; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin: 3rem 0; }
+        .cta-primary { background: linear-gradient(90deg, var(--primary), var(--secondary)); color: white; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: transform 0.3s, box-shadow 0.3s; }
+        .cta-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(124, 58, 237, 0.3); }
+        .cta-secondary { background: var(--surface); color: var(--text); padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.1rem; border: 1px solid var(--surface-light); transition: all 0.3s; }
+        .cta-secondary:hover { background: var(--surface-light); transform: translateY(-2px); }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 4rem 0; }
+        .feature { background: var(--surface); border-radius: 12px; padding: 2rem; border: 1px solid var(--surface-light); }
+        .feature h3 { margin-bottom: 1rem; font-size: 1.3rem; }
+        .feature p { color: var(--text-secondary); line-height: 1.7; }
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .hero { padding: 4rem 1rem 3rem; }
+            .capsule-preview { gap: 2rem; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .cta-primary, .cta-secondary { width: 100%; max-width: 300px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="header-container">
+        <a href="index.html" class="logo">
+            <picture>
+                <source srcset="pictures/logo.webp" type="image/webp">
+                <img src="pictures/logo.png" alt="HIVRA" class="logo-img" width="32" height="32">
+            </picture>
+        </a>
+        <nav class="nav">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="network-v2.html" class="nav-link">Network</a>
+            <a href="coming-soon.html" class="nav-link">About</a>
+            <a href="support.html" class="nav-button">Support HIVRA</a>
+        </nav>
+    </div>
+</header>
+
+<main class="main-content">
+<section class="hero">
+    <h1 class="hero-title">HIVRA</h1>
+    <p class="hero-subtitle">
+        Hive Integrated Value & Relationship Architecture — a distributed system
+        where capsules exchange value and form trust-based relationships
+        across interconnected networks, without central servers or authorities.
+    </p>
+
+    <div class="capsule-preview">
+        <div class="capsule genesis">
+            <div class="capsule-content">
+                <div class="capsule-name">Genesis</div>
+                <div class="capsule-status">5 starters • Active</div>
+            </div>
+        </div>
+        <div class="capsule proto">
+            <div class="capsule-content">
+                <div class="capsule-name">Proto</div>
+                <div class="capsule-status">Empty slots • Awaiting</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="starters-showcase">
+        <div class="starter starter-juice">⚡ Juice</div>
+        <div class="starter starter-spark">💥 Spark</div>
+        <div class="starter starter-seed">🌱 Seed</div>
+        <div class="starter starter-pulse">📡 Pulse</div>
+        <div class="starter starter-kick">🔥 Kick</div>
+    </div>
+
+    <div class="cta-buttons">
+        <a href="network-v2.html" class="cta-primary">View Network Visualization</a>
+        <a href="support.html" class="cta-secondary">Learn More</a>
+    </div>
+</section>
+
+<div class="container">
+    <div class="features">
+        <div class="feature">
+            <h3>Value & Relationship Network</h3>
+            <p>
+                Genesis capsules initiate networks by distributing starters,
+                while Proto capsules grow by forming relationships and participating
+                in value exchange.
+            </p>
+        </div>
+        <div class="feature">
+            <h3>Distributed Architecture</h3>
+            <p>
+                Control, trust, and value are distributed across capsules and networks.
+                Coordination emerges from relationships and protocol rules,
+                rather than from central authorities.
+            </p>
+        </div>
+        <div class="feature">
+            <h3>Starter System</h3>
+            <p>
+                Five unique starters (Juice, Spark, Seed, Pulse, Kick)
+                act as non-fungible units of value, defining capabilities,
+                permissions, and interaction patterns within the network.
+            </p>
+        </div>
+    </div>
+</div>
+</main>
+
+<footer class="footer">
+    <div class="footer-content">
+        <p>© 2025 HIVRA. Distributed Value & Relationship Architecture.</p>
+    </div>
+</footer>
+</body>
+</html>
