@@ -1,0 +1,20 @@
+# Security
+*.key
+*.pem
+*.priv
+id_*
+*.env
+.env.local
+
+# System
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Logs & backups
+*.log
+*.bak
+*.backup
+*~
+hivra-backups/
