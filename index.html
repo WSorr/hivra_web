@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HIVRA | Hive Integrated Value & Relationship Architecture</title>
+    <title>Hivra | Hive Integrated Value & Relationship Architecture</title>
     <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
     <link rel="icon" href="pictures/favicon.png" type="image/png">
     <link rel="stylesheet" href="style.css">
@@ -12,7 +12,8 @@
         .hero-title { font-size: 3.5rem; margin-bottom: 1.5rem; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero-subtitle { font-size: 1.2rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 3rem; line-height: 1.8; }
         .capsule-preview { display: flex; justify-content: center; gap: 3rem; margin: 3rem 0; flex-wrap: wrap; }
-        .capsule { width: 140px; height: 140px; border-radius: 70px; display: flex; align-items: center; justify-content: center; border: 3px solid; position: relative; overflow: hidden; }
+        .capsule { width: 140px; height: 140px; border-radius: 70px; display: flex; align-items: center; justify-content: center; border: 3px solid; position: relative; overflow: hidden; cursor: pointer; transition: transform 0.3s; }
+        .capsule:hover { transform: scale(1.05); }
         .capsule::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent 70%); }
         .genesis { background: rgba(124, 58, 237, 0.15); border-color: var(--primary); box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2); }
         .proto { background: rgba(6, 182, 212, 0.15); border-color: var(--secondary); box-shadow: 0 10px 30px rgba(6, 182, 212, 0.2); }
@@ -21,13 +22,50 @@
         .genesis .capsule-name { color: var(--primary); }
         .proto .capsule-name { color: var(--secondary); }
         .capsule-status { font-size: 0.85rem; color: var(--text-secondary); }
-        .starters-showcase { display: flex; justify-content: center; gap: 1rem; margin: 2rem 0 3rem; flex-wrap: wrap; }
-        .starter { padding: 0.5rem 1rem; background: var(--surface); border-radius: 6px; border: 1px solid var(--surface-light); font-weight: 500; }
-        .starter-juice { color: #f59e0b; }
-        .starter-spark { color: #ef4444; }
-        .starter-seed { color: #10b981; }
-        .starter-pulse { color: #8b5cf6; }
-        .starter-kick { color: #ec4899; }
+        
+        .starters-showcase { 
+            display: flex; 
+            justify-content: center; 
+            gap: 1.5rem; 
+            margin: 2rem 0 3rem; 
+            flex-wrap: wrap; 
+        }
+        
+        .starter { 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem; 
+            background: var(--surface); 
+            border-radius: 12px; 
+            border: 1px solid var(--surface-light); 
+            font-weight: 600;
+            font-size: 0.95rem;
+            min-width: 100px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .starter:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .starter-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .starter-juice { color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); }
+        .starter-spark { color: #ef4444; border-color: rgba(239, 68, 68, 0.3); }
+        .starter-seed { color: #10b981; border-color: rgba(16, 185, 129, 0.3); }
+        .starter-pulse { color: #8b5cf6; border-color: rgba(139, 92, 246, 0.3); }
+        .starter-kick { color: #ec4899; border-color: rgba(236, 72, 153, 0.3); }
+        
         .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin: 3rem 0; }
         .cta-primary { background: linear-gradient(90deg, var(--primary), var(--secondary)); color: white; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: transform 0.3s, box-shadow 0.3s; }
         .cta-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(124, 58, 237, 0.3); }
@@ -37,10 +75,13 @@
         .feature { background: var(--surface); border-radius: 12px; padding: 2rem; border: 1px solid var(--surface-light); }
         .feature h3 { margin-bottom: 1rem; font-size: 1.3rem; }
         .feature p { color: var(--text-secondary); line-height: 1.7; }
+        
         @media (max-width: 768px) {
             .hero-title { font-size: 2.5rem; }
             .hero { padding: 4rem 1rem 3rem; }
             .capsule-preview { gap: 2rem; }
+            .starters-showcase { gap: 1rem; }
+            .starter { padding: 0.8rem 1rem; min-width: 85px; }
             .cta-buttons { flex-direction: column; align-items: center; }
             .cta-primary, .cta-secondary { width: 100%; max-width: 300px; text-align: center; }
         }
@@ -52,21 +93,21 @@
         <a href="index.html" class="logo">
             <picture>
                 <source srcset="pictures/logo.webp" type="image/webp">
-                <img src="pictures/logo.png" alt="HIVRA" class="logo-img" width="32" height="32">
+                <img src="pictures/logo.png" alt="Hivra" class="logo-img" style="width: 80px; height: auto;">
             </picture>
         </a>
         <nav class="nav">
             <a href="index.html" class="nav-link">Home</a>
             <a href="network-v2.html" class="nav-link">Network</a>
             <a href="coming-soon.html" class="nav-link">About</a>
-            <a href="support.html" class="nav-button">Support HIVRA</a>
+            <a href="support.html" class="nav-button">Support Hivra</a>
         </nav>
     </div>
 </header>
 
 <main class="main-content">
 <section class="hero">
-    <h1 class="hero-title">HIVRA</h1>
+    <h1 class="hero-title">Hivra</h1>
     <p class="hero-subtitle">
         Hive Integrated Value & Relationship Architecture — a distributed system
         where capsules exchange value and form trust-based relationships
@@ -89,11 +130,62 @@
     </div>
 
     <div class="starters-showcase">
-        <div class="starter starter-juice">⚡ Juice</div>
-        <div class="starter starter-spark">💥 Spark</div>
-        <div class="starter starter-seed">🌱 Seed</div>
-        <div class="starter starter-pulse">📡 Pulse</div>
-        <div class="starter starter-kick">🔥 Kick</div>
+        <div class="starter starter-juice">
+            <div class="starter-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L14 9H20L15 13.5L17 20L12 16L7 20L9 13.5L4 9H10L12 2Z" fill="currentColor"/>
+                    <path d="M12 2V5M12 5V8M12 8V11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
+            Juice
+        </div>
+        
+        <div class="starter starter-spark">
+            <div class="starter-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M13 2L4 14H12L11 22L20 10H12L13 2Z" fill="currentColor"/>
+                    <circle cx="12" cy="12" r="2" fill="white" opacity="0.8"/>
+                </svg>
+            </div>
+            Spark
+        </div>
+        
+        <div class="starter starter-seed">
+            <div class="starter-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2C8 2 4 6 4 12C4 18 8 22 12 22C16 22 20 18 20 12C20 6 16 2 12 2Z" fill="currentColor"/>
+                    <path d="M12 6C9 6 6 9 6 12C6 15 9 18 12 18C15 18 18 15 18 12C18 9 15 6 12 6Z" fill="white" opacity="0.3"/>
+                    <circle cx="12" cy="12" r="2" fill="white" opacity="0.6"/>
+                    <path d="M12 8V16M8 12H16" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+                </svg>
+            </div>
+            Seed
+        </div>
+        
+        <div class="starter starter-pulse">
+            <div class="starter-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="8" fill="currentColor"/>
+                    <circle cx="12" cy="12" r="4" fill="white" opacity="0.3"/>
+                    <path d="M12 4V8M12 16V20M20 12H16M8 12H4" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+                    <path d="M15 9L19 5M9 15L5 19M15 15L19 19M9 9L5 5" stroke="white" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+                </svg>
+            </div>
+            Pulse
+        </div>
+        
+        <div class="starter starter-kick">
+            <div class="starter-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2C6 2 2 6 2 12C2 18 6 22 12 22C18 22 22 18 22 12C22 6 18 2 12 2Z" fill="currentColor"/>
+                    <path d="M12 6L16 10L12 14L8 10L12 6Z" fill="white" opacity="0.2"/>
+                    <path d="M12 10L16 14L12 18L8 14L12 10Z" fill="white" opacity="0.4"/>
+                    <circle cx="12" cy="12" r="2" fill="white" opacity="0.8"/>
+                    <path d="M12 8V16M8 12H16" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+                </svg>
+            </div>
+            Kick
+        </div>
     </div>
 
     <div class="cta-buttons">
@@ -134,8 +226,30 @@
 
 <footer class="footer">
     <div class="footer-content">
-        <p>© 2025 HIVRA. Distributed Value & Relationship Architecture.</p>
+        <p>© 2025 Hivra. Distributed Value & Relationship Architecture.</p>
     </div>
 </footer>
+
+<script>
+    document.querySelectorAll('.starter').forEach(starter => {
+        starter.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px) scale(1.05)';
+        });
+        
+        starter.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+    
+    document.querySelectorAll('.capsule').forEach(capsule => {
+        capsule.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.08)';
+        });
+        
+        capsule.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+</script>
 </body>
 </html>
