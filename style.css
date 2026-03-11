@@ -97,6 +97,32 @@ a {
     justify-content: flex-end;
 }
 
+.nav-toggle {
+    display: none;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.nav-toggle-line {
+    display: block;
+    width: 18px;
+    height: 2px;
+    border-radius: 999px;
+    background: currentColor;
+    transition: 180ms ease;
+}
+
+.nav-toggle-line + .nav-toggle-line {
+    margin-top: 4px;
+}
+
 .nav-link,
 .nav-button {
     text-decoration: none;
@@ -206,6 +232,19 @@ a {
 }
 
 @media (max-width: 640px) {
+    .header {
+        position: static;
+    }
+
+    .header-container {
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 14px 0;
+    }
+
     .header-container,
     .container,
     .footer-content {
@@ -216,17 +255,47 @@ a {
         width: 68px;
     }
 
+    .nav {
+        display: none;
+        width: 100%;
+        gap: 8px;
+        padding: 10px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .header-container.nav-open .nav {
+        display: flex;
+    }
+
+    .nav-toggle {
+        display: inline-flex;
+    }
+
+    .header-container.nav-open .nav-toggle-line:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+    }
+
+    .header-container.nav-open .nav-toggle-line:nth-child(2) {
+        opacity: 0;
+    }
+
+    .header-container.nav-open .nav-toggle-line:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
+    }
+
     .nav-link,
     .nav-button {
-        padding: 9px 13px;
-        font-size: 0.9rem;
-        flex: 1 1 calc(50% - 6px);
+        padding: 11px 13px;
+        font-size: 0.92rem;
+        flex: 1 1 100%;
         justify-content: center;
         text-align: center;
     }
 
-    .nav {
-        gap: 8px;
+    .main-content {
+        padding-top: 16px;
     }
 
     .eyebrow {
@@ -240,8 +309,8 @@ a {
 }
 
 @media (max-width: 420px) {
-    .nav-link,
-    .nav-button {
-        flex-basis: 100%;
+    .nav-toggle {
+        width: 44px;
+        height: 44px;
     }
 }

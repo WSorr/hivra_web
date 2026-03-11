@@ -180,6 +180,11 @@
                     <img src="pictures/logo.png" alt="Hivra" class="logo-img">
                 </picture>
             </a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
+                <span class="nav-toggle-line"></span>
+                <span class="nav-toggle-line"></span>
+                <span class="nav-toggle-line"></span>
+            </button>
             <nav class="nav">
                 <a href="/" class="nav-link">Home</a>
                 <a href="network-v2.html" class="nav-link">Network</a>
@@ -307,5 +312,16 @@
             <p>Self-contained 404 page for nginx deployment.</p>
         </div>
     </footer>
+    <script>
+        const headerContainer = document.querySelector('.header-container');
+        const navToggle = document.querySelector('.nav-toggle');
+
+        if (headerContainer && navToggle) {
+            navToggle.addEventListener('click', () => {
+                const isOpen = headerContainer.classList.toggle('nav-open');
+                navToggle.setAttribute('aria-expanded', String(isOpen));
+            });
+        }
+    </script>
 </body>
 </html>
