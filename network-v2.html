@@ -3,244 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HIVRA Network Visualization</title>
+    <title>Hivra Network Visualization</title>
+    <meta name="description" content="Visual overview of Hivra capsules, starter composition, and network state.">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="pictures/favicon.png" type="image/png">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
-            background: #0a0a0f;
-            color: #ffffff;
-            line-height: 1.6;
-            padding: 20px;
-            -webkit-font-smoothing: antialiased;
+        .hero-panel,
+        .capsule-card,
+        .legend-panel,
+        .signal-panel {
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            box-shadow: var(--shadow);
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+
+        .hero-panel {
+            padding: 38px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+            gap: 28px;
+            overflow: hidden;
+            position: relative;
         }
-        
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 20px;
-            border-bottom: 1px solid #222;
+
+        .hero-panel::after {
+            content: "";
+            position: absolute;
+            right: -80px;
+            top: -80px;
+            width: 260px;
+            height: 260px;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(115, 217, 207, 0.2), transparent 70%);
+            pointer-events: none;
         }
-        
-        h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(90deg, #7c3aed, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+        .hero-copy,
+        .hero-side {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-copy h1,
+        .section-title,
+        .legend-panel h2 {
+            font-family: "Iowan Old Style", "Palatino Linotype", serif;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-copy h1 {
+            margin: 14px 0 16px;
+            font-size: clamp(2.8rem, 5vw, 4.8rem);
+            line-height: 0.95;
+        }
+
+        .hero-copy p,
+        .hero-side p,
+        .section-intro,
+        .capsule-card p,
+        .legend-panel p,
+        .signal-panel p {
+            color: var(--muted);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .primary-link,
+        .secondary-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+            padding: 0 20px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 180ms ease;
+        }
+
+        .primary-link {
+            background: linear-gradient(135deg, var(--secondary), #a6efe8);
+            color: #08141a;
+        }
+
+        .secondary-link {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .primary-link:hover,
+        .secondary-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .hero-side {
+            display: grid;
+            gap: 16px;
+            align-content: start;
+        }
+
+        .signal-panel {
+            padding: 22px;
+        }
+
+        .signal-panel strong {
+            display: block;
             margin-bottom: 10px;
         }
-        
-        .subtitle {
-            color: #94a3b8;
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
+
+        .section {
+            margin-top: 28px;
         }
-        
-        /* Capsule Grid */
+
+        .section-title {
+            margin: 14px 0 8px;
+            font-size: clamp(2rem, 3vw, 3rem);
+            line-height: 1;
+        }
+
+        .section-intro {
+            max-width: 720px;
+        }
+
         .capsule-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin: 40px 0;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            margin-top: 22px;
         }
-        
+
         .capsule-card {
-            background: #151521;
-            border-radius: 16px;
-            padding: 25px;
-            border: 1px solid #2d3748;
-            transition: transform 0.3s, border-color 0.3s;
+            padding: 24px;
             position: relative;
             overflow: hidden;
         }
-        
-        .capsule-card:hover {
-            transform: translateY(-5px);
-            border-color: #7c3aed;
+
+        .capsule-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 5px;
         }
-        
+
         .capsule-card.genesis::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #7c3aed, #06b6d4);
-            border-radius: 16px 16px 0 0;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
-        
+
         .capsule-card.proto::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #06b6d4, #10b981);
-            border-radius: 16px 16px 0 0;
+            background: linear-gradient(90deg, var(--secondary), var(--success));
         }
-        
-        .capsule-header {
+
+        .capsule-head {
             display: flex;
+            align-items: start;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+            gap: 14px;
+            margin-bottom: 18px;
         }
-        
+
         .capsule-id {
-            font-size: 1.3rem;
-            font-weight: 600;
+            font-size: 1.2rem;
+            font-weight: 700;
         }
-        
-        .capsule-type {
-            font-size: 0.85rem;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-weight: 500;
+
+        .capsule-role {
+            color: var(--muted);
+            margin-top: 4px;
+            font-size: 0.92rem;
         }
-        
-        .type-genesis {
-            background: rgba(124, 58, 237, 0.2);
-            color: #a78bfa;
-        }
-        
-        .type-proto {
-            background: rgba(6, 182, 212, 0.2);
-            color: #67e8f9;
-        }
-        
-        /* Starters Visualization */
-        .starters-container {
-            margin: 25px 0;
-        }
-        
-        .starter-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .starter-item {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
+
+        .capsule-type,
+        .capsule-status {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            font-size: 0.9rem;
+            border-radius: 999px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .capsule-type {
+            min-height: 34px;
+            padding: 0 12px;
+            font-size: 0.78rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .capsule-type.type-genesis {
+            background: rgba(255, 138, 61, 0.14);
+            color: var(--primary);
+        }
+
+        .capsule-type.type-proto {
+            background: rgba(115, 217, 207, 0.12);
+            color: var(--secondary);
+        }
+
+        .starter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 18px 0 24px;
+        }
+
+        .starter-item {
             position: relative;
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 999px;
+            font-size: 0.92rem;
+            font-weight: 800;
         }
-        
+
         .starter-item.full {
-            border: 2px solid;
+            border: 2px solid transparent;
         }
-        
+
         .starter-item.empty {
-            background: #1a1a2e;
-            border: 2px dashed #4b5563;
-            color: #64748b;
+            color: #678188;
+            border: 2px dashed rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.03);
         }
-        
+
         .starter-item.full::after {
             content: attr(data-name);
             position: absolute;
-            bottom: -25px;
             left: 50%;
+            bottom: -24px;
             transform: translateX(-50%);
-            font-size: 0.7rem;
-            color: #94a3b8;
+            color: var(--muted);
+            font-size: 0.68rem;
+            font-weight: 600;
             white-space: nowrap;
         }
-        
-        /* Starter Colors */
-        .starter-juice { background: #f59e0b; border-color: #f59e0b; color: #000; }
-        .starter-spark { background: #ef4444; border-color: #ef4444; color: #fff; }
-        .starter-seed { background: #10b981; border-color: #10b981; color: #000; }
-        .starter-pulse { background: #8b5cf6; border-color: #8b5cf6; color: #fff; }
-        .starter-kick { background: #ec4899; border-color: #ec4899; color: #fff; }
-        
-        /* Status */
+
+        .starter-juice { background: #ffd166; color: #08141a; }
+        .starter-spark { background: #ff6b6b; color: #eff8f6; }
+        .starter-seed { background: #7be495; color: #08141a; }
+        .starter-pulse { background: #9b8cff; color: #eff8f6; }
+        .starter-kick { background: #ff8cc6; color: #08141a; }
+
         .capsule-status {
-            display: inline-block;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-top: 15px;
+            min-height: 38px;
+            padding: 0 14px;
+            font-size: 0.84rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
         }
-        
+
         .status-active {
-            background: rgba(16, 185, 129, 0.2);
-            color: #34d399;
+            background: rgba(123, 228, 149, 0.16);
+            color: var(--success);
         }
-        
+
         .status-waiting {
-            background: rgba(251, 191, 36, 0.2);
-            color: #fbbf24;
+            background: rgba(255, 209, 102, 0.16);
+            color: var(--warning);
         }
-        
-        /* Legend */
-        .legend {
-            background: #151521;
-            border-radius: 16px;
-            padding: 25px;
-            margin-top: 40px;
-            border: 1px solid #2d3748;
+
+        .legend-panel {
+            margin-top: 22px;
+            padding: 28px;
         }
-        
+
+        .legend-panel h2 {
+            font-size: 2rem;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
         .legend-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 18px;
         }
-        
+
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
-        
-        .legend-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            flex-shrink: 0;
+
+        .legend-swatch,
+        .legend-empty {
+            flex: 0 0 auto;
         }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .capsule-grid {
+
+        .legend-swatch {
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+        }
+
+        .legend-empty {
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            border: 2px dashed rgba(255, 255, 255, 0.18);
+        }
+
+        .legend-mini {
+            display: flex;
+            gap: 8px;
+        }
+
+        .footer-note {
+            margin-top: 18px;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        @media (max-width: 1100px) {
+            .hero-panel,
+            .capsule-grid,
+            .legend-grid {
                 grid-template-columns: 1fr;
             }
-            
-            h1 {
-                font-size: 2rem;
+        }
+
+        @media (max-width: 720px) {
+            .hero-panel,
+            .capsule-card,
+            .legend-panel,
+            .signal-panel {
+                padding: 22px;
             }
-            
-            .starter-row {
-                justify-content: center;
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .primary-link,
+            .secondary-link {
+                width: 100%;
+            }
+
+            .capsule-head {
+                flex-direction: column;
+            }
+
+            .capsule-type,
+            .capsule-status {
+                white-space: normal;
+            }
+
+            .capsule-status {
+                width: 100%;
+                justify-content: flex-start;
+                padding: 10px 14px;
+            }
+
+            .starter-item.full::after {
+                display: none;
             }
         }
-        
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            
-            .capsule-card {
-                padding: 20px;
+
+        @media (max-width: 520px) {
+            .legend-item {
+                align-items: flex-start;
+                flex-direction: column;
             }
         }
     </style>
@@ -248,157 +388,184 @@
 <body>
     <header class="header">
         <div class="header-container">
-            <a href="index.html" class="logo">
-                <img src="pictures/logo.png" alt="HIVRA" class="logo-img" style="width: 80px; height: auto;">
+            <a href="index.html" class="logo" aria-label="Hivra home">
+                <picture>
+                    <source srcset="pictures/logo.webp" type="image/webp">
+                    <img src="pictures/logo.png" alt="Hivra" class="logo-img">
+                </picture>
             </a>
             <nav class="nav">
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="network-v2.html" class="nav-link">Network</a>
                 <a href="coming-soon.html" class="nav-link">About</a>
-                <a href="support.html" class="nav-button">Support HIVRA</a>
+                <a href="support.html" class="nav-button">Support</a>
             </nav>
         </div>
     </header>
 
     <main class="main-content">
-    <div class="container">
-        <header>
-            <h1>Hivra Capsule Network</h1>
-            <p class="subtitle">Visual representation of capsule states, starters, and network connections</p>
-        </header>
-        
-        <div class="capsule-grid">
-            <!-- Genesis Capsule 1 -->
-            <div class="capsule-card genesis">
-                <div class="capsule-header">
-                    <div class="capsule-id">Capsule #G-001</div>
-                    <div class="capsule-type type-genesis">GENESIS</div>
-                </div>
-                
-                <div class="starters-container">
-                    <div class="starter-row">
-                        <div class="starter-item full starter-juice" data-name="Juice">J</div>
-                        <div class="starter-item full starter-spark" data-name="Spark">S</div>
-                        <div class="starter-item full starter-seed" data-name="Seed">Sd</div>
-                        <div class="starter-item full starter-pulse" data-name="Pulse">P</div>
-                        <div class="starter-item full starter-kick" data-name="Kick">K</div>
+        <div class="container">
+            <section class="hero-panel">
+                <div class="hero-copy">
+                    <span class="eyebrow">Network view</span>
+                    <h1>See how capsule states shape the system.</h1>
+                    <p>
+                        This page turns the Hivra model into a readable snapshot: which capsules are fully seeded,
+                        which ones are still forming, and how starters signal readiness, trust, and momentum across the network.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#capsules" class="primary-link">Open capsule map</a>
+                        <a href="support.html" class="secondary-link">Support Hivra</a>
                     </div>
                 </div>
-                
-                <div class="capsule-status status-active">Active • Group: NESTE</div>
-            </div>
-            
-            <!-- Proto Capsule 1 -->
-            <div class="capsule-card proto">
-                <div class="capsule-header">
-                    <div class="capsule-id">Capsule #P-045</div>
-                    <div class="capsule-type type-proto">PROTO</div>
-                </div>
-                
-                <div class="starters-container">
-                    <div class="starter-row">
-                        <div class="starter-item empty">?</div>
-                        <div class="starter-item empty">?</div>
-                        <div class="starter-item full starter-seed" data-name="Seed">Sd</div>
-                        <div class="starter-item empty">?</div>
-                        <div class="starter-item empty">?</div>
+
+                <aside class="hero-side">
+                    <div class="signal-panel">
+                        <strong>Genesis capsules</strong>
+                        <p>Fully activated nodes that start with the complete five-starter stack and define early relation patterns.</p>
                     </div>
-                </div>
-                
-                <div class="capsule-status status-waiting">1/5 starters • Awaiting</div>
-            </div>
-            
-            <!-- Genesis Capsule 2 -->
-            <div class="capsule-card genesis">
-                <div class="capsule-header">
-                    <div class="capsule-id">Capsule #G-007</div>
-                    <div class="capsule-type type-genesis">GENESIS</div>
-                </div>
-                
-                <div class="starters-container">
-                    <div class="starter-row">
-                        <div class="starter-item full starter-juice" data-name="Juice">J</div>
-                        <div class="starter-item full starter-spark" data-name="Spark">S</div>
-                        <div class="starter-item full starter-seed" data-name="Seed">Sd</div>
-                        <div class="starter-item full starter-pulse" data-name="Pulse">P</div>
-                        <div class="starter-item full starter-kick" data-name="Kick">K</div>
+                    <div class="signal-panel">
+                        <strong>Proto capsules</strong>
+                        <p>Emerging nodes with partial starter sets. They represent growth, learning, and selective inheritance.</p>
                     </div>
-                </div>
-                
-                <div class="capsule-status status-active">Relay Active • Android</div>
-            </div>
-            
-            <!-- Proto Capsule 2 -->
-            <div class="capsule-card proto">
-                <div class="capsule-header">
-                    <div class="capsule-id">Capsule #P-112</div>
-                    <div class="capsule-type type-proto">PROTO</div>
-                </div>
-                
-                <div class="starters-container">
-                    <div class="starter-row">
-                        <div class="starter-item empty">?</div>
-                        <div class="starter-item full starter-spark" data-name="Spark">S</div>
-                        <div class="starter-item empty">?</div>
-                        <div class="starter-item full starter-pulse" data-name="Pulse">P</div>
-                        <div class="starter-item empty">?</div>
+                    <div class="signal-panel">
+                        <strong>Reading the map</strong>
+                        <p>Each starter marker is intentionally visible at a glance, so the network can be scanned faster than it can be explained.</p>
                     </div>
+                </aside>
+            </section>
+
+            <section class="section" id="capsules">
+                <span class="eyebrow">Capsules</span>
+                <h2 class="section-title">Four visible nodes in the current snapshot.</h2>
+                <p class="section-intro">Genesis nodes show a complete starter pattern. Proto nodes expose the partial state where new capability is still being assembled.</p>
+
+                <div class="capsule-grid">
+                    <article class="capsule-card genesis">
+                        <div class="capsule-head">
+                            <div>
+                                <div class="capsule-id">Capsule #G-001</div>
+                                <div class="capsule-role">Primary origin capsule</div>
+                            </div>
+                            <div class="capsule-type type-genesis">Genesis</div>
+                        </div>
+                        <p>Initial seeded node with the full starter stack and an active role in opening the first network paths.</p>
+                        <div class="starter-row">
+                            <div class="starter-item full starter-juice" data-name="Juice">J</div>
+                            <div class="starter-item full starter-spark" data-name="Spark">S</div>
+                            <div class="starter-item full starter-seed" data-name="Seed">Sd</div>
+                            <div class="starter-item full starter-pulse" data-name="Pulse">P</div>
+                            <div class="starter-item full starter-kick" data-name="Kick">K</div>
+                        </div>
+                        <div class="capsule-status status-active">Active • Group: NESTE</div>
+                    </article>
+
+                    <article class="capsule-card proto">
+                        <div class="capsule-head">
+                            <div>
+                                <div class="capsule-id">Capsule #P-045</div>
+                                <div class="capsule-role">Proto under formation</div>
+                            </div>
+                            <div class="capsule-type type-proto">Proto</div>
+                        </div>
+                        <p>Early-stage capsule with only Seed present, suggesting latent continuity without full activation.</p>
+                        <div class="starter-row">
+                            <div class="starter-item empty">?</div>
+                            <div class="starter-item empty">?</div>
+                            <div class="starter-item full starter-seed" data-name="Seed">Sd</div>
+                            <div class="starter-item empty">?</div>
+                            <div class="starter-item empty">?</div>
+                        </div>
+                        <div class="capsule-status status-waiting">1/5 starters • Awaiting</div>
+                    </article>
+
+                    <article class="capsule-card genesis">
+                        <div class="capsule-head">
+                            <div>
+                                <div class="capsule-id">Capsule #G-007</div>
+                                <div class="capsule-role">Relay origin capsule</div>
+                            </div>
+                            <div class="capsule-type type-genesis">Genesis</div>
+                        </div>
+                        <p>Secondary full-stack capsule operating as a relay node for another surface of the network.</p>
+                        <div class="starter-row">
+                            <div class="starter-item full starter-juice" data-name="Juice">J</div>
+                            <div class="starter-item full starter-spark" data-name="Spark">S</div>
+                            <div class="starter-item full starter-seed" data-name="Seed">Sd</div>
+                            <div class="starter-item full starter-pulse" data-name="Pulse">P</div>
+                            <div class="starter-item full starter-kick" data-name="Kick">K</div>
+                        </div>
+                        <div class="capsule-status status-active">Relay Active • Android</div>
+                    </article>
+
+                    <article class="capsule-card proto">
+                        <div class="capsule-head">
+                            <div>
+                                <div class="capsule-id">Capsule #P-112</div>
+                                <div class="capsule-role">Proto learning node</div>
+                            </div>
+                            <div class="capsule-type type-proto">Proto</div>
+                        </div>
+                        <p>Partial activation through Spark and Pulse, indicating motion and rhythm before a complete role set exists.</p>
+                        <div class="starter-row">
+                            <div class="starter-item empty">?</div>
+                            <div class="starter-item full starter-spark" data-name="Spark">S</div>
+                            <div class="starter-item empty">?</div>
+                            <div class="starter-item full starter-pulse" data-name="Pulse">P</div>
+                            <div class="starter-item empty">?</div>
+                        </div>
+                        <div class="capsule-status status-waiting">2/5 starters • Learning</div>
+                    </article>
                 </div>
-                
-                <div class="capsule-status status-waiting">2/5 starters • Learning</div>
-            </div>
+
+                <div class="legend-panel">
+                    <span class="eyebrow">Legend</span>
+                    <h2>Read the visual language quickly.</h2>
+                    <p>The palette and shapes are consistent with the rest of the site, but each element still carries a specific network meaning.</p>
+                    <div class="legend-grid">
+                        <div class="legend-item">
+                            <div class="legend-swatch" style="background: linear-gradient(90deg, var(--primary), var(--secondary));"></div>
+                            <div>
+                                <strong>Genesis capsule</strong>
+                                <p>Complete set of five starters from activation.</p>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-swatch" style="background: linear-gradient(90deg, var(--secondary), var(--success));"></div>
+                            <div>
+                                <strong>Proto capsule</strong>
+                                <p>Open slots still waiting for starter acquisition.</p>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-mini">
+                                <div class="starter-item full starter-juice" style="width: 24px; height: 24px; font-size: 0.72rem;">J</div>
+                                <div class="starter-item full starter-spark" style="width: 24px; height: 24px; font-size: 0.72rem;">S</div>
+                                <div class="starter-item full starter-seed" style="width: 24px; height: 24px; font-size: 0.72rem;">Sd</div>
+                            </div>
+                            <div>
+                                <strong>Active starters</strong>
+                                <p>Juice, Spark, Seed, Pulse, and Kick are tracked individually.</p>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-empty"></div>
+                            <div>
+                                <strong>Empty slot</strong>
+                                <p>Capability still available for future activation.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="footer-note">Hivra Network • Capsule states change as relationships and starters evolve.</p>
+                </div>
+            </section>
         </div>
-        
-        <div class="legend">
-            <h2 style="margin-bottom: 20px; color: #fff;">Network Legend</h2>
-            <div class="legend-grid">
-                <div class="legend-item">
-                    <div class="legend-icon" style="background: linear-gradient(90deg, #7c3aed, #06b6d4);"></div>
-                    <div>
-                        <strong style="color: #fff;">Genesis Capsule</strong>
-                        <div style="color: #94a3b8; font-size: 0.9rem;">Complete set of 5 starters from activation</div>
-                    </div>
-                </div>
-                
-                <div class="legend-item">
-                    <div class="legend-icon" style="background: linear-gradient(90deg, #06b6d4, #10b981);"></div>
-                    <div>
-                        <strong style="color: #fff;">Proto Capsule</strong>
-                        <div style="color: #94a3b8; font-size: 0.9rem;">Empty slots activated through network events</div>
-                    </div>
-                </div>
-                
-                <div class="legend-item">
-                    <div style="display: flex; gap: 8px;">
-                        <div class="starter-item full starter-juice" style="width: 20px; height: 20px; font-size: 0.7rem;">J</div>
-                        <div class="starter-item full starter-spark" style="width: 20px; height: 20px; font-size: 0.7rem;">S</div>
-                        <div class="starter-item full starter-seed" style="width: 20px; height: 20px; font-size: 0.7rem;">Sd</div>
-                    </div>
-                    <div>
-                        <strong style="color: #fff;">Active Starters</strong>
-                        <div style="color: #94a3b8; font-size: 0.9rem;">Juice, Spark, Seed, Pulse, Kick</div>
-                    </div>
-                </div>
-                
-                <div class="legend-item">
-                    <div class="starter-item empty" style="width: 20px; height: 20px;">?</div>
-                    <div>
-                        <strong style="color: #fff;">Empty Slot</strong>
-                        <div style="color: #94a3b8; font-size: 0.9rem;">Available for starter acquisition</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #222; color: #64748b; font-size: 0.9rem;">
-            <p>Hivra Network • Capsule states update in real-time based on network activity</p>
-        </div>
-    </div>
     </main>
 
     <footer class="footer">
         <div class="footer-content">
-            <p>© 2025 HIVRA Network. Communication through interconnected pathways.</p>
+            <p>© 2025 Hivra Network. Communication through interconnected pathways.</p>
+            <p>Readable state map for capsules, starters, and activation patterns.</p>
         </div>
     </footer>
 </body>

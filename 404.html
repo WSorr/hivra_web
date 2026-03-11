@@ -3,83 +3,308 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Page Not Found | HIVRA Network</title>
+    <title>404 - Page Not Found | Hivra Network</title>
+    <meta name="description" content="Custom 404 page for Hivra.">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
     <link rel="icon" href="pictures/favicon.png" type="image/png">
     <style>
-        .error-container {
+        .error-shell,
+        .error-note {
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            box-shadow: var(--shadow);
+        }
+
+        .error-shell {
+            position: relative;
+            overflow: hidden;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+            gap: 28px;
+            align-items: center;
+        }
+
+        .error-shell::before {
+            content: "";
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            left: -140px;
+            top: -120px;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(255, 138, 61, 0.16), transparent 72%);
+            pointer-events: none;
+        }
+
+        .error-copy,
+        .error-visual {
+            position: relative;
+            z-index: 1;
+        }
+
+        .error-copy h1,
+        .error-note strong {
+            font-family: "Iowan Old Style", "Palatino Linotype", serif;
+        }
+
+        .error-copy h1 {
+            margin: 14px 0 16px;
+            font-size: clamp(3rem, 5vw, 5rem);
+            line-height: 0.94;
+            letter-spacing: -0.04em;
+        }
+
+        .error-copy p,
+        .error-note p,
+        .visual-caption {
+            color: var(--muted);
+        }
+
+        .error-actions {
             display: flex;
-            flex-direction: column;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .primary-link,
+        .secondary-link {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-height: 80vh;
-            padding: 2rem;
-            text-align: center;
+            min-height: 50px;
+            padding: 0 20px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 180ms ease;
         }
-        
-        .error-image {
-            max-width: 600px;
-            width: 100%;
-            margin: 2rem 0;
+
+        .primary-link {
+            color: #08141a;
+            background: linear-gradient(135deg, var(--primary), #ffbb6b);
         }
-        
-        .error-image img {
+
+        .secondary-link {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .primary-link:hover,
+        .secondary-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .note-grid {
+            display: grid;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .error-note {
+            padding: 18px;
+        }
+
+        .error-note strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .error-visual {
+            display: grid;
+            gap: 16px;
+        }
+
+        .illustration-frame {
+            padding: 18px;
+            border-radius: calc(var(--radius-lg) - 4px);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+                rgba(5, 15, 21, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .illustration-frame svg {
             width: 100%;
             height: auto;
-            border-radius: 12px;
-            border: 1px solid var(--surface-light);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: block;
         }
-        
-        .back-link {
-            display: inline-block;
-            margin-top: 2rem;
-            padding: 12px 24px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: transform 0.3s;
+
+        .visual-caption {
+            text-align: center;
+            font-size: 0.92rem;
         }
-        
-        .back-link:hover {
-            transform: translateY(-3px);
+
+        @media (max-width: 1100px) {
+            .error-shell {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .error-shell,
+            .error-note,
+            .illustration-frame {
+                padding: 22px;
+            }
+
+            .error-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .primary-link,
+            .secondary-link {
+                width: 100%;
+            }
+
+            .visual-caption {
+                font-size: 0.86rem;
+            }
         }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-container">
-            <a href="/" class="logo">
+            <a href="/" class="logo" aria-label="Hivra home">
                 <picture>
                     <source srcset="pictures/logo.webp" type="image/webp">
-                    <img src="pictures/logo.png" alt="HIVRA" class="logo-img" style="width: 80px; height: auto;" width="32" height="32">
+                    <img src="pictures/logo.png" alt="Hivra" class="logo-img">
                 </picture>
             </a>
             <nav class="nav">
                 <a href="/" class="nav-link">Home</a>
                 <a href="network-v2.html" class="nav-link">Network</a>
                 <a href="coming-soon.html" class="nav-link">About</a>
-                <a href="support.html" class="nav-button">Support HIVRA</a>
+                <a href="support.html" class="nav-button">Support</a>
             </nav>
         </div>
     </header>
 
     <main class="main-content">
-        <div class="error-container">
-            <div class="error-image">
-                <img src="pictures/NotFound.png" alt="404 Not Found">
-            </div>
-            <a href="/" class="back-link">Return to Home</a>
+        <div class="container">
+            <section class="error-shell">
+                <div class="error-copy">
+                    <span class="eyebrow">404 / Lost route</span>
+                    <h1>This page drifted out of the network.</h1>
+                    <p>
+                        I rebuilt the 404 screen around your sketch as an embedded illustration, so the page is now
+                        self-contained and ready to be served by nginx on a VPS without depending on a separate image file.
+                    </p>
+                    <div class="error-actions">
+                        <a href="/" class="primary-link">Return home</a>
+                        <a href="network-v2.html" class="secondary-link">Open network view</a>
+                    </div>
+
+                    <div class="note-grid">
+                        <div class="error-note">
+                            <strong>What failed</strong>
+                            <p>The route exists in the request, but not in the current public map of the site.</p>
+                        </div>
+                        <div class="error-note">
+                            <strong>Deployment note</strong>
+                            <p>Because the illustration is inline SVG, nginx only needs to point `error_page 404 /404.html;` at this file.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error-visual">
+                    <div class="illustration-frame">
+                        <svg viewBox="0 0 640 640" role="img" aria-label="Stylized 404 illustration inspired by the original sketch">
+                            <defs>
+                                <linearGradient id="panelGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#ff8a3d" stop-opacity="0.18"/>
+                                    <stop offset="100%" stop-color="#73d9cf" stop-opacity="0.12"/>
+                                </linearGradient>
+                            </defs>
+
+                            <rect x="0" y="0" width="640" height="640" rx="28" fill="url(#panelGlow)"/>
+                            <path d="M72 496 C198 447, 422 466, 583 562" fill="none" stroke="#ff6f8d" stroke-width="2" opacity="0.55"/>
+
+                            <g transform="translate(54 324)">
+                                <ellipse cx="66" cy="64" rx="44" ry="20" fill="#22323d" opacity="0.18"/>
+                                <path d="M28 18 Q58 -8 95 9 L102 77 Q60 103 20 71 Z" fill="#c8c4ea" stroke="#26262f" stroke-width="2.2"/>
+                                <path d="M43 28 L43 70 M56 24 L56 75 M68 21 L68 76 M80 18 L80 77" stroke="#ffffff" stroke-width="2" opacity="0.82"/>
+                                <path d="M18 34 L5 26 M100 41 L120 51" stroke="#26262f" stroke-width="2.2" stroke-linecap="round"/>
+                            </g>
+
+                            <g transform="translate(28 470)">
+                                <path d="M46 6 C63 1, 82 8, 92 24 L90 74 C76 90, 46 94, 24 80 L20 24 C25 14, 34 9, 46 6Z" fill="#f6f3e4" stroke="#26262f" stroke-width="2.2"/>
+                                <path d="M20 24 C31 26, 41 23, 48 17 C61 30, 78 31, 90 24" fill="none" stroke="#7ea451" stroke-width="3"/>
+                                <circle cx="58" cy="44" r="11" fill="#f1c842" opacity="0.85"/>
+                                <path d="M36 48 L52 48 M36 60 L76 60" stroke="#26262f" stroke-width="1.8"/>
+                                <path d="M100 36 Q115 28 129 36" fill="none" stroke="#7ea451" stroke-width="4" stroke-linecap="round"/>
+                            </g>
+
+                            <g transform="translate(204 84)">
+                                <path d="M0 358 L138 332" fill="none" stroke="#171a22" stroke-width="5" stroke-linecap="round"/>
+                                <path d="M166 338 L320 352" fill="none" stroke="#171a22" stroke-width="5" stroke-linecap="round"/>
+                                <path d="M171 109 C200 66, 257 56, 313 80 C353 98, 384 130, 398 172 C420 237, 400 314, 351 348 C314 374, 264 385, 214 379 C151 372, 98 330, 84 267 C74 223, 81 179, 105 144 C124 117, 145 102, 171 109Z" fill="none" stroke="#171a22" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M187 94 C185 63, 203 32, 231 16" fill="none" stroke="#171a22" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M229 66 C222 59, 220 47, 225 39 C231 29, 243 28, 251 35" fill="none" stroke="#171a22" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M266 91 C281 58, 301 30, 329 13" fill="none" stroke="#171a22" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M208 118 C235 141, 264 145, 294 132" fill="none" stroke="#171a22" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M215 115 L197 137 M287 128 L311 143" stroke="#171a22" stroke-width="4" stroke-linecap="round"/>
+                                <ellipse cx="217" cy="128" rx="16" ry="11" fill="#171a22"/>
+                                <ellipse cx="285" cy="133" rx="16" ry="11" fill="#171a22"/>
+                                <path d="M234 165 L262 163" stroke="#171a22" stroke-width="3.4" stroke-linecap="round"/>
+                                <path d="M139 186 L266 186" stroke="#91a54f" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+                                <path d="M122 226 L297 226" stroke="#91a54f" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+                                <path d="M111 267 L311 267" stroke="#91a54f" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+                                <path d="M112 310 Q227 331 338 307" fill="none" stroke="#171a22" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M110 307 L76 431" stroke="#171a22" stroke-width="4.5" stroke-linecap="round"/>
+                                <path d="M339 309 L386 421" stroke="#171a22" stroke-width="4.5" stroke-linecap="round"/>
+                                <path d="M174 356 C212 351, 252 354, 289 365" fill="none" stroke="#171a22" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M140 362 L291 473" stroke="#171a22" stroke-width="6" stroke-linecap="round"/>
+                                <path d="M308 359 L185 456" stroke="#171a22" stroke-width="6" stroke-linecap="round"/>
+                                <path d="M289 473 Q310 484 325 473" fill="none" stroke="#171a22" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M183 456 Q203 467 219 456" fill="none" stroke="#171a22" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M59 173 L29 169 L14 192" fill="none" stroke="#171a22" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M56 173 L14 71 Q48 32 104 41" fill="none" stroke="#171a22" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M18 74 C42 84, 66 83, 90 79" fill="none" stroke="#171a22" stroke-width="2"/>
+                                <path d="M24 94 C45 101, 64 99, 82 96" fill="none" stroke="#171a22" stroke-width="2"/>
+                                <path d="M28 113 C46 118, 59 116, 78 114" fill="none" stroke="#171a22" stroke-width="2"/>
+                                <path d="M26 132 C43 136, 55 135, 72 132" fill="none" stroke="#171a22" stroke-width="2"/>
+                                <text x="217" y="253" fill="#ff8c92" font-size="18" font-family="'Avenir Next', 'Trebuchet MS', sans-serif">red hat</text>
+                            </g>
+
+                            <g transform="translate(469 86)">
+                                <path d="M59 0 L59 60" stroke="#171a22" stroke-width="3"/>
+                                <rect x="0" y="60" width="120" height="82" rx="6" fill="#c9c3ea" stroke="#232632" stroke-width="2.4"/>
+                                <text x="28" y="110" fill="#292834" font-size="42" font-family="'Avenir Next', 'Trebuchet MS', sans-serif" letter-spacing="3">404</text>
+                                <path d="M16 160 L7 174 M40 166 L34 184 M64 170 L64 190 M88 166 L95 184" stroke="#f0c13c" stroke-width="4" stroke-linecap="round"/>
+                            </g>
+
+                            <g transform="translate(450 456)" opacity="0.82">
+                                <path d="M0 8 L37 0 L55 49 L18 58 Z" fill="none" stroke="#b6b5d8" stroke-width="2"/>
+                                <path d="M92 27 L156 42 L143 97 L79 84 Z" fill="none" stroke="#171a22" stroke-width="2.2"/>
+                                <path d="M100 48 C116 51, 128 50, 140 46 M102 66 C118 70, 130 69, 140 65" fill="none" stroke="#171a22" stroke-width="2"/>
+                            </g>
+
+                            <g transform="translate(164 450)" opacity="0.92">
+                                <path d="M0 18 L88 0 L156 33 L68 50 Z" fill="none" stroke="#171a22" stroke-width="2.6"/>
+                                <path d="M27 29 C52 22, 73 23, 103 28" fill="none" stroke="#171a22" stroke-width="2"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <p class="visual-caption">Embedded 404 artwork rebuilt from your sketch, ready for static delivery.</p>
+                </div>
+            </section>
         </div>
     </main>
 
     <footer class="footer">
         <div class="footer-content">
-            <p>© 2025 HIVRA Network. Communication through interconnected pathways.</p>
+            <p>© 2025 Hivra Network. Communication through interconnected pathways.</p>
+            <p>Self-contained 404 page for nginx deployment.</p>
         </div>
     </footer>
 </body>

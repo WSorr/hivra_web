@@ -3,355 +3,500 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support HIVRA Network</title>
+    <title>Support Hivra Network</title>
+    <meta name="description" content="Support Hivra development through direct crypto contributions across major networks.">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="pictures/favicon.png" type="image/png">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
-            background: #0a0a0f;
-            color: #ffffff;
-            line-height: 1.6;
-            padding: 20px;
-            -webkit-font-smoothing: antialiased;
+        .hero-panel,
+        .support-card,
+        .info-card,
+        .note-panel {
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            box-shadow: var(--shadow);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 60px;
-            padding: 40px 20px;
-        }
-
-        h1 {
-            font-size: 3.2rem;
-            background: linear-gradient(90deg, #7c3aed, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-        }
-
-        .subtitle {
-            color: #94a3b8;
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 30px;
-        }
-        .intro-text {
-            color: #cbd5e1;
-            max-width: 700px;
-            margin: 0 auto 50px;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            text-align: center;
-        }
-
-        /* Donation Grid */
-        .donation-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
-        }
-
-        .donation-card {
-            background: #151521;
-            border-radius: 20px;
-            padding: 35px 30px;
-            border: 1px solid #2d3748;
-            transition: all 0.3s ease;
+        .hero-panel {
             position: relative;
             overflow: hidden;
-            text-align: center;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+            gap: 28px;
         }
 
-        .donation-card:hover {
-            transform: translateY(-8px);
-            border-color: #7c3aed;
-            box-shadow: 0 15px 40px rgba(124, 58, 237, 0.15);
+        .hero-panel::before {
+            content: "";
+            position: absolute;
+            inset: -20% auto auto -10%;
+            width: 280px;
+            height: 280px;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(255, 138, 61, 0.24), transparent 68%);
+            pointer-events: none;
         }
 
-        .crypto-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 25px;
-            font-size: 32px;
-            font-weight: bold;
+        .hero-copy,
+        .hero-side {
             position: relative;
             z-index: 1;
         }
 
-        .crypto-icon::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            opacity: 0.15;
-            z-index: -1;
+        .hero-copy h1,
+        .section-title,
+        .note-panel h2 {
+            font-family: "Iowan Old Style", "Palatino Linotype", serif;
+            letter-spacing: -0.03em;
         }
 
-        /* Crypto-specific colors */
-        .btc { background: linear-gradient(135deg, #F7931A, #F7931A); }
-        .btc::before { background: #F7931A; }
+        .hero-copy h1 {
+            margin: 14px 0 16px;
+            font-size: clamp(2.8rem, 5vw, 4.8rem);
+            line-height: 0.95;
+        }
 
-        .eth { background: linear-gradient(135deg, #627EEA, #627EEA); }
-        .eth::before { background: #627EEA; }
+        .hero-copy p,
+        .hero-side p,
+        .section-intro,
+        .support-card p,
+        .info-card p,
+        .note-panel p {
+            color: var(--muted);
+        }
 
-        .bnb { background: linear-gradient(135deg, #F0B90B, #F0B90B); }
-        .bnb::before { background: #F0B90B; }
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
 
-        .ltc { background: linear-gradient(135deg, #BFBBBB, #BFBBBB); }
-        .ltc::before { background: #BFBBBB; }
-
-        .sol { background: linear-gradient(135deg, #00FFA3, #00FFA3); }
-        .sol::before { background: #00FFA3; }
-
-        .linea { background: linear-gradient(135deg, #61DAFB, #61DAFB); }
-        .linea::before { background: #61DAFB; }
-
-        .crypto-name {
-            font-size: 1.8rem;
+        .primary-link,
+        .secondary-link,
+        .copy-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+            padding: 0 20px;
+            border-radius: 999px;
             font-weight: 700;
-            margin-bottom: 10px;
-            color: #fff;
+            text-decoration: none;
+            transition: 180ms ease;
+            border: none;
         }
 
-        .crypto-symbol {
-            color: #94a3b8;
-            font-size: 1rem;
-            margin-bottom: 25px;
-            font-weight: 500;
+        .primary-link,
+        .copy-btn {
+            background: linear-gradient(135deg, var(--primary), #ffbb6b);
+            color: #08141a;
         }
 
-        .address-container {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 18px;
-            margin: 20px 0;
+        .secondary-link {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .primary-link:hover,
+        .secondary-link:hover,
+        .copy-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .hero-side {
+            display: grid;
+            gap: 16px;
+            align-content: start;
+        }
+
+        .info-card {
+            padding: 22px;
+        }
+
+        .info-card strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            margin-top: 22px;
+        }
+
+        .support-card {
+            padding: 24px;
             position: relative;
+            overflow: hidden;
+        }
+
+        .support-card::before {
+            content: "";
+            position: absolute;
+            top: -24px;
+            right: -24px;
+            width: 130px;
+            height: 130px;
+            border-radius: 999px;
+            opacity: 0.14;
+        }
+
+        .btc::before { background: #f7931a; }
+        .eth::before { background: #627eea; }
+        .bnb::before { background: #f0b90b; }
+        .ltc::before { background: #bfbbbb; }
+        .sol::before { background: #00ffa3; }
+        .linea::before { background: #61dafb; }
+
+        .token-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .token-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #08141a;
+        }
+
+        .btc .token-icon { background: #f7931a; }
+        .eth .token-icon { background: #627eea; color: #eff8f6; }
+        .bnb .token-icon { background: #f0b90b; }
+        .ltc .token-icon { background: #bfbbbb; }
+        .sol .token-icon { background: #00ffa3; }
+        .linea .token-icon { background: #61dafb; }
+
+        .token-meta h3 {
+            font-size: 1.15rem;
+            margin-bottom: 4px;
+        }
+
+        .token-network {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .address-box {
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .address-label {
-            font-size: 0.9rem;
-            color: #94a3b8;
+            display: block;
             margin-bottom: 8px;
-            text-align: left;
+            font-size: 0.82rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--secondary);
         }
 
         .address {
-            min-height: 80px;
-            font-family: 'Monaco', 'Courier New', monospace;
-            font-size: 0.9rem;
-            color: #fff;
-            word-break: break-all;
-            user-select: all;
-            background: transparent;
-            border: none;
             width: 100%;
-            text-align: center;
+            border: none;
+            background: transparent;
+            color: var(--text);
+            font-family: "SFMono-Regular", "Menlo", monospace;
+            font-size: 0.92rem;
+            line-height: 1.5;
             padding: 0;
         }
 
         .copy-btn {
-            background: linear-gradient(90deg, #7c3aed, #06b6d4);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
             width: 100%;
-            margin-top: 10px;
-        }
-
-        .copy-btn:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+            margin-top: 16px;
+            cursor: pointer;
         }
 
         .copy-btn.copied {
-            background: #10b981;
+            background: linear-gradient(135deg, var(--success), #b5efbc);
         }
 
-        /* Footer note */
-        .support-note {
-            text-align: center;
-            margin: 60px auto 30px;
-            padding: 30px;
-            color: #94a3b8;
-            font-size: 1rem;
-            max-width: 700px;
-            border-top: 1px solid #2d3748;
-            line-height: 1.7;
+        .section {
+            margin-top: 28px;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .donation-grid { grid-template-columns: 1fr; }
-            .donation-card { padding: 25px; }
+        .section-title {
+            margin: 14px 0 8px;
+            font-size: clamp(2rem, 3vw, 3rem);
+            line-height: 1;
+        }
+
+        .section-intro {
+            max-width: 720px;
+        }
+
+        .note-panel {
+            margin-top: 22px;
+            padding: 28px;
+        }
+
+        .note-panel h2 {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            line-height: 1;
+        }
+
+        .note-panel p + p {
+            margin-top: 10px;
+        }
+
+        @media (max-width: 1100px) {
+            .hero-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .support-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 720px) {
+            .hero-panel,
+            .support-card,
+            .note-panel,
+            .info-card {
+                padding: 22px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .primary-link,
+            .secondary-link {
+                width: 100%;
+            }
+
+            .support-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .token-head {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .address {
+                font-size: 0.82rem;
+            }
         }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-container">
-            <a href="index.html" class="logo">
-                <img src="pictures/logo.png" alt="HIVRA" class="logo-img" style="width: 80px; height: auto;">
+            <a href="index.html" class="logo" aria-label="Hivra home">
+                <picture>
+                    <source srcset="pictures/logo.webp" type="image/webp">
+                    <img src="pictures/logo.png" alt="Hivra" class="logo-img">
+                </picture>
             </a>
             <nav class="nav">
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="network-v2.html" class="nav-link">Network</a>
                 <a href="coming-soon.html" class="nav-link">About</a>
-                <a href="support.html" class="nav-button">Support HIVRA</a>
+                <a href="support.html" class="nav-button">Support</a>
             </nav>
         </div>
     </header>
 
     <main class="main-content">
-    <div class="container">
-        <header>
-            <h1>Support HIVRA Network</h1>
-            <p class="subtitle">Fuel the development of distributed capsule networks</p>
-            <p class="intro-text">
-                HIVRA is an open-source project building distributed communication protocols.
-                Your support helps cover infrastructure costs, development, and community growth.
-                Every contribution matters.
-            </p>
-        </header>
-
-        <div class="donation-grid">
-            <!-- Bitcoin -->
-            <div class="donation-card">
-                <div class="crypto-icon btc">₿</div>
-                <h3 class="crypto-name">Bitcoin</h3>
-                <div class="crypto-symbol">BTC</div>
-                <div class="address-container">
-                    <div class="address-label">BTC Address (SegWit):</div>
-                    <input type="text" class="address" readonly value="bc1qj9edyy6yy67486m535xztyxlrm64lzk53nns3u">
+        <div class="container">
+            <section class="hero-panel">
+                <div class="hero-copy">
+                    <span class="eyebrow">Support the build</span>
+                    <h1>Fund the network directly.</h1>
+                    <p>
+                        Hivra is being shaped as an independent system for capsule-based coordination.
+                        Direct contributions help cover design, development, infrastructure, and the time
+                        required to turn the model into a clearer public artifact.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#donate" class="primary-link">Open wallet list</a>
+                        <a href="network-v2.html" class="secondary-link">View network page</a>
+                    </div>
                 </div>
-                <button class="copy-btn" data-address="bc1qj9edyy6yy67486m535xztyxlrm64lzk53nns3u">Copy Address</button>
-            </div>
 
-            <!-- Ethereum -->
-            <div class="donation-card">
-                <div class="crypto-icon eth">Ξ</div>
-                <h3 class="crypto-name">Ethereum</h3>
-                <div class="crypto-symbol">ETH • ERC-20</div>
-                <div class="address-container">
-                    <div class="address-label">Ethereum Address:</div>
-                    <input type="text" class="address" readonly value="0x5019aB439e041FED3f9eb20cF7F321C1242BD4E8">
-                </div>
-                <button class="copy-btn" data-address="0x5019aB439e041FED3f9eb20cF7F321C1242BD4E8">Copy Address</button>
-            </div>
+                <aside class="hero-side">
+                    <div class="info-card">
+                        <strong>Why crypto first</strong>
+                        <p>Direct addresses make support simple, borderless, and transparent without adding payment processor friction.</p>
+                    </div>
+                    <div class="info-card">
+                        <strong>What support covers</strong>
+                        <p>Site work, protocol framing, visual system design, documentation, and the groundwork for future interaction layers.</p>
+                    </div>
+                    <div class="info-card">
+                        <strong>How to use this page</strong>
+                        <p>Choose a network, copy the address, and send from the matching chain or asset standard shown on the card.</p>
+                    </div>
+                </aside>
+            </section>
 
-            <!-- BNB -->
-            <div class="donation-card">
-                <div class="crypto-icon bnb">B</div>
-                <h3 class="crypto-name">BNB</h3>
-                <div class="crypto-symbol">BNB • BEP-20</div>
-                <div class="address-container">
-                    <div class="address-label">BNB Address:</div>
-                    <input type="text" class="address" readonly value="0x7e0D1CA5EC8c9936785493c4e9Be183743b9615a">
-                </div>
-                <button class="copy-btn" data-address="0x7e0D1CA5EC8c9936785493c4e9Be183743b9615a">Copy Address</button>
-            </div>
+            <section class="section" id="donate">
+                <span class="eyebrow">Wallets</span>
+                <h2 class="section-title">Choose the network that fits your stack.</h2>
+                <p class="section-intro">Each card keeps the original address intact. Use the correct network for every transfer to avoid loss of funds.</p>
 
-            <!-- Litecoin -->
-            <div class="donation-card">
-                <div class="crypto-icon ltc">Ł</div>
-                <h3 class="crypto-name">Litecoin</h3>
-                <div class="crypto-symbol">LTC</div>
-                <div class="address-container">
-                    <div class="address-label">LTC Address:</div>
-                    <input type="text" class="address" readonly value="ltc1q6tsazrxqm7y45ejp47zcr2kea6e74dwcfnldp0">
-                </div>
-                <button class="copy-btn" data-address="ltc1q6tsazrxqm7y45ejp47zcr2kea6e74dwcfnldp0">Copy Address</button>
-            </div>
+                <div class="support-grid">
+                    <article class="support-card btc">
+                        <div class="token-head">
+                            <div class="token-icon">₿</div>
+                            <div class="token-meta">
+                                <h3>Bitcoin</h3>
+                                <div class="token-network">BTC</div>
+                            </div>
+                        </div>
+                        <p>Best for direct base-layer support through a SegWit address.</p>
+                        <div class="address-box">
+                            <span class="address-label">BTC address (SegWit)</span>
+                            <input type="text" class="address" readonly value="bc1qj9edyy6yy67486m535xztyxlrm64lzk53nns3u">
+                        </div>
+                        <button class="copy-btn" data-address="bc1qj9edyy6yy67486m535xztyxlrm64lzk53nns3u">Copy address</button>
+                    </article>
 
-            <!-- Solana -->
-            <div class="donation-card">
-                <div class="crypto-icon sol">S</div>
-                <h3 class="crypto-name">Solana</h3>
-                <div class="crypto-symbol">SOL</div>
-                <div class="address-container">
-                    <div class="address-label">Solana Address:</div>
-                    <input type="text" class="address" readonly value="HyLYWNELMWnG4Fry8LfhzRg59BYjACU9bcB39r3vYHrR">
-                </div>
-                <button class="copy-btn" data-address="HyLYWNELMWnG4Fry8LfhzRg59BYjACU9bcB39r3vYHrR">Copy Address</button>
-            </div>
+                    <article class="support-card eth">
+                        <div class="token-head">
+                            <div class="token-icon">Ξ</div>
+                            <div class="token-meta">
+                                <h3>Ethereum</h3>
+                                <div class="token-network">ETH • ERC-20</div>
+                            </div>
+                        </div>
+                        <p>Use for native ETH or ERC-20 transfers on Ethereum mainnet.</p>
+                        <div class="address-box">
+                            <span class="address-label">Ethereum address</span>
+                            <input type="text" class="address" readonly value="0x5019aB439e041FED3f9eb20cF7F321C1242BD4E8">
+                        </div>
+                        <button class="copy-btn" data-address="0x5019aB439e041FED3f9eb20cF7F321C1242BD4E8">Copy address</button>
+                    </article>
 
-            <!-- Linea -->
-            <div class="donation-card">
-                <div class="crypto-icon linea">L</div>
-                <h3 class="crypto-name">Linea</h3>
-                <div class="crypto-symbol">ETH • Linea Network</div>
-                <div class="address-container">
-                    <div class="address-label">Linea Address:</div>
-                    <input type="text" class="address" readonly value="0x7e0D1CA5EC8c9936785493c4e9Be183743b9615a">
+                    <article class="support-card bnb">
+                        <div class="token-head">
+                            <div class="token-icon">B</div>
+                            <div class="token-meta">
+                                <h3>BNB</h3>
+                                <div class="token-network">BNB • BEP-20</div>
+                            </div>
+                        </div>
+                        <p>For BNB Chain transfers using the BEP-20 standard.</p>
+                        <div class="address-box">
+                            <span class="address-label">BNB address</span>
+                            <input type="text" class="address" readonly value="0x7e0D1CA5EC8c9936785493c4e9Be183743b9615a">
+                        </div>
+                        <button class="copy-btn" data-address="0x7e0D1CA5EC8c9936785493c4e9Be183743b9615a">Copy address</button>
+                    </article>
+
+                    <article class="support-card ltc">
+                        <div class="token-head">
+                            <div class="token-icon">Ł</div>
+                            <div class="token-meta">
+                                <h3>Litecoin</h3>
+                                <div class="token-network">LTC</div>
+                            </div>
+                        </div>
+                        <p>Simple Litecoin support on its native network.</p>
+                        <div class="address-box">
+                            <span class="address-label">Litecoin address</span>
+                            <input type="text" class="address" readonly value="ltc1q6tsazrxqm7y45ejp47zcr2kea6e74dwcfnldp0">
+                        </div>
+                        <button class="copy-btn" data-address="ltc1q6tsazrxqm7y45ejp47zcr2kea6e74dwcfnldp0">Copy address</button>
+                    </article>
+
+                    <article class="support-card sol">
+                        <div class="token-head">
+                            <div class="token-icon">S</div>
+                            <div class="token-meta">
+                                <h3>Solana</h3>
+                                <div class="token-network">SOL</div>
+                            </div>
+                        </div>
+                        <p>Use for SOL transfers on Solana.</p>
+                        <div class="address-box">
+                            <span class="address-label">Solana address</span>
+                            <input type="text" class="address" readonly value="HyLYWNELMWnG4Fry8LfhzRg59BYjACU9bcB39r3vYHrR">
+                        </div>
+                        <button class="copy-btn" data-address="HyLYWNELMWnG4Fry8LfhzRg59BYjACU9bcB39r3vYHrR">Copy address</button>
+                    </article>
+
+                    <article class="support-card linea">
+                        <div class="token-head">
+                            <div class="token-icon">L</div>
+                            <div class="token-meta">
+                                <h3>Linea</h3>
+                                <div class="token-network">ETH • Linea Network</div>
+                            </div>
+                        </div>
+                        <p>Same EVM-style address, used here specifically for Linea transfers.</p>
+                        <div class="address-box">
+                            <span class="address-label">Linea address</span>
+                            <input type="text" class="address" readonly value="0x7e0D1CA5EC8c9936785493c4e9Be183743b9615a">
+                        </div>
+                        <button class="copy-btn" data-address="0x7e0D1CA5EC8c9936785493c4e9Be183743b9615a">Copy address</button>
+                    </article>
                 </div>
-                <button class="copy-btn" data-address="0x7e0D1CA5EC8c9936785493c4e9Be183743b9615a">Copy Address</button>
-            </div>
+
+                <div class="note-panel">
+                    <span class="eyebrow">Important</span>
+                    <h2>Send only on the matching network.</h2>
+                    <p>These are direct contribution addresses for Hivra development. Contributions are non-refundable and should be sent only with the network or asset standard shown on each card.</p>
+                    <p>Thank you for helping push the project forward.</p>
+                </div>
+            </section>
         </div>
-
-        <div class="support-note">
-            <p><strong>Note:</strong> These are cryptocurrency addresses for the HIVRA development fund. All contributions are non-refundable. For transparency, large donations may be acknowledged on our network page (optional).</p>
-            <p style="margin-top: 15px;">Thank you for powering HIVRA's development.</p>
-        </div>
-    </div>
     </main>
 
     <footer class="footer">
         <div class="footer-content">
-            <p>© 2025 HIVRA Network. Communication through interconnected pathways.</p>
+            <p>© 2025 Hivra Network. Communication through interconnected pathways.</p>
+            <p>Direct support for design, development, and protocol framing.</p>
         </div>
     </footer>
 
     <script>
-        // Copy address functionality
-        document.querySelectorAll('.copy-btn').forEach(button => {
+        document.querySelectorAll('.copy-btn').forEach((button) => {
             button.addEventListener('click', function() {
                 const address = this.getAttribute('data-address');
-                navigator.clipboard.writeText(address).then(() => {
-                    const originalText = this.textContent;
-                    this.textContent = 'Copied!';
+                const originalText = this.textContent;
+
+                const markCopied = () => {
+                    this.textContent = 'Copied';
                     this.classList.add('copied');
 
                     setTimeout(() => {
                         this.textContent = originalText;
                         this.classList.remove('copied');
                     }, 2000);
-                }).catch(err => {
-                    // Fallback for older browsers
+                };
+
+                navigator.clipboard.writeText(address).then(markCopied).catch(() => {
                     const tempInput = document.createElement('input');
                     tempInput.value = address;
                     document.body.appendChild(tempInput);
                     tempInput.select();
                     document.execCommand('copy');
                     document.body.removeChild(tempInput);
-
-                    this.textContent = 'Copied!';
-                    this.classList.add('copied');
-
-                    setTimeout(() => {
-                        this.textContent = 'Copy Address';
-                        this.classList.remove('copied');
-                    }, 2000);
+                    markCopied();
                 });
             });
         });

@@ -3,253 +3,667 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hivra | Hive Integrated Value & Relationship Architecture</title>
+    <title>Hivra | Distributed Value Network</title>
+    <meta name="description" content="Hivra is a concept platform for distributed value exchange, trusted relationships, and capsule-based network design.">
     <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
     <link rel="icon" href="pictures/favicon.png" type="image/png">
     <link rel="stylesheet" href="style.css">
     <style>
-        .hero { text-align: center; padding: 6rem 2rem 4rem; background: linear-gradient(135deg, rgba(10,10,15,0.9), rgba(21,21,33,0.9)); }
-        .hero-title { font-size: 3.5rem; margin-bottom: 1.5rem; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-subtitle { font-size: 1.2rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 3rem; line-height: 1.8; }
-        .capsule-preview { display: flex; justify-content: center; gap: 3rem; margin: 3rem 0; flex-wrap: wrap; }
-        .capsule { width: 140px; height: 140px; border-radius: 70px; display: flex; align-items: center; justify-content: center; border: 3px solid; position: relative; overflow: hidden; cursor: pointer; transition: transform 0.3s; }
-        .capsule:hover { transform: scale(1.05); }
-        .capsule::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent 70%); }
-        .genesis { background: rgba(124, 58, 237, 0.15); border-color: var(--primary); box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2); }
-        .proto { background: rgba(6, 182, 212, 0.15); border-color: var(--secondary); box-shadow: 0 10px 30px rgba(6, 182, 212, 0.2); }
-        .capsule-content { text-align: center; z-index: 1; }
-        .capsule-name { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
-        .genesis .capsule-name { color: var(--primary); }
-        .proto .capsule-name { color: var(--secondary); }
-        .capsule-status { font-size: 0.85rem; color: var(--text-secondary); }
-        
-        .starters-showcase { 
-            display: flex; 
-            justify-content: center; 
-            gap: 1.5rem; 
-            margin: 2rem 0 3rem; 
-            flex-wrap: wrap; 
+        .hero {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+            border-radius: calc(var(--radius-lg) + 6px);
+            background:
+                linear-gradient(135deg, rgba(255, 138, 61, 0.12), transparent 38%),
+                linear-gradient(225deg, rgba(115, 217, 207, 0.12), transparent 34%),
+                var(--surface);
+            box-shadow: var(--shadow);
         }
-        
-        .starter { 
-            display: flex;
-            flex-direction: column;
+
+        .hero::before,
+        .hero::after {
+            content: "";
+            position: absolute;
+            border-radius: 999px;
+            filter: blur(10px);
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .hero::before {
+            width: 280px;
+            height: 280px;
+            top: -90px;
+            right: -40px;
+            background: radial-gradient(circle, rgba(255, 138, 61, 0.34), transparent 70%);
+        }
+
+        .hero::after {
+            width: 340px;
+            height: 340px;
+            bottom: -140px;
+            left: -120px;
+            background: radial-gradient(circle, rgba(115, 217, 207, 0.22), transparent 72%);
+        }
+
+        .hero-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+            gap: 36px;
             align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 1.5rem; 
-            background: var(--surface); 
-            border-radius: 12px; 
-            border: 1px solid var(--surface-light); 
-            font-weight: 600;
-            font-size: 0.95rem;
-            min-width: 100px;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            padding: 68px;
         }
-        
-        .starter:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+        .hero-copy h1 {
+            margin: 18px 0 18px;
+            font-family: "Iowan Old Style", "Palatino Linotype", serif;
+            font-size: clamp(3rem, 6vw, 5.8rem);
+            line-height: 0.96;
+            letter-spacing: -0.04em;
         }
-        
-        .starter-icon {
-            width: 32px;
-            height: 32px;
+
+        .hero-copy p {
+            max-width: 680px;
+            color: #d5e8e5;
+            font-size: 1.1rem;
+        }
+
+        .hero-actions {
             display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        .hero-primary,
+        .hero-secondary {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            min-height: 52px;
+            padding: 0 22px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 180ms ease;
         }
-        
-        .starter-juice { color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); }
-        .starter-spark { color: #ef4444; border-color: rgba(239, 68, 68, 0.3); }
-        .starter-seed { color: #10b981; border-color: rgba(16, 185, 129, 0.3); }
-        .starter-pulse { color: #8b5cf6; border-color: rgba(139, 92, 246, 0.3); }
-        .starter-kick { color: #ec4899; border-color: rgba(236, 72, 153, 0.3); }
-        
-        .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin: 3rem 0; }
-        .cta-primary { background: linear-gradient(90deg, var(--primary), var(--secondary)); color: white; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: transform 0.3s, box-shadow 0.3s; }
-        .cta-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(124, 58, 237, 0.3); }
-        .cta-secondary { background: var(--surface); color: var(--text); padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.1rem; border: 1px solid var(--surface-light); transition: all 0.3s; }
-        .cta-secondary:hover { background: var(--surface-light); transform: translateY(-2px); }
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 4rem 0; }
-        .feature { background: var(--surface); border-radius: 12px; padding: 2rem; border: 1px solid var(--surface-light); }
-        .feature h3 { margin-bottom: 1rem; font-size: 1.3rem; }
-        .feature p { color: var(--text-secondary); line-height: 1.7; }
-        
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.5rem; }
-            .hero { padding: 4rem 1rem 3rem; }
-            .capsule-preview { gap: 2rem; }
-            .starters-showcase { gap: 1rem; }
-            .starter { padding: 0.8rem 1rem; min-width: 85px; }
-            .cta-buttons { flex-direction: column; align-items: center; }
-            .cta-primary, .cta-secondary { width: 100%; max-width: 300px; text-align: center; }
+
+        .hero-primary {
+            color: #08141a;
+            background: linear-gradient(135deg, var(--primary), #ffbb6b);
+            box-shadow: 0 18px 34px rgba(255, 138, 61, 0.18);
+        }
+
+        .hero-secondary {
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .hero-primary:hover,
+        .hero-secondary:hover {
+            transform: translateY(-2px);
+        }
+
+        .hero-metrics {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-top: 34px;
+        }
+
+        .metric {
+            min-width: 140px;
+            padding: 16px 18px;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .metric strong {
+            display: block;
+            font-size: 1.6rem;
+            line-height: 1;
+        }
+
+        .metric span {
+            display: block;
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .signal-board {
+            padding: 26px;
+            border-radius: var(--radius-lg);
+            background: rgba(5, 15, 21, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .signal-board h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #dcebe9;
+            letter-spacing: 0.03em;
+        }
+
+        .signal-list {
+            display: grid;
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .signal-card {
+            padding: 16px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .signal-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .signal-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .signal-state {
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .signal-state.live {
+            color: #092016;
+            background: var(--success);
+        }
+
+        .signal-state.building {
+            color: #2a1804;
+            background: var(--warning);
+        }
+
+        .signal-card p {
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .signal-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .signal-tags span {
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(115, 217, 207, 0.09);
+            color: var(--secondary);
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .grid-3,
+        .grid-2 {
+            display: grid;
+            gap: 22px;
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .panel,
+        .starter-card,
+        .path-card,
+        .cta-panel {
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            box-shadow: var(--shadow);
+        }
+
+        .panel,
+        .path-card,
+        .cta-panel {
+            padding: 28px;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .section-head h2 {
+            font-family: "Iowan Old Style", "Palatino Linotype", serif;
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            line-height: 1;
+            letter-spacing: -0.03em;
+        }
+
+        .section-head p {
+            max-width: 560px;
+            color: var(--muted);
+        }
+
+        .panel h3,
+        .path-card h3,
+        .starter-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 12px;
+        }
+
+        .panel p,
+        .path-card p,
+        .starter-card p {
+            color: var(--muted);
+        }
+
+        .panel strong {
+            color: var(--text);
+        }
+
+        .starter-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .starter-card {
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .starter-card::before {
+            content: "";
+            position: absolute;
+            inset: auto -20px -20px auto;
+            width: 140px;
+            height: 140px;
+            border-radius: 999px;
+            opacity: 0.18;
+            filter: blur(1px);
+        }
+
+        .starter-card.juice::before { background: #ffd166; }
+        .starter-card.spark::before { background: #ff6b6b; }
+        .starter-card.seed::before { background: #7be495; }
+        .starter-card.pulse::before { background: #9b8cff; }
+        .starter-card.kick::before { background: #ff8cc6; }
+
+        .starter-mark {
+            width: 54px;
+            height: 54px;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            margin-bottom: 18px;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #08141a;
+        }
+
+        .juice .starter-mark { background: #ffd166; }
+        .spark .starter-mark { background: #ff6b6b; }
+        .seed .starter-mark { background: #7be495; }
+        .pulse .starter-mark { background: #9b8cff; }
+        .kick .starter-mark { background: #ff8cc6; }
+
+        .path-card {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .path-step {
+            display: flex;
+            gap: 14px;
+        }
+
+        .path-step strong {
+            display: inline-grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            flex: 0 0 34px;
+            border-radius: 999px;
+            background: rgba(255, 138, 61, 0.16);
+            color: var(--primary);
+        }
+
+        .cta-panel {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .cta-panel h2 {
+            font-family: "Iowan Old Style", "Palatino Linotype", serif;
+            font-size: clamp(2rem, 3vw, 2.8rem);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .cta-panel p {
+            max-width: 620px;
+            color: var(--muted);
+        }
+
+        .cta-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 54px;
+            padding: 0 22px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--secondary), #a6efe8);
+            color: #08141a;
+            font-weight: 800;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .cta-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .release-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 54px;
+            padding: 0 22px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 1100px) {
+            .hero-grid,
+            .grid-3,
+            .starter-grid,
+            .grid-2,
+            .cta-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-grid {
+                padding: 44px 28px;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .section-head {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .hero-grid,
+            .panel,
+            .path-card,
+            .cta-panel {
+                padding: 24px;
+            }
+
+            .hero-actions,
+            .hero-metrics,
+            .cta-links {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .hero-primary,
+            .hero-secondary,
+            .cta-link,
+            .release-link {
+                width: 100%;
+            }
+
+            .metric {
+                min-width: 0;
+                width: 100%;
+            }
+
+            .signal-top {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .starter-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-<header class="header">
-    <div class="header-container">
-        <a href="index.html" class="logo">
-            <picture>
-                <source srcset="pictures/logo.webp" type="image/webp">
-                <img src="pictures/logo.png" alt="Hivra" class="logo-img" style="width: 80px; height: auto;">
-            </picture>
-        </a>
-        <nav class="nav">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="network-v2.html" class="nav-link">Network</a>
-            <a href="coming-soon.html" class="nav-link">About</a>
-            <a href="support.html" class="nav-button">Support Hivra</a>
-        </nav>
-    </div>
-</header>
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo" aria-label="Hivra home">
+                <picture>
+                    <source srcset="pictures/logo.webp" type="image/webp">
+                    <img src="pictures/logo.png" alt="Hivra" class="logo-img">
+                </picture>
+            </a>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="network-v2.html" class="nav-link">Network</a>
+                <a href="coming-soon.html" class="nav-link">About</a>
+                <a href="support.html" class="nav-button">Support</a>
+            </nav>
+        </div>
+    </header>
 
-<main class="main-content">
-<section class="hero">
-    <h1 class="hero-title">Hivra</h1>
-    <p class="hero-subtitle">
-        Hive Integrated Value & Relationship Architecture — a distributed system
-        where capsules exchange value and form trust-based relationships
-        across interconnected networks, without central servers or authorities.
-    </p>
+    <main class="main-content">
+        <div class="container">
+            <section class="hero">
+                <div class="hero-grid">
+                    <div class="hero-copy">
+                        <span class="eyebrow">Distributed by design</span>
+                        <h1>Build trust, value, and motion without a central hub.</h1>
+                        <p>
+                            Hivra is a concept for capsule-based coordination: small autonomous nodes
+                            that exchange value, form relationships, and grow resilient networks
+                            through protocol rules instead of platform control.
+                        </p>
+                        <div class="hero-actions">
+                            <a href="network-v2.html" class="hero-primary">Explore network map</a>
+                            <a href="support.html" class="hero-secondary">Support the project</a>
+                        </div>
+                        <div class="hero-metrics">
+                            <div class="metric">
+                                <strong>2</strong>
+                                <span>capsule states shaping the network</span>
+                            </div>
+                            <div class="metric">
+                                <strong>5</strong>
+                                <span>starter types defining capabilities</span>
+                            </div>
+                            <div class="metric">
+                                <strong>0</strong>
+                                <span>central authorities required to coordinate</span>
+                            </div>
+                        </div>
+                    </div>
 
-    <div class="capsule-preview">
-        <div class="capsule genesis">
-            <div class="capsule-content">
-                <div class="capsule-name">Genesis</div>
-                <div class="capsule-status">5 starters • Active</div>
-            </div>
-        </div>
-        <div class="capsule proto">
-            <div class="capsule-content">
-                <div class="capsule-name">Proto</div>
-                <div class="capsule-status">Empty slots • Awaiting</div>
-            </div>
-        </div>
-    </div>
+                    <aside class="signal-board" aria-label="Capsule overview">
+                        <h2>Live architecture snapshot</h2>
+                        <div class="signal-list">
+                            <article class="signal-card">
+                                <div class="signal-top">
+                                    <div class="signal-name">Genesis Capsule</div>
+                                    <span class="signal-state live">Active</span>
+                                </div>
+                                <p>Initial capsule seeded with the full starter stack and responsible for opening the first trust paths.</p>
+                                <div class="signal-tags">
+                                    <span>Juice</span>
+                                    <span>Spark</span>
+                                    <span>Seed</span>
+                                    <span>Pulse</span>
+                                    <span>Kick</span>
+                                </div>
+                            </article>
+                            <article class="signal-card">
+                                <div class="signal-top">
+                                    <div class="signal-name">Proto Capsule</div>
+                                    <span class="signal-state building">Growing</span>
+                                </div>
+                                <p>New capsule shape designed to inherit relationships selectively and expand the network without dilution.</p>
+                                <div class="signal-tags">
+                                    <span>Open slots</span>
+                                    <span>Trust links</span>
+                                    <span>Value flow</span>
+                                </div>
+                            </article>
+                        </div>
+                    </aside>
+                </div>
+            </section>
 
-    <div class="starters-showcase">
-        <div class="starter starter-juice">
-            <div class="starter-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 2L14 9H20L15 13.5L17 20L12 16L7 20L9 13.5L4 9H10L12 2Z" fill="currentColor"/>
-                    <path d="M12 2V5M12 5V8M12 8V11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-            </div>
-            Juice
-        </div>
-        
-        <div class="starter starter-spark">
-            <div class="starter-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M13 2L4 14H12L11 22L20 10H12L13 2Z" fill="currentColor"/>
-                    <circle cx="12" cy="12" r="2" fill="white" opacity="0.8"/>
-                </svg>
-            </div>
-            Spark
-        </div>
-        
-        <div class="starter starter-seed">
-            <div class="starter-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 2C8 2 4 6 4 12C4 18 8 22 12 22C16 22 20 18 20 12C20 6 16 2 12 2Z" fill="currentColor"/>
-                    <path d="M12 6C9 6 6 9 6 12C6 15 9 18 12 18C15 18 18 15 18 12C18 9 15 6 12 6Z" fill="white" opacity="0.3"/>
-                    <circle cx="12" cy="12" r="2" fill="white" opacity="0.6"/>
-                    <path d="M12 8V16M8 12H16" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
-                </svg>
-            </div>
-            Seed
-        </div>
-        
-        <div class="starter starter-pulse">
-            <div class="starter-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="8" fill="currentColor"/>
-                    <circle cx="12" cy="12" r="4" fill="white" opacity="0.3"/>
-                    <path d="M12 4V8M12 16V20M20 12H16M8 12H4" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
-                    <path d="M15 9L19 5M9 15L5 19M15 15L19 19M9 9L5 5" stroke="white" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
-                </svg>
-            </div>
-            Pulse
-        </div>
-        
-        <div class="starter starter-kick">
-            <div class="starter-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 2C6 2 2 6 2 12C2 18 6 22 12 22C18 22 22 18 22 12C22 6 18 2 12 2Z" fill="currentColor"/>
-                    <path d="M12 6L16 10L12 14L8 10L12 6Z" fill="white" opacity="0.2"/>
-                    <path d="M12 10L16 14L12 18L8 14L12 10Z" fill="white" opacity="0.4"/>
-                    <circle cx="12" cy="12" r="2" fill="white" opacity="0.8"/>
-                    <path d="M12 8V16M8 12H16" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
-                </svg>
-            </div>
-            Kick
-        </div>
-    </div>
+            <section class="section">
+                <div class="section-head">
+                    <div>
+                        <span class="eyebrow">System logic</span>
+                        <h2>Three pillars keep the network coherent.</h2>
+                    </div>
+                    <p>Hivra treats value exchange as infrastructure. The system needs roles, relationship rules, and enough local autonomy to survive growth.</p>
+                </div>
+                <div class="grid-3">
+                    <article class="panel">
+                        <h3><span class="feature-primary">Value</span> is modular</h3>
+                        <p>Starters work like capability tokens. They are not generic points; each one unlocks a different kind of contribution, incentive, or permission.</p>
+                    </article>
+                    <article class="panel">
+                        <h3><span class="feature-secondary">Relationships</span> are structural</h3>
+                        <p>Capsules do not just transact. They build trust edges that determine how resources move, how roles propagate, and where the network can expand next.</p>
+                    </article>
+                    <article class="panel">
+                        <h3><span class="feature-accent">Architecture</span> stays distributed</h3>
+                        <p>No central server has to decide membership or meaning. The model is intended to preserve local control while still producing shared coordination.</p>
+                    </article>
+                </div>
+            </section>
 
-    <div class="cta-buttons">
-        <a href="network-v2.html" class="cta-primary">View Network Visualization</a>
-        <a href="support.html" class="cta-secondary">Learn More</a>
-    </div>
-</section>
+            <section class="section">
+                <div class="section-head">
+                    <div>
+                        <span class="eyebrow">Starter system</span>
+                        <h2>Five starters, five different signals.</h2>
+                    </div>
+                    <p>Each starter is a distinct unit inside the capsule model, designed to encode a specific role in activation, continuity, and exchange.</p>
+                </div>
+                <div class="starter-grid">
+                    <article class="starter-card juice">
+                        <div class="starter-mark">J</div>
+                        <h3>Juice</h3>
+                        <p>Energy for initial activation. Juice bootstraps motion and helps a capsule become operational.</p>
+                    </article>
+                    <article class="starter-card spark">
+                        <div class="starter-mark">S</div>
+                        <h3>Spark</h3>
+                        <p>Impulse for catalytic actions. Spark marks moments that trigger new pathways or relationships.</p>
+                    </article>
+                    <article class="starter-card seed">
+                        <div class="starter-mark">S</div>
+                        <h3>Seed</h3>
+                        <p>Continuity signal for replication and growth. Seed carries forward the logic of the system into new nodes.</p>
+                    </article>
+                    <article class="starter-card pulse">
+                        <div class="starter-mark">P</div>
+                        <h3>Pulse</h3>
+                        <p>Rhythm and synchronization across the network. Pulse supports timing, cadence, and ongoing alignment.</p>
+                    </article>
+                    <article class="starter-card kick">
+                        <div class="starter-mark">K</div>
+                        <h3>Kick</h3>
+                        <p>Directed push for decisive change. Kick is the force behind transitions, escalation, and boundary crossing.</p>
+                    </article>
+                </div>
+            </section>
 
-<div class="container">
-    <div class="features">
-        <div class="feature">
-            <h3>Value & Relationship Network</h3>
-            <p>
-                Genesis capsules initiate networks by distributing starters,
-                while Proto capsules grow by forming relationships and participating
-                in value exchange.
-            </p>
-        </div>
-        <div class="feature">
-            <h3>Distributed Architecture</h3>
-            <p>
-                Control, trust, and value are distributed across capsules and networks.
-                Coordination emerges from relationships and protocol rules,
-                rather than from central authorities.
-            </p>
-        </div>
-        <div class="feature">
-            <h3>Starter System</h3>
-            <p>
-                Five unique starters (Juice, Spark, Seed, Pulse, Kick)
-                act as non-fungible units of value, defining capabilities,
-                permissions, and interaction patterns within the network.
-            </p>
-        </div>
-    </div>
-</div>
-</main>
+            <section class="section">
+                <div class="grid-2">
+                    <article class="path-card">
+                        <div>
+                            <span class="eyebrow">Growth path</span>
+                            <h2 style="margin-top: 14px; font-family: 'Iowan Old Style', 'Palatino Linotype', serif; font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1;">How a capsule expands</h2>
+                        </div>
+                        <div class="path-step">
+                            <strong>1</strong>
+                            <p><strong>Genesis forms.</strong> A fully seeded capsule establishes the first protocol ground and publishes the initial relation map.</p>
+                        </div>
+                        <div class="path-step">
+                            <strong>2</strong>
+                            <p><strong>Trust links appear.</strong> Proto capsules connect through selective starter sharing and rules-based relationship formation.</p>
+                        </div>
+                        <div class="path-step">
+                            <strong>3</strong>
+                            <p><strong>Network effects compound.</strong> Each new capsule adds surface area for exchange while preserving local meaning and autonomy.</p>
+                        </div>
+                    </article>
 
-<footer class="footer">
-    <div class="footer-content">
-        <p>© 2025 Hivra. Distributed Value & Relationship Architecture.</p>
-    </div>
-</footer>
+                    <article class="path-card">
+                        <div>
+                            <span class="eyebrow">Why it matters</span>
+                            <h2 style="margin-top: 14px; font-family: 'Iowan Old Style', 'Palatino Linotype', serif; font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1;">A site for a network, not just a brand.</h2>
+                        </div>
+                        <p>Most protocol sites stop at slogans. Hivra benefits from a clearer frame: what capsules are, what starters do, and why decentralization here is architectural rather than cosmetic.</p>
+                        <p>This landing page is built to make the idea legible fast, then route visitors toward the network view and support page without forcing them through vague language first.</p>
+                    </article>
+                </div>
+            </section>
 
-<script>
-    document.querySelectorAll('.starter').forEach(starter => {
-        starter.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px) scale(1.05)';
-        });
-        
-        starter.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-    });
-    
-    document.querySelectorAll('.capsule').forEach(capsule => {
-        capsule.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.08)';
-        });
-        
-        capsule.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-        });
-    });
-</script>
+            <section class="section">
+                <div class="cta-panel">
+                    <div>
+                        <span class="eyebrow">Next move</span>
+                        <h2>Use this as the base and keep expanding the system around it.</h2>
+                        <p>The shared layout is now fixed, the first screen reads like a product instead of a placeholder, and the content is structured enough to support the other pages. The latest public build is also linked directly from here.</p>
+                    </div>
+                    <div class="cta-links">
+                        <a href="https://github.com/WSorr/hivra-network/releases" class="release-link" target="_blank" rel="noopener noreferrer">View releases</a>
+                        <a href="network-v2.html" class="cta-link">Open visualization</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 Hivra. Capsule-based value and relationship architecture.</p>
+            <p>Static site foundation ready for deeper content and interaction.</p>
+        </div>
+    </footer>
 </body>
 </html>

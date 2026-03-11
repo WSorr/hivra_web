@@ -3,88 +3,324 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon | HIVRA</title>
+    <title>Coming Soon | Hivra</title>
+    <meta name="description" content="A preview page for upcoming Hivra sections.">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="pictures/favicon.png" type="image/png">
     <style>
-        .coming-soon {
+        .coming-shell,
+        .status-card {
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            box-shadow: var(--shadow);
+        }
+
+        .coming-shell {
+            position: relative;
+            overflow: hidden;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+            gap: 28px;
+            align-items: center;
+        }
+
+        .coming-shell::before,
+        .coming-shell::after {
+            content: "";
+            position: absolute;
+            border-radius: 999px;
+            pointer-events: none;
+        }
+
+        .coming-shell::before {
+            width: 280px;
+            height: 280px;
+            left: -120px;
+            top: -80px;
+            background: radial-gradient(circle, rgba(255, 138, 61, 0.18), transparent 72%);
+        }
+
+        .coming-shell::after {
+            width: 320px;
+            height: 320px;
+            right: -120px;
+            bottom: -140px;
+            background: radial-gradient(circle, rgba(115, 217, 207, 0.16), transparent 72%);
+        }
+
+        .coming-copy,
+        .coming-visual {
+            position: relative;
+            z-index: 1;
+        }
+
+        .coming-copy h1 {
+            margin: 14px 0 16px;
+            font-family: "Iowan Old Style", "Palatino Linotype", serif;
+            font-size: clamp(2.8rem, 5vw, 4.6rem);
+            line-height: 0.94;
+            letter-spacing: -0.04em;
+        }
+
+        .coming-copy p,
+        .status-card p {
+            color: var(--muted);
+        }
+
+        .coming-actions {
             display: flex;
-            flex-direction: column;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .primary-link,
+        .secondary-link {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-height: 70vh;
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-        
-        .coming-icon {
-            font-size: 4rem;
-            margin-bottom: 2rem;
-            opacity: 0.7;
-        }
-        
-        .coming-title {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .coming-text {
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 2rem;
-            line-height: 1.8;
-        }
-        
-        .back-button {
-            display: inline-block;
-            background: var(--surface);
-            color: var(--text);
-            padding: 12px 24px;
-            border-radius: 8px;
+            min-height: 50px;
+            padding: 0 20px;
+            border-radius: 999px;
             text-decoration: none;
-            font-weight: 600;
-            border: 1px solid var(--surface-light);
-            transition: all 0.3s;
+            font-weight: 700;
+            transition: 180ms ease;
         }
-        
-        .back-button:hover {
-            background: var(--surface-light);
+
+        .primary-link {
+            color: #08141a;
+            background: linear-gradient(135deg, var(--primary), #ffbb6b);
+        }
+
+        .secondary-link {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .primary-link:hover,
+        .secondary-link:hover {
             transform: translateY(-2px);
+        }
+
+        .status-grid {
+            display: grid;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .status-card {
+            padding: 18px;
+        }
+
+        .status-card strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .coming-visual {
+            display: grid;
+            gap: 16px;
+        }
+
+        .illustration-frame {
+            padding: 20px;
+            border-radius: calc(var(--radius-lg) - 4px);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+                rgba(5, 15, 21, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .illustration-frame svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .art-caption {
+            color: var(--muted);
+            font-size: 0.92rem;
+            text-align: center;
+        }
+
+        @media (max-width: 1100px) {
+            .coming-shell {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .coming-shell,
+            .status-card,
+            .illustration-frame {
+                padding: 22px;
+            }
+
+            .coming-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .primary-link,
+            .secondary-link {
+                width: 100%;
+            }
+
+            .art-caption {
+                font-size: 0.86rem;
+            }
         }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-container">
-            <a href="index.html" class="logo">
-                <img src="pictures/logo.png" alt="HIVRA" class="logo-img" style="width: 80px; height: auto;">
+            <a href="index.html" class="logo" aria-label="Hivra home">
+                <picture>
+                    <source srcset="pictures/logo.webp" type="image/webp">
+                    <img src="pictures/logo.png" alt="Hivra" class="logo-img">
+                </picture>
             </a>
             <nav class="nav">
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="network-v2.html" class="nav-link">Network</a>
                 <a href="coming-soon.html" class="nav-link">About</a>
-                <a href="support.html" class="nav-button">Support HIVRA</a>
+                <a href="support.html" class="nav-button">Support</a>
             </nav>
         </div>
     </header>
 
     <main class="main-content">
-        <div class="coming-soon">
-            <div class="coming-icon">🚧</div>
-            <h1 class="coming-title">Coming Soon</h1>
-            <p class="coming-text">
-                This section is currently under development. We're working hard to bring you 
-                new features and content for the HIVRA network.
-            </p>
-            <a href="index.html" class="back-button">← Back to Home</a>
+        <div class="container">
+            <section class="coming-shell">
+                <div class="coming-copy">
+                    <span class="eyebrow">In progress</span>
+                    <h1>The next Hivra layer is still being drawn.</h1>
+                    <p>
+                        I took the sketch mood from your image and rebuilt it into a darker, cleaner illustration
+                        that matches the rest of the site. This section can now hold a real story later without
+                        looking like a temporary placeholder.
+                    </p>
+                    <div class="coming-actions">
+                        <a href="index.html" class="primary-link">Back to home</a>
+                        <a href="network-v2.html" class="secondary-link">Open network view</a>
+                    </div>
+
+                    <div class="status-grid">
+                        <div class="status-card">
+                            <strong>What is happening here</strong>
+                            <p>The section exists, the visual language is set, and the placeholder now feels intentional instead of unfinished.</p>
+                        </div>
+                        <div class="status-card">
+                            <strong>Next good use for this page</strong>
+                            <p>Turn it into a real About page with the Hivra concept, origin, goals, and capsule logic explained in plain language.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="coming-visual">
+                    <div class="illustration-frame">
+                        <svg viewBox="0 0 640 640" role="img" aria-label="Stylized coming soon illustration inspired by the original sketch">
+                            <defs>
+                                <linearGradient id="bgGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#ff8a3d" stop-opacity="0.28"/>
+                                    <stop offset="100%" stop-color="#73d9cf" stop-opacity="0.14"/>
+                                </linearGradient>
+                                <linearGradient id="leafFill" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#bcd3c6"/>
+                                    <stop offset="100%" stop-color="#8da89d"/>
+                                </linearGradient>
+                                <linearGradient id="catAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#e8eff8"/>
+                                    <stop offset="100%" stop-color="#b0b9dd"/>
+                                </linearGradient>
+                            </defs>
+
+                            <rect x="0" y="0" width="640" height="640" rx="28" fill="url(#bgGlow)"/>
+
+                            <path d="M78 463 C188 560, 467 564, 570 430" fill="none" stroke="#5d8579" stroke-width="2.5" opacity="0.7"/>
+
+                            <g transform="translate(55 138)">
+                                <ellipse cx="70" cy="146" rx="26" ry="10" fill="#52709b" opacity="0.12"/>
+                                <path d="M74 44 C46 74, 35 116, 42 160 C72 145, 98 102, 96 46 C92 30, 84 30, 74 44Z" fill="url(#leafFill)" stroke="#6d887f" stroke-width="2"/>
+                                <path d="M123 18 C96 45, 88 98, 100 142 C129 126, 155 79, 148 23 C143 7, 134 7, 123 18Z" fill="url(#leafFill)" stroke="#6d887f" stroke-width="2"/>
+                                <path d="M78 154 L78 212" stroke="#8eb0e2" stroke-width="2.4"/>
+                                <path d="M116 138 L116 212" stroke="#8eb0e2" stroke-width="2.4"/>
+                                <path d="M72 165 L121 165" stroke="#8eb0e2" stroke-width="2.2"/>
+                                <path d="M70 190 L122 190" stroke="#8eb0e2" stroke-width="2.2"/>
+                                <path d="M68 212 Q97 220 126 212" fill="none" stroke="#8eb0e2" stroke-width="2.4"/>
+                            </g>
+
+                            <g transform="translate(214 100)" opacity="0.78">
+                                <rect x="18" y="0" width="40" height="62" rx="4" fill="#ffffff" fill-opacity="0.06" stroke="#b9b0ef" stroke-width="2"/>
+                                <path d="M30 18 L46 18 M30 30 L52 30 M30 42 L45 42" stroke="#b9b0ef" stroke-width="2"/>
+                                <path d="M8 -8 L18 4" stroke="#b9b0ef" stroke-width="3" stroke-linecap="round"/>
+                            </g>
+
+                            <g transform="translate(292 122)" opacity="0.68">
+                                <rect x="14" y="0" width="38" height="56" rx="4" fill="#ffffff" fill-opacity="0.05" stroke="#b9b0ef" stroke-width="2"/>
+                                <path d="M24 16 L42 16 M24 28 L46 28 M24 40 L39 40" stroke="#b9b0ef" stroke-width="2"/>
+                                <path d="M6 -8 L14 4" stroke="#b9b0ef" stroke-width="3" stroke-linecap="round"/>
+                            </g>
+
+                            <g transform="translate(242 226)">
+                                <path d="M0 56 L136 24 L204 78 L72 110 Z" fill="#111e28" stroke="#c5d3e7" stroke-width="2.2"/>
+                                <path d="M74 80 L90 76 L96 84 L86 92 L72 88 Z" fill="#d7e0f2" opacity="0.9"/>
+                            </g>
+
+                            <g transform="translate(360 64)">
+                                <path d="M93 424 C58 395, 34 349, 35 306 C38 208, 96 151, 104 94 C109 55, 98 21, 78 0" fill="none" stroke="#1f232d" stroke-width="3.2" stroke-linecap="round"/>
+                                <path d="M141 436 C177 396, 183 353, 179 290 C174 212, 154 160, 151 95 C149 54, 157 21, 177 0" fill="none" stroke="#1f232d" stroke-width="3.2" stroke-linecap="round"/>
+                                <path d="M104 70 C66 69, 28 96, 14 140 C1 181, 7 238, 26 285 C42 324, 48 359, 46 394 C44 424, 57 448, 93 458 C131 465, 164 444, 173 408 C179 381, 176 353, 162 322 C146 286, 142 247, 146 211 C153 153, 145 110, 104 70Z" fill="none" stroke="#20252f" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M90 67 L80 17 L112 49" fill="none" stroke="#20252f" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M118 64 L134 18 L142 63" fill="none" stroke="#20252f" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M72 124 C79 109, 95 102, 108 108 C113 111, 116 116, 118 121" fill="none" stroke="#20252f" stroke-width="3" stroke-linecap="round"/>
+                                <path d="M118 121 C122 111, 135 104, 147 108 C154 111, 159 116, 161 122" fill="none" stroke="#20252f" stroke-width="3" stroke-linecap="round"/>
+                                <ellipse cx="109" cy="126" rx="24" ry="31" fill="#f7fbff" stroke="#20252f" stroke-width="2"/>
+                                <ellipse cx="145" cy="126" rx="24" ry="31" fill="#f7fbff" stroke="#20252f" stroke-width="2"/>
+                                <circle cx="127" cy="140" r="8" fill="#b4a9f2"/>
+                                <path d="M120 155 Q127 162 134 155" fill="none" stroke="#20252f" stroke-width="2.4" stroke-linecap="round"/>
+                                <path d="M114 145 L102 142 M141 145 L153 142" stroke="#20252f" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M104 175 C123 184, 141 184, 159 174" fill="none" stroke="#20252f" stroke-width="3" stroke-linecap="round"/>
+                                <path d="M88 198 C115 207, 143 208, 169 198 M85 228 C114 236, 144 237, 173 226 M83 258 C113 266, 144 267, 174 255 M84 289 C113 296, 143 297, 171 288 M87 320 C112 327, 138 329, 163 322" fill="none" stroke="#20252f" stroke-width="2.2" opacity="0.9"/>
+                                <path d="M76 352 L108 352" stroke="#b7b0ef" stroke-width="6" stroke-linecap="round"/>
+                                <path d="M72 382 L102 382" stroke="#b7b0ef" stroke-width="6" stroke-linecap="round"/>
+                                <path d="M115 408 Q123 434 111 450" fill="none" stroke="#20252f" stroke-width="3.2" stroke-linecap="round"/>
+                                <path d="M91 402 Q82 430 90 455" fill="none" stroke="#20252f" stroke-width="3.2" stroke-linecap="round"/>
+                                <path d="M170 205 L208 170" stroke="#20252f" stroke-width="3.2" stroke-linecap="round"/>
+                                <path d="M178 222 L230 214" stroke="#20252f" stroke-width="3.2" stroke-linecap="round"/>
+                                <path d="M177 238 L226 250" stroke="#20252f" stroke-width="3.2" stroke-linecap="round"/>
+                                <path d="M108 155 L119 178 L138 178 L146 154" fill="#7ba08a" opacity="0.9"/>
+                                <path d="M126 170 L126 196" stroke="#6a8e7c" stroke-width="2"/>
+                            </g>
+
+                            <g transform="translate(154 504)">
+                                <text x="0" y="48" fill="#413b67" font-size="78" font-family="'Avenir Next', 'Trebuchet MS', sans-serif" letter-spacing="3">C</text>
+                                <circle cx="112" cy="31" r="20" fill="none" stroke="#2b2a33" stroke-width="4"/>
+                                <text x="97" y="38" fill="#b9b0ef" font-size="13" font-family="'SFMono-Regular', monospace">OS-II</text>
+                                <text x="146" y="52" fill="#111111" font-size="68" font-family="'Avenir Next', 'Trebuchet MS', sans-serif" letter-spacing="11">MiNg</text>
+                                <text x="90" y="112" fill="#111111" font-size="54" font-family="'Avenir Next', 'Trebuchet MS', sans-serif" letter-spacing="18">SOON</text>
+                            </g>
+
+                            <path d="M466 81 C474 93, 474 110, 463 124" fill="none" stroke="#20252f" stroke-width="3.2" stroke-linecap="round"/>
+                            <path d="M508 79 C516 93, 516 110, 505 123" fill="none" stroke="#20252f" stroke-width="3.2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <p class="art-caption">Embedded illustration, rebuilt from the sketch mood to fit the darker Hivra visual system.</p>
+                </div>
+            </section>
         </div>
     </main>
 
     <footer class="footer">
         <div class="footer-content">
-            <p>© 2025 HIVRA Network. Communication through interconnected pathways.</p>
+            <p>© 2025 Hivra Network. Communication through interconnected pathways.</p>
+            <p>Placeholder upgraded into a reusable art section.</p>
         </div>
     </footer>
 </body>
