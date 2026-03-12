@@ -3,6 +3,10 @@
 *.pem
 *.priv
 id_*
+.ssh/
+ssh_config
+known_hosts
+authorized_keys
 *.env
 .env.local
 
