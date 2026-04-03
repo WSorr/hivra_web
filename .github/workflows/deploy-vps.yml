@@ -39,6 +39,7 @@ jobs:
           VPS_TARGET_DIR: ${{ secrets.VPS_TARGET_DIR }}
         run: |
           PORT="${VPS_PORT:-22}"
+          ssh -p "$PORT" "$VPS_USER@$VPS_HOST" "mkdir -p '$VPS_TARGET_DIR'"
           export RSYNC_RSH="ssh -p $PORT"
           rsync -az --delete \
             --exclude ".git/" \
