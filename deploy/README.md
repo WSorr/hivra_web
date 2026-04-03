@@ -38,6 +38,8 @@ VPS_USER        example: root
 VPS_PORT        example: 22
 VPS_TARGET_DIR  example: /var/www/hivra.space/
 VPS_SSH_KEY     private key contents (multiline), e.g. ~/.ssh/hivra_vps_ed25519
+VPS_DOMAIN      optional, default: hivra.space
+VPS_CERTBOT_EMAIL optional, default: support@hivra.space
 ```
 
 Recommended:

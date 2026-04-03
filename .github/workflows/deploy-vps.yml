@@ -31,6 +31,82 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -p "$PORT" -H "$VPS_HOST" >> ~/.ssh/known_hosts
 
+      - name: Bootstrap nginx and TLS (idempotent)
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_TARGET_DIR: ${{ secrets.VPS_TARGET_DIR }}
+          VPS_DOMAIN: ${{ secrets.VPS_DOMAIN }}
+          VPS_CERTBOT_EMAIL: ${{ secrets.VPS_CERTBOT_EMAIL }}
+        run: |
+          PORT="${VPS_PORT:-22}"
+          ssh -p "$PORT" "$VPS_USER@$VPS_HOST" \
+            "VPS_TARGET_DIR='$VPS_TARGET_DIR' VPS_DOMAIN='$VPS_DOMAIN' VPS_CERTBOT_EMAIL='$VPS_CERTBOT_EMAIL' bash -se" <<'REMOTE'
+          set -euo pipefail
+          export DEBIAN_FRONTEND=noninteractive
+
+          : "${VPS_TARGET_DIR:=/var/www/hivra.space/}"
+          : "${VPS_DOMAIN:=hivra.space}"
+          : "${VPS_CERTBOT_EMAIL:=support@hivra.space}"
+          WWW_DOMAIN="www.${VPS_DOMAIN#www.}"
+
+          apt-get update
+          apt-get -y -o Dpkg::Options::="--force-confold" install nginx certbot python3-certbot-nginx rsync
+
+          mkdir -p "$VPS_TARGET_DIR"
+
+          cat > /etc/nginx/sites-available/hivra.space <<NGINX
+          server {
+              listen 80;
+              listen [::]:80;
+              server_name ${VPS_DOMAIN} ${WWW_DOMAIN};
+
+              root ${VPS_TARGET_DIR%/};
+              index index.html;
+
+              location / {
+                  try_files \$uri \$uri/ =404;
+              }
+
+              location /ws {
+                  proxy_pass http://127.0.0.1:8080;
+                  proxy_http_version 1.1;
+                  proxy_set_header Upgrade \$http_upgrade;
+                  proxy_set_header Connection "upgrade";
+                  proxy_set_header Host \$host;
+                  proxy_read_timeout 86400;
+              }
+
+              error_page 404 /404.html;
+          }
+          NGINX
+
+          ln -sfn /etc/nginx/sites-available/hivra.space /etc/nginx/sites-enabled/hivra.space
+          rm -f /etc/nginx/sites-enabled/default
+          nginx -t
+          systemctl enable --now nginx
+          systemctl reload nginx
+
+          if [ ! -f "/etc/letsencrypt/live/${VPS_DOMAIN}/fullchain.pem" ]; then
+            certbot --nginx \
+              -d "${VPS_DOMAIN}" \
+              -d "${WWW_DOMAIN}" \
+              --agree-tos \
+              -m "${VPS_CERTBOT_EMAIL}" \
+              --redirect \
+              -n || certbot --nginx \
+              -d "${VPS_DOMAIN}" \
+              --agree-tos \
+              -m "${VPS_CERTBOT_EMAIL}" \
+              --redirect \
+              -n
+          fi
+
+          nginx -t
+          systemctl reload nginx
+          REMOTE
+
       - name: Rsync site to VPS
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
