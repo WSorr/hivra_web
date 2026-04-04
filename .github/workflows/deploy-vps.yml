@@ -40,7 +40,16 @@ jobs:
         run: |
           PORT="${VPS_PORT:-22}"
           ssh -p "$PORT" "$VPS_USER@$VPS_HOST" \
-            "mkdir -p /root/.ssh && chmod 700 /root/.ssh && touch /root/.ssh/authorized_keys && grep -qxF \"$VPS_DEPLOY_PUBKEY\" /root/.ssh/authorized_keys || echo \"$VPS_DEPLOY_PUBKEY\" >> /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorized_keys"
+            "VPS_DEPLOY_PUBKEY='$VPS_DEPLOY_PUBKEY' bash -se" <<'REMOTE'
+          set -euo pipefail
+          mkdir -p /root/.ssh
+          chmod 700 /root/.ssh
+          touch /root/.ssh/authorized_keys
+          if ! grep -qxF "$VPS_DEPLOY_PUBKEY" /root/.ssh/authorized_keys; then
+            printf '%s\n' "$VPS_DEPLOY_PUBKEY" >> /root/.ssh/authorized_keys
+          fi
+          chmod 600 /root/.ssh/authorized_keys
+          REMOTE
 
       - name: Bootstrap nginx and TLS (idempotent)
         continue-on-error: true
