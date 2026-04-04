@@ -39,17 +39,26 @@ jobs:
           VPS_TARGET_DIR: ${{ secrets.VPS_TARGET_DIR }}
           VPS_DOMAIN: ${{ secrets.VPS_DOMAIN }}
           VPS_CERTBOT_EMAIL: ${{ secrets.VPS_CERTBOT_EMAIL }}
+          VPS_DEPLOY_PUBKEY: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAAC7RMM3/rY6MQUAmxwN4XdCW6nXR99o42XMnjy1BxM hivra-vps-2026-03-12"
         run: |
           PORT="${VPS_PORT:-22}"
           ssh -p "$PORT" "$VPS_USER@$VPS_HOST" \
-            "VPS_TARGET_DIR='$VPS_TARGET_DIR' VPS_DOMAIN='$VPS_DOMAIN' VPS_CERTBOT_EMAIL='$VPS_CERTBOT_EMAIL' bash -se" <<'REMOTE'
+            "VPS_TARGET_DIR='$VPS_TARGET_DIR' VPS_DOMAIN='$VPS_DOMAIN' VPS_CERTBOT_EMAIL='$VPS_CERTBOT_EMAIL' VPS_DEPLOY_PUBKEY='$VPS_DEPLOY_PUBKEY' bash -se" <<'REMOTE'
           set -euo pipefail
           export DEBIAN_FRONTEND=noninteractive
 
           : "${VPS_TARGET_DIR:=/var/www/hivra.space/}"
           : "${VPS_DOMAIN:=hivra.space}"
           : "${VPS_CERTBOT_EMAIL:=support@hivra.space}"
+          : "${VPS_DEPLOY_PUBKEY:=}"
           WWW_DOMAIN="www.${VPS_DOMAIN#www.}"
+
+          mkdir -p /root/.ssh
+          chmod 700 /root/.ssh
+          if [ -n "$VPS_DEPLOY_PUBKEY" ] && ! grep -qxF "$VPS_DEPLOY_PUBKEY" /root/.ssh/authorized_keys 2>/dev/null; then
+            printf '%s\n' "$VPS_DEPLOY_PUBKEY" >> /root/.ssh/authorized_keys
+          fi
+          chmod 600 /root/.ssh/authorized_keys
 
           apt-get update
           apt-get -y -o Dpkg::Options::="--force-confold" install nginx certbot python3-certbot-nginx rsync
