@@ -109,20 +109,18 @@ jobs:
           systemctl enable --now nginx
           systemctl reload nginx
 
-          if [ ! -f "/etc/letsencrypt/live/${VPS_DOMAIN}/fullchain.pem" ]; then
-            certbot --nginx \
-              -d "${VPS_DOMAIN}" \
-              -d "${WWW_DOMAIN}" \
-              --agree-tos \
-              -m "${VPS_CERTBOT_EMAIL}" \
-              --redirect \
-              -n || certbot --nginx \
-              -d "${VPS_DOMAIN}" \
-              --agree-tos \
-              -m "${VPS_CERTBOT_EMAIL}" \
-              --redirect \
-              -n
-          fi
+          certbot --nginx \
+            -d "${VPS_DOMAIN}" \
+            -d "${WWW_DOMAIN}" \
+            --agree-tos \
+            -m "${VPS_CERTBOT_EMAIL}" \
+            --redirect \
+            -n || certbot --nginx \
+            -d "${VPS_DOMAIN}" \
+            --agree-tos \
+            -m "${VPS_CERTBOT_EMAIL}" \
+            --redirect \
+            -n
 
           nginx -t
           systemctl reload nginx
