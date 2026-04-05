@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hivra Model | Hive Integrated Value &amp; Relationship Architecture</title>
+    <meta name="description" content="The Hivra model: relationship architecture, capsule logic, and invitation-based trust flow.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="pictures/favicon.png" type="image/png">
+    <style>
+        .eyebrow-title {
+            text-transform: none;
+            letter-spacing: 0.02em;
+        }
+
+        .about-hero,
+        .about-panel,
+        .about-note,
+        .model-snapshot,
+        .snapshot-item {
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            box-shadow: var(--shadow);
+        }
+
+        .about-hero {
+            padding: 34px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+            gap: 24px;
+            align-items: center;
+        }
+
+        .about-copy h1,
+        .section-title {
+            font-family: "Iowan Old Style", "Palatino Linotype", serif;
+            letter-spacing: -0.03em;
+        }
+
+        .about-copy h1 {
+            margin: 14px 0 16px;
+            font-size: clamp(2.6rem, 5vw, 4.5rem);
+            line-height: 0.95;
+        }
+
+        .about-copy p,
+        .about-panel p,
+        .about-note p,
+        .section-intro {
+            color: var(--muted);
+        }
+
+        .about-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .primary-link,
+        .secondary-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+            padding: 0 20px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 180ms ease;
+        }
+
+        .primary-link {
+            color: #08141a;
+            background: linear-gradient(135deg, var(--primary), #ffbb6b);
+        }
+
+        .secondary-link {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .model-snapshot {
+            padding: 24px;
+            display: grid;
+            gap: 14px;
+            background:
+                radial-gradient(circle at top right, rgba(255, 138, 61, 0.14), transparent 34%),
+                radial-gradient(circle at bottom left, rgba(115, 217, 207, 0.12), transparent 28%),
+                rgba(5, 15, 21, 0.82);
+        }
+
+        .snapshot-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .snapshot-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .snapshot-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--secondary);
+            background: rgba(115, 217, 207, 0.08);
+            border: 1px solid rgba(115, 217, 207, 0.18);
+        }
+
+        .snapshot-copy {
+            color: var(--muted);
+        }
+
+        .snapshot-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .snapshot-item {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            box-shadow: none;
+        }
+
+        .snapshot-item strong {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+
+        .snapshot-item p {
+            color: var(--muted);
+        }
+
+        .section {
+            margin-top: 28px;
+        }
+
+        .section-title {
+            margin: 12px 0 8px;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1;
+        }
+
+        .section-intro {
+            max-width: 760px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 22px;
+        }
+
+        .about-panel,
+        .about-note {
+            padding: 22px;
+        }
+
+        .about-panel strong,
+        .about-note strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .about-notes {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 22px;
+        }
+
+        @media (max-width: 1100px) {
+            .about-hero,
+            .about-grid,
+            .about-notes {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .about-hero,
+            .about-panel,
+            .about-note {
+                padding: 22px;
+            }
+
+            .about-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .primary-link,
+            .secondary-link {
+                width: 100%;
+            }
+
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo" aria-label="Hivra home">
+                <span class="logo-mark">
+                    <img src="pictures/favicon.png" alt="Hivra" class="logo-img">
+                </span>
+                <span class="logo-wordmark">Hivra</span>
+            </a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
+                <span class="nav-toggle-line"></span>
+                <span class="nav-toggle-line"></span>
+                <span class="nav-toggle-line"></span>
+            </button>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="network-v2.html" class="nav-link">Network</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="support.html" class="nav-button">Support</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <section class="about-hero">
+                <div class="about-copy">
+                    <span class="eyebrow eyebrow-title">The Hivra Model</span>
+                    <h1>Hive Integrated Value &amp; Relationship Architecture.</h1>
+                    <p>
+                        Hivra is a relationship-first system concept for trust, value, and coordination.
+                        It treats connections as structured paths with memory, role, and inheritance, not as flat links in a generic graph.
+                    </p>
+                    <div class="about-actions">
+                        <a href="network-v2.html" class="primary-link">Open network view</a>
+                        <a href="support.html" class="secondary-link">Support Hivra</a>
+                    </div>
+                </div>
+
+                <aside class="model-snapshot">
+                    <div class="snapshot-head">
+                        <div class="snapshot-title">Model snapshot</div>
+                        <span class="snapshot-chip">Relation-first</span>
+                    </div>
+                    <p class="snapshot-copy">
+                        Hivra treats invitations, capsules, and trust propagation as one coherent system rather than isolated product features.
+                    </p>
+                    <div class="snapshot-grid">
+                        <div class="snapshot-item">
+                            <strong>Starter</strong>
+                            <p>A bounded invitation asset issued by a trusted peer.</p>
+                        </div>
+                        <div class="snapshot-item">
+                            <strong>Capsule</strong>
+                            <p>A memory container that preserves role, state, and trust logic.</p>
+                        </div>
+                        <div class="snapshot-item">
+                            <strong>Outcome</strong>
+                            <p>Accepted paths can become generative relationships instead of one-off access events.</p>
+                        </div>
+                    </div>
+                </aside>
+            </section>
+
+            <section class="section">
+                <span class="eyebrow">Core ideas</span>
+                <h2 class="section-title">What makes Hivra different.</h2>
+                <p class="section-intro">
+                    The model is intentionally small in vocabulary but rich in structure. A few concepts are enough to explain how trust forms, persists, and propagates.
+                </p>
+
+                <div class="about-grid">
+                    <article class="about-panel">
+                        <strong>Relationships are first-class</strong>
+                        <p>A relationship has state, direction, context, and consequence. It is not background metadata.</p>
+                    </article>
+                    <article class="about-panel">
+                        <strong>Capsules preserve memory</strong>
+                        <p>Capsules hold starter logic, role state, and bounded trust so the system can grow without becoming unreadable.</p>
+                    </article>
+                    <article class="about-panel">
+                        <strong>Growth must stay legible</strong>
+                        <p>New peers and paths should remain explainable: why they exist, what they inherit, and what they can enable.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section">
+                <span class="eyebrow">Invitation model</span>
+                <h2 class="section-title">From starter to trusted path.</h2>
+                <p class="section-intro">
+                    In Hivra, an invitation is not a disposable signup link. A trusted peer issues a starter, a capsule tracks the path, and the result becomes accepted, rejected, or burned.
+                </p>
+
+                <div class="about-notes">
+                    <article class="about-note">
+                        <strong>Starter</strong>
+                        <p>A controlled asset that opens a path under capsule rules instead of creating an unbounded access point.</p>
+                    </article>
+                    <article class="about-note">
+                        <strong>Capsule</strong>
+                        <p>The capsule remembers issuance, acceptance, expiry, and rejection so trust can evolve with structure.</p>
+                    </article>
+                    <article class="about-note">
+                        <strong>Generative relationship</strong>
+                        <p>Acceptance does more than admit a peer. It creates a path that can produce future trusted growth.</p>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 Hivra. Hive Integrated Value &amp; Relationship Architecture.</p>
+            <div class="footer-meta">
+                <a href="https://github.com/WSorr/Hivra-App" class="footer-github" target="_blank" rel="noopener noreferrer" aria-label="Open Hivra GitHub repository">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                        <path d="M12 2C6.477 2 2 6.589 2 12.248c0 4.526 2.865 8.367 6.839 9.722.5.096.682-.222.682-.493 0-.244-.009-.89-.014-1.747-2.782.617-3.37-1.37-3.37-1.37-.455-1.183-1.11-1.498-1.11-1.498-.908-.637.069-.624.069-.624 1.004.072 1.532 1.055 1.532 1.055.892 1.565 2.341 1.113 2.91.851.091-.663.349-1.113.635-1.369-2.221-.261-4.555-1.137-4.555-5.062 0-1.118.389-2.033 1.029-2.75-.103-.261-.446-1.31.098-2.73 0 0 .84-.276 2.75 1.05A9.36 9.36 0 0 1 12 6.836c.85.004 1.706.118 2.505.347 1.909-1.326 2.748-1.05 2.748-1.05.546 1.42.202 2.469.1 2.73.64.717 1.028 1.632 1.028 2.75 0 3.935-2.338 4.798-4.566 5.055.359.319.679.947.679 1.909 0 1.379-.012 2.491-.012 2.829 0 .273.18.593.688.492C19.138 20.611 22 16.772 22 12.248 22 6.589 17.523 2 12 2Z"/>
+                    </svg>
+                    <span class="footer-github-label">GitHub</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const headerContainer = document.querySelector('.header-container');
+        const navToggle = document.querySelector('.nav-toggle');
+
+        if (headerContainer && navToggle) {
+            navToggle.addEventListener('click', () => {
+                const isOpen = headerContainer.classList.toggle('nav-open');
+                navToggle.setAttribute('aria-expanded', String(isOpen));
+            });
+        }
+    </script>
+</body>
+</html>
