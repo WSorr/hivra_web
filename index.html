@@ -262,35 +262,34 @@
         }
 
         .section-head p {
-            max-width: 560px;
+            max-width: 640px;
             color: var(--muted);
         }
 
-        .panel h3,
-        .path-card h3,
-        .starter-card h3 {
-            font-size: 1.15rem;
-            margin-bottom: 12px;
-        }
-
-        .panel p,
-        .path-card p,
-        .starter-card p {
+        .panel ul {
+            display: grid;
+            gap: 14px;
+            margin-top: 18px;
+            padding-left: 18px;
             color: var(--muted);
         }
 
-        .panel strong {
+        .panel li strong,
+        .starter-card h3,
+        .path-card strong,
+        .cta-panel h2 {
             color: var(--text);
         }
 
         .starter-grid {
             display: grid;
             grid-template-columns: repeat(5, minmax(0, 1fr));
-            gap: 18px;
+            gap: 16px;
         }
 
         .starter-card {
-            padding: 22px;
+            padding: 22px 18px;
+            text-align: center;
             position: relative;
             overflow: hidden;
         }
@@ -298,58 +297,65 @@
         .starter-card::before {
             content: "";
             position: absolute;
-            inset: auto -20px -20px auto;
-            width: 140px;
-            height: 140px;
-            border-radius: 999px;
+            inset: 0;
             opacity: 0.18;
-            filter: blur(1px);
+            background: radial-gradient(circle at top, currentColor, transparent 62%);
+            pointer-events: none;
         }
 
-        .starter-card.juice::before { background: #ffd166; }
-        .starter-card.spark::before { background: #ff6b6b; }
-        .starter-card.seed::before { background: #7be495; }
-        .starter-card.pulse::before { background: #9b8cff; }
-        .starter-card.kick::before { background: #ff8cc6; }
-
-        .starter-mark {
-            width: 54px;
-            height: 54px;
-            display: grid;
+        .starter-card span {
+            position: relative;
+            z-index: 1;
+            display: inline-grid;
             place-items: center;
-            border-radius: 16px;
-            margin-bottom: 18px;
-            font-size: 1.35rem;
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            border-radius: 20px;
             font-weight: 800;
+            font-size: 1.2rem;
             color: #08141a;
+            background: currentColor;
         }
 
-        .juice .starter-mark { background: #ffd166; }
-        .spark .starter-mark { background: #ff6b6b; }
-        .seed .starter-mark { background: #7be495; }
-        .pulse .starter-mark { background: #9b8cff; }
-        .kick .starter-mark { background: #ff8cc6; }
+        .starter-card p {
+            position: relative;
+            z-index: 1;
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .starter-card.juice { color: #ffd166; }
+        .starter-card.spark { color: #ff6b6b; }
+        .starter-card.seed { color: #7be495; }
+        .starter-card.pulse { color: #9b8cff; }
+        .starter-card.kick { color: #ff8cc6; }
 
         .path-card {
-            display: flex;
-            flex-direction: column;
+            display: grid;
             gap: 18px;
         }
 
         .path-step {
-            display: flex;
+            display: grid;
+            grid-template-columns: 42px minmax(0, 1fr);
             gap: 14px;
+            align-items: start;
         }
 
         .path-step strong {
             display: inline-grid;
             place-items: center;
-            width: 34px;
-            height: 34px;
-            flex: 0 0 34px;
-            border-radius: 999px;
-            background: rgba(255, 138, 61, 0.16);
-            color: var(--primary);
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .path-step p {
+            color: var(--muted);
         }
 
         .cta-panel {
@@ -363,26 +369,12 @@
             font-family: "Iowan Old Style", "Palatino Linotype", serif;
             font-size: clamp(2rem, 3vw, 2.8rem);
             line-height: 1;
-            margin-bottom: 10px;
+            margin: 12px 0 14px;
         }
 
         .cta-panel p {
-            max-width: 620px;
+            max-width: 680px;
             color: var(--muted);
-        }
-
-        .cta-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 54px;
-            padding: 0 22px;
-            border-radius: 999px;
-            background: linear-gradient(135deg, var(--secondary), #a6efe8);
-            color: #08141a;
-            font-weight: 800;
-            text-decoration: none;
-            white-space: nowrap;
         }
 
         .cta-links {
@@ -392,50 +384,63 @@
             justify-content: flex-end;
         }
 
+        .cta-link,
         .release-link {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-height: 54px;
-            padding: 0 22px;
+            min-height: 48px;
+            padding: 0 20px;
             border-radius: 999px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text);
-            font-weight: 700;
             text-decoration: none;
-            white-space: nowrap;
+            font-weight: 700;
+            transition: 180ms ease;
         }
 
-        @media (max-width: 1100px) {
+        .cta-link {
+            color: #08141a;
+            background: linear-gradient(135deg, var(--secondary), #a6efe8);
+        }
+
+        .release-link {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-link:hover,
+        .release-link:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 1180px) {
             .hero-grid,
-            .grid-3,
             .starter-grid,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
             .grid-2,
             .cta-panel {
                 grid-template-columns: 1fr;
             }
 
-            .hero-grid {
-                padding: 44px 28px;
+            .cta-links {
+                justify-content: flex-start;
             }
         }
 
         @media (max-width: 720px) {
-            .section-head {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
             .hero-grid,
             .panel,
+            .starter-card,
             .path-card,
-            .cta-panel {
-                padding: 24px;
+            .cta-panel,
+            .signal-board {
+                padding: 22px;
             }
 
             .hero-actions,
-            .hero-metrics,
             .cta-links {
                 flex-direction: column;
                 align-items: stretch;
@@ -448,20 +453,8 @@
                 width: 100%;
             }
 
-            .metric {
-                min-width: 0;
-                width: 100%;
-            }
-
-            .signal-top {
-                align-items: flex-start;
+            .hero-metrics {
                 flex-direction: column;
-            }
-        }
-
-        @media (max-width: 520px) {
-            .starter-grid {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -470,10 +463,10 @@
     <header class="header">
         <div class="header-container">
             <a href="index.html" class="logo" aria-label="Hivra home">
-                <picture>
-                    <source srcset="pictures/logo.webp" type="image/webp">
-                    <img src="pictures/logo.png" alt="Hivra" class="logo-img">
-                </picture>
+                <span class="logo-mark">
+                    <img src="pictures/favicon.png" alt="Hivra" class="logo-img">
+                </span>
+                <span class="logo-wordmark">Hivra</span>
             </a>
             <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
                 <span class="nav-toggle-line"></span>
@@ -483,7 +476,7 @@
             <nav class="nav">
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="network-v2.html" class="nav-link">Network</a>
-                <a href="coming-soon.html" class="nav-link">About</a>
+                <a href="about.html" class="nav-link">About</a>
                 <a href="support.html" class="nav-button">Support</a>
             </nav>
         </div>
@@ -494,62 +487,72 @@
             <section class="hero">
                 <div class="hero-grid">
                     <div class="hero-copy">
-                        <span class="eyebrow">Distributed by design</span>
-                        <h1>Build trust, value, and motion without a central hub.</h1>
+                        <span class="eyebrow">Capsule-based network design</span>
+                        <h1>Distributed value begins with structured relationships.</h1>
                         <p>
-                            Hivra is a concept for capsule-based coordination: small autonomous nodes
-                            that exchange value, form relationships, and grow resilient networks
-                            through protocol rules instead of platform control.
+                            Hivra is a concept system for trust, starters, and capsule-driven exchange.
+                            Instead of treating the network as a flat graph, it frames coordination through
+                            relation layers that can seed, grow, and route value with more intention.
                         </p>
                         <div class="hero-actions">
-                            <a href="network-v2.html" class="hero-primary">Explore network map</a>
-                            <a href="support.html" class="hero-secondary">Support the project</a>
+                            <a href="network-v2.html" class="hero-primary">Explore the network</a>
+                            <a href="support.html" class="hero-secondary">Support the build</a>
                         </div>
                         <div class="hero-metrics">
                             <div class="metric">
-                                <strong>2</strong>
-                                <span>capsule states shaping the network</span>
-                            </div>
-                            <div class="metric">
                                 <strong>5</strong>
-                                <span>starter types defining capabilities</span>
+                                <span>Starter types in the current model</span>
                             </div>
                             <div class="metric">
-                                <strong>0</strong>
-                                <span>central authorities required to coordinate</span>
+                                <strong>2</strong>
+                                <span>Visible capsule states on the public site</span>
+                            </div>
+                            <div class="metric">
+                                <strong>1</strong>
+                                <span>Shared visual system across all pages</span>
                             </div>
                         </div>
                     </div>
 
-                    <aside class="signal-board" aria-label="Capsule overview">
-                        <h2>Live architecture snapshot</h2>
+                    <aside class="signal-board">
+                        <h2>Current site signals</h2>
                         <div class="signal-list">
-                            <article class="signal-card">
+                            <div class="signal-card">
                                 <div class="signal-top">
-                                    <div class="signal-name">Genesis Capsule</div>
-                                    <span class="signal-state live">Active</span>
+                                    <span class="signal-name">Network view</span>
+                                    <span class="signal-state live">Live</span>
                                 </div>
-                                <p>Initial capsule seeded with the full starter stack and responsible for opening the first trust paths.</p>
+                                <p>Capsule states and starter composition are now explained visually instead of being implied.</p>
                                 <div class="signal-tags">
-                                    <span>Juice</span>
-                                    <span>Spark</span>
-                                    <span>Seed</span>
-                                    <span>Pulse</span>
-                                    <span>Kick</span>
+                                    <span>Genesis</span>
+                                    <span>Proto</span>
+                                    <span>Starters</span>
                                 </div>
-                            </article>
-                            <article class="signal-card">
+                            </div>
+                            <div class="signal-card">
                                 <div class="signal-top">
-                                    <div class="signal-name">Proto Capsule</div>
-                                    <span class="signal-state building">Growing</span>
+                                    <span class="signal-name">Support layer</span>
+                                    <span class="signal-state live">Live</span>
                                 </div>
-                                <p>New capsule shape designed to inherit relationships selectively and expand the network without dilution.</p>
+                                <p>Direct contribution routes are exposed cleanly with wallet-by-wallet clarity.</p>
                                 <div class="signal-tags">
-                                    <span>Open slots</span>
-                                    <span>Trust links</span>
-                                    <span>Value flow</span>
+                                    <span>Crypto</span>
+                                    <span>Funding</span>
+                                    <span>Infrastructure</span>
                                 </div>
-                            </article>
+                            </div>
+                            <div class="signal-card">
+                                <div class="signal-top">
+                                    <span class="signal-name">About layer</span>
+                                    <span class="signal-state building">Building</span>
+                                </div>
+                                <p>The conceptual frame is ready for a fuller explanation of origin, goals, and relationship logic.</p>
+                                <div class="signal-tags">
+                                    <span>Story</span>
+                                    <span>Architecture</span>
+                                    <span>Intent</span>
+                                </div>
+                            </div>
                         </div>
                     </aside>
                 </div>
@@ -558,23 +561,38 @@
             <section class="section">
                 <div class="section-head">
                     <div>
-                        <span class="eyebrow">System logic</span>
-                        <h2>Three pillars keep the network coherent.</h2>
+                        <span class="eyebrow">Core frame</span>
+                        <h2>What the public site is trying to make legible.</h2>
                     </div>
-                    <p>Hivra treats value exchange as infrastructure. The system needs roles, relationship rules, and enough local autonomy to survive growth.</p>
+                    <p>The goal is not just to present Hivra as a name. It is to make the system readable: what a capsule is, how starters differ, and why relation architecture matters.</p>
                 </div>
+
                 <div class="grid-3">
                     <article class="panel">
-                        <h3><span class="feature-primary">Value</span> is modular</h3>
-                        <p>Starters work like capability tokens. They are not generic points; each one unlocks a different kind of contribution, incentive, or permission.</p>
+                        <span class="eyebrow">Capsules</span>
+                        <ul>
+                            <li><strong>Bounded network units.</strong> Capsules act as containers for starter logic, role, and growth state.</li>
+                            <li><strong>Different maturity levels.</strong> Genesis and Proto capsules signal whether a node is fully seeded or still emerging.</li>
+                            <li><strong>Readable at a glance.</strong> The visualization layer reduces explanation overhead by exposing state visually.</li>
+                        </ul>
                     </article>
+
                     <article class="panel">
-                        <h3><span class="feature-secondary">Relationships</span> are structural</h3>
-                        <p>Capsules do not just transact. They build trust edges that determine how resources move, how roles propagate, and where the network can expand next.</p>
+                        <span class="eyebrow">Relationships</span>
+                        <ul>
+                            <li><strong>Not just connections.</strong> Relationships in Hivra are structured pathways with direction, inheritance, and meaning.</li>
+                            <li><strong>Trust can be selective.</strong> Starters and capsule states allow different relation surfaces to emerge without flattening the system.</li>
+                            <li><strong>Coordination becomes composable.</strong> The network is easier to reason about when relation logic is explicit.</li>
+                        </ul>
                     </article>
+
                     <article class="panel">
-                        <h3><span class="feature-accent">Architecture</span> stays distributed</h3>
-                        <p>No central server has to decide membership or meaning. The model is intended to preserve local control while still producing shared coordination.</p>
+                        <span class="eyebrow">Value flow</span>
+                        <ul>
+                            <li><strong>Designed instead of assumed.</strong> Exchange is framed as intentional routing through a relationship architecture.</li>
+                            <li><strong>Surface before scale.</strong> The site focuses on clarity now so the model can grow without losing coherence later.</li>
+                            <li><strong>Public artifact first.</strong> The current build establishes language, visual grammar, and navigational structure.</li>
+                        </ul>
                     </article>
                 </div>
             </section>
@@ -582,36 +600,37 @@
             <section class="section">
                 <div class="section-head">
                     <div>
-                        <span class="eyebrow">Starter system</span>
-                        <h2>Five starters, five different signals.</h2>
+                        <span class="eyebrow">Starter model</span>
+                        <h2>Five signals that define the current starter vocabulary.</h2>
                     </div>
-                    <p>Each starter is a distinct unit inside the capsule model, designed to encode a specific role in activation, continuity, and exchange.</p>
+                    <p>These are the starter types visualized on the network page. Each one implies a different quality of motion, initiation, or continuity inside a capsule.</p>
                 </div>
+
                 <div class="starter-grid">
                     <article class="starter-card juice">
-                        <div class="starter-mark">J</div>
+                        <span>J</span>
                         <h3>Juice</h3>
-                        <p>Energy for initial activation. Juice bootstraps motion and helps a capsule become operational.</p>
+                        <p>Energy, fuel, and immediate activation potential.</p>
                     </article>
                     <article class="starter-card spark">
-                        <div class="starter-mark">S</div>
+                        <span>S</span>
                         <h3>Spark</h3>
-                        <p>Impulse for catalytic actions. Spark marks moments that trigger new pathways or relationships.</p>
+                        <p>Ignition, volatility, and the first visible pulse of action.</p>
                     </article>
                     <article class="starter-card seed">
-                        <div class="starter-mark">S</div>
+                        <span>Sd</span>
                         <h3>Seed</h3>
-                        <p>Continuity signal for replication and growth. Seed carries forward the logic of the system into new nodes.</p>
+                        <p>Continuity, planting, and future-bearing relation logic.</p>
                     </article>
                     <article class="starter-card pulse">
-                        <div class="starter-mark">P</div>
+                        <span>P</span>
                         <h3>Pulse</h3>
-                        <p>Rhythm and synchronization across the network. Pulse supports timing, cadence, and ongoing alignment.</p>
+                        <p>Rhythm, recurrence, and time-based movement within a node.</p>
                     </article>
                     <article class="starter-card kick">
-                        <div class="starter-mark">K</div>
+                        <span>K</span>
                         <h3>Kick</h3>
-                        <p>Directed push for decisive change. Kick is the force behind transitions, escalation, and boundary crossing.</p>
+                        <p>Directed force, push, and momentum transfer into a new path.</p>
                     </article>
                 </div>
             </section>
@@ -656,7 +675,7 @@
                         <p>The shared layout is now fixed, the first screen reads like a product instead of a placeholder, and the content is structured enough to support the other pages. The latest public build is also linked directly from here.</p>
                     </div>
                     <div class="cta-links">
-                        <a href="https://github.com/WSorr/hivra-network/releases" class="release-link" target="_blank" rel="noopener noreferrer">View releases</a>
+                        <a href="https://github.com/WSorr/Hivra-App/releases" class="release-link" target="_blank" rel="noopener noreferrer">View releases</a>
                         <a href="network-v2.html" class="cta-link">Open visualization</a>
                     </div>
                 </div>
@@ -667,7 +686,14 @@
     <footer class="footer">
         <div class="footer-content">
             <p>© 2025 Hivra. Capsule-based value and relationship architecture.</p>
-            <p>Static site foundation ready for deeper content and interaction.</p>
+            <div class="footer-meta">
+                <a href="https://github.com/WSorr/hivra_web" class="footer-github" target="_blank" rel="noopener noreferrer" aria-label="Open Hivra website GitHub repository">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                        <path d="M12 2C6.477 2 2 6.589 2 12.248c0 4.526 2.865 8.367 6.839 9.722.5.096.682-.222.682-.493 0-.244-.009-.89-.014-1.747-2.782.617-3.37-1.37-3.37-1.37-.455-1.183-1.11-1.498-1.11-1.498-.908-.637.069-.624.069-.624 1.004.072 1.532 1.055 1.532 1.055.892 1.565 2.341 1.113 2.91.851.091-.663.349-1.113.635-1.369-2.221-.261-4.555-1.137-4.555-5.062 0-1.118.389-2.033 1.029-2.75-.103-.261-.446-1.31.098-2.73 0 0 .84-.276 2.75 1.05A9.36 9.36 0 0 1 12 6.836c.85.004 1.706.118 2.505.347 1.909-1.326 2.748-1.05 2.748-1.05.546 1.42.202 2.469.1 2.73.64.717 1.028 1.632 1.028 2.75 0 3.935-2.338 4.798-4.566 5.055.359.319.679.947.679 1.909 0 1.379-.012 2.491-.012 2.829 0 .273.18.593.688.492C19.138 20.611 22 16.772 22 12.248 22 6.589 17.523 2 12 2Z"/>
+                    </svg>
+                    <span class="footer-github-label">GitHub</span>
+                </a>
+            </div>
         </div>
     </footer>
     <script>
