@@ -292,14 +292,15 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            color: var(--text);
         }
 
         .starter-card::before {
             content: "";
             position: absolute;
             inset: 0;
-            opacity: 0.18;
-            background: radial-gradient(circle at top, currentColor, transparent 62%);
+            opacity: 0.22;
+            background: radial-gradient(circle at top, var(--starter-color, rgba(255, 255, 255, 0.12)), transparent 62%);
             pointer-events: none;
         }
 
@@ -314,8 +315,14 @@
             border-radius: 20px;
             font-weight: 800;
             font-size: 1.2rem;
-            color: #08141a;
-            background: currentColor;
+            color: #0a151c;
+            background: var(--starter-color, #9ec3c0);
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
+            border: 1px solid color-mix(in srgb, var(--starter-color, #ffffff) 65%, #ffffff 35%);
+            box-shadow: 0 10px 22px color-mix(in srgb, var(--starter-color, #ffffff) 28%, transparent);
+            background:
+                linear-gradient(155deg, color-mix(in srgb, var(--starter-color, #ffffff) 92%, #ffffff 8%), var(--starter-color, #ffffff));
         }
 
         .starter-card p {
@@ -326,11 +333,11 @@
             font-size: 0.92rem;
         }
 
-        .starter-card.juice { color: #ffd166; }
-        .starter-card.spark { color: #ff6b6b; }
-        .starter-card.seed { color: #7be495; }
-        .starter-card.pulse { color: #9b8cff; }
-        .starter-card.kick { color: #ff8cc6; }
+        .starter-card.juice { --starter-color: #ffd166; }
+        .starter-card.spark { --starter-color: #ff6b6b; }
+        .starter-card.seed { --starter-color: #7be495; }
+        .starter-card.pulse { --starter-color: #9b8cff; }
+        .starter-card.kick { --starter-color: #ff8cc6; }
 
         .path-card {
             display: grid;
