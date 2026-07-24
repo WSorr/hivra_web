@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Hivra - Distributed Value Network</title>
+  <desc id="description">A dark Hivra social card with relationship paths and capsule nodes.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07171a"/>
+      <stop offset="0.56" stop-color="#0d292b"/>
+      <stop offset="1" stop-color="#16130d"/>
+    </linearGradient>
+    <radialGradient id="orangeGlow" cx="0" cy="0" r="1" gradientTransform="translate(1020 116) rotate(142) scale(430 430)">
+      <stop stop-color="#ff8a3d" stop-opacity=".34"/>
+      <stop offset="1" stop-color="#ff8a3d" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="tealGlow" cx="0" cy="0" r="1" gradientTransform="translate(250 580) rotate(-42) scale(450 430)">
+      <stop stop-color="#73d9cf" stop-opacity=".24"/>
+      <stop offset="1" stop-color="#73d9cf" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="path" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#73d9cf" stop-opacity=".2"/>
+      <stop offset=".52" stop-color="#73d9cf" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#ff9c52" stop-opacity=".5"/>
+    </linearGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#000" flood-opacity=".35"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#background)"/>
+  <rect width="1200" height="630" fill="url(#orangeGlow)"/>
+  <rect width="1200" height="630" fill="url(#tealGlow)"/>
+  <path d="M0 512C170 458 255 454 392 488C553 528 681 480 802 395C936 301 1051 277 1200 311" fill="none" stroke="#73d9cf" stroke-opacity=".12" stroke-width="1"/>
+  <path d="M0 548C177 493 287 496 426 528C565 560 699 511 826 426C951 342 1070 319 1200 348" fill="none" stroke="#ffb16f" stroke-opacity=".11" stroke-width="1"/>
+
+  <g transform="translate(850 122)" filter="url(#shadow)">
+    <path d="M-20 247C59 195 108 108 150 8C190 111 249 194 331 247" fill="none" stroke="url(#path)" stroke-width="3"/>
+    <path d="M-20 247C92 230 217 230 331 247" fill="none" stroke="url(#path)" stroke-width="3"/>
+    <path d="M150 8V247" stroke="#73d9cf" stroke-opacity=".45" stroke-width="2" stroke-dasharray="7 10"/>
+    <circle cx="-20" cy="247" r="42" fill="#102d2f" stroke="#73d9cf" stroke-width="2"/>
+    <circle cx="150" cy="8" r="47" fill="#1a211b" stroke="#ff9c52" stroke-width="2"/>
+    <circle cx="331" cy="247" r="42" fill="#102d2f" stroke="#73d9cf" stroke-width="2"/>
+    <circle cx="150" cy="247" r="76" fill="#0d2426" stroke="#e3d2a7" stroke-opacity=".7" stroke-width="2"/>
+    <circle cx="150" cy="247" r="53" fill="none" stroke="#73d9cf" stroke-opacity=".28" stroke-width="1"/>
+    <circle cx="-20" cy="247" r="9" fill="#73d9cf"/>
+    <circle cx="150" cy="8" r="10" fill="#ff9c52"/>
+    <circle cx="331" cy="247" r="9" fill="#73d9cf"/>
+    <circle cx="150" cy="247" r="12" fill="#f5c969"/>
+  </g>
+
+  <g fill="#d7eeea" font-family="Georgia, 'Times New Roman', serif">
+    <text x="96" y="132" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" letter-spacing="5" fill="#73d9cf">HIVRA</text>
+    <text x="96" y="228" font-size="60" font-weight="700" letter-spacing="-2">Distributed value</text>
+    <text x="96" y="293" font-size="60" font-weight="700" letter-spacing="-2">begins with relationships.</text>
+  </g>
+  <text x="99" y="357" font-family="Arial, Helvetica, sans-serif" font-size="25" fill="#a9c6c2">Capsule-based network design for trust, starters, and exchange.</text>
+  <rect x="96" y="455" width="248" height="48" rx="24" fill="#ff9c52"/>
+  <text x="120" y="487" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#08141a">hivra.space</text>
+  <text x="1060" y="573" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="15" letter-spacing="2" fill="#8eaaa6">NETWORK / 2025</text>
+</svg>
