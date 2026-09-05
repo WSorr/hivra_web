@@ -525,7 +525,7 @@
 
     <main class="main-content">
         <div class="container">
-            <section class="hero">
+            <section class="hero reveal" style="--reveal-delay: 0ms">
                 <div class="hero-grid">
                     <div class="hero-copy">
                         <span class="eyebrow">Capsule-based network design</span>
@@ -558,7 +558,7 @@
                     <aside class="signal-board">
                         <h2>Current site signals</h2>
                         <div class="signal-list">
-                            <div class="signal-card">
+                        <div class="signal-card reveal" style="--reveal-delay: 80ms">
                                 <div class="signal-top">
                                     <span class="signal-name">Network view</span>
                                     <span class="signal-state live">Live</span>
@@ -570,7 +570,7 @@
                                     <span>Starters</span>
                                 </div>
                             </div>
-                            <div class="signal-card">
+                            <div class="signal-card reveal" style="--reveal-delay: 130ms">
                                 <div class="signal-top">
                                     <span class="signal-name">Support layer</span>
                                     <span class="signal-state live">Live</span>
@@ -582,7 +582,7 @@
                                     <span>Infrastructure</span>
                                 </div>
                             </div>
-                            <div class="signal-card">
+                            <div class="signal-card reveal" style="--reveal-delay: 180ms">
                                 <div class="signal-top">
                                     <span class="signal-name">About layer</span>
                                     <span class="signal-state building">Building</span>
@@ -599,7 +599,7 @@
                 </div>
             </section>
 
-            <section class="section">
+            <section class="section reveal" style="--reveal-delay: 70ms">
                 <div class="section-head">
                     <div>
                         <span class="eyebrow">Core frame</span>
@@ -609,7 +609,7 @@
                 </div>
 
                 <div class="grid-3">
-                    <article class="panel">
+                    <article class="panel reveal" style="--reveal-delay: 0ms">
                         <span class="eyebrow">Capsules</span>
                         <ul>
                             <li><strong>Bounded network units.</strong> Capsules act as containers for starter logic, role, and growth state.</li>
@@ -618,7 +618,7 @@
                         </ul>
                     </article>
 
-                    <article class="panel">
+                    <article class="panel reveal" style="--reveal-delay: 70ms">
                         <span class="eyebrow">Relationships</span>
                         <ul>
                             <li><strong>Not just connections.</strong> Relationships in Hivra are structured pathways with direction, inheritance, and meaning.</li>
@@ -627,7 +627,7 @@
                         </ul>
                     </article>
 
-                    <article class="panel">
+                    <article class="panel reveal" style="--reveal-delay: 140ms">
                         <span class="eyebrow">Value flow</span>
                         <ul>
                             <li><strong>Designed instead of assumed.</strong> Exchange is framed as intentional routing through a relationship architecture.</li>
@@ -638,7 +638,7 @@
                 </div>
             </section>
 
-            <section class="section">
+            <section class="section reveal" style="--reveal-delay: 140ms">
                 <div class="section-head">
                     <div>
                         <span class="eyebrow">Starter model</span>
@@ -648,27 +648,27 @@
                 </div>
 
                 <div class="starter-grid">
-                    <article class="starter-card juice">
+                    <article class="starter-card juice reveal" style="--reveal-delay: 0ms">
                         <span>J</span>
                         <h3>Juice</h3>
                         <p>Energy, fuel, and immediate activation potential.</p>
                     </article>
-                    <article class="starter-card spark">
+                    <article class="starter-card spark reveal" style="--reveal-delay: 70ms">
                         <span>S</span>
                         <h3>Spark</h3>
                         <p>Ignition, volatility, and the first visible pulse of action.</p>
                     </article>
-                    <article class="starter-card seed">
+                    <article class="starter-card seed reveal" style="--reveal-delay: 140ms">
                         <span>Sd</span>
                         <h3>Seed</h3>
                         <p>Continuity, planting, and future-bearing relation logic.</p>
                     </article>
-                    <article class="starter-card pulse">
+                    <article class="starter-card pulse reveal" style="--reveal-delay: 210ms">
                         <span>P</span>
                         <h3>Pulse</h3>
                         <p>Rhythm, recurrence, and time-based movement within a node.</p>
                     </article>
-                    <article class="starter-card kick">
+                    <article class="starter-card kick reveal" style="--reveal-delay: 280ms">
                         <span>K</span>
                         <h3>Kick</h3>
                         <p>Directed force, push, and momentum transfer into a new path.</p>
@@ -676,9 +676,9 @@
                 </div>
             </section>
 
-            <section class="section">
+            <section class="section reveal" style="--reveal-delay: 190ms">
                 <div class="grid-2">
-                    <article class="path-card">
+                    <article class="path-card reveal" style="--reveal-delay: 0ms">
                         <div>
                             <span class="eyebrow">Growth path</span>
                             <h2 style="margin-top: 14px; font-family: 'Iowan Old Style', 'Palatino Linotype', serif; font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1;">How a capsule expands</h2>
@@ -697,7 +697,7 @@
                         </div>
                     </article>
 
-                    <article class="path-card">
+                    <article class="path-card reveal" style="--reveal-delay: 120ms">
                         <div>
                             <span class="eyebrow">Why it matters</span>
                             <h2 style="margin-top: 14px; font-family: 'Iowan Old Style', 'Palatino Linotype', serif; font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1;">A site for a network, not just a brand.</h2>
@@ -708,7 +708,7 @@
                 </div>
             </section>
 
-            <section class="section">
+            <section class="section reveal" style="--reveal-delay: 240ms">
                 <div class="cta-panel">
                     <div>
                         <span class="eyebrow">Next move</span>
@@ -746,6 +746,29 @@
                 const isOpen = headerContainer.classList.toggle('nav-open');
                 navToggle.setAttribute('aria-expanded', String(isOpen));
             });
+        }
+
+        const revealItems = document.querySelectorAll('.reveal');
+        if (revealItems.length > 0) {
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                });
+            }, { threshold: 0.16 });
+
+            revealItems.forEach(el => revealObserver.observe(el));
+
+            window.addEventListener('load', () => {
+                revealItems.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        el.classList.add('is-visible');
+                        revealObserver.unobserve(el);
+                    }
+                });
+            }, { once: true });
         }
     </script>
 </body>
