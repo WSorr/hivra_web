@@ -211,6 +211,7 @@
                 rgba(8, 20, 26, 0.45);
             border: 1px solid rgba(255, 255, 255, 0.09);
             isolation: isolate;
+            overflow: hidden;
         }
 
         .capsule-node {
@@ -250,6 +251,20 @@
             animation: driftRight 6s infinite ease-in-out;
         }
 
+        .node-evidence {
+            left: 43%;
+            top: 170px;
+            transform: translateX(-50%);
+            width: 190px;
+            max-width: 52%;
+            animation: driftCenter 6s infinite ease-in-out;
+            border-color: rgba(123, 228, 149, 0.45);
+        }
+
+        .node-evidence .chip {
+            background: rgba(123, 228, 149, 0.16);
+        }
+
         .chip {
             margin-top: 8px;
             display: inline-flex;
@@ -262,17 +277,91 @@
             color: #dff7f5;
             background: rgba(10, 31, 41, 0.72);
             border: 1px solid rgba(115, 217, 207, 0.24);
+            pointer-events: none;
         }
 
-        .connector {
+        .flow-line {
             position: absolute;
-            top: 108px;
             left: 25%;
             right: 25%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+            height: 3px;
             border-radius: 999px;
-            animation: connectorPulse 2.4s infinite ease-in-out;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.09);
+            box-shadow: inset 0 0 22px rgba(255, 255, 255, 0.1);
+        }
+
+        .flow-line::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+            transform: translateX(-110%);
+            animation: flowPulse 1.4s linear infinite;
+            opacity: 0.55;
+        }
+
+        .flow-line-main {
+            top: 106px;
+            animation: linePulse 6s infinite;
+            animation-delay: 0.2s;
+        }
+
+        .flow-line-main::before {
+            animation-duration: 1.3s;
+        }
+
+        .flow-line-return {
+            top: 178px;
+            left: 32%;
+            right: 31%;
+            transform: scaleX(-1);
+            animation: linePulse 6s infinite;
+            animation-delay: 3.6s;
+        }
+
+        .flow-line-return::before {
+            animation-duration: 1.5s;
+        }
+
+        .flow-node-state {
+            position: absolute;
+            top: 62px;
+            transform: scale(0.93);
+            opacity: 0.58;
+            transition: 220ms ease;
+        }
+
+        .flow-node-state.active {
+            transform: translateY(-4px) scale(1);
+            opacity: 1;
+            border-color: rgba(255, 138, 61, 0.7);
+            box-shadow: 0 14px 30px rgba(255, 138, 61, 0.22);
+        }
+
+        .flow-legend {
+            margin-top: 6px;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            padding-inline: 2px;
+        }
+
+        .flow-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 32px;
+            border-radius: 999px;
+            padding: 0 10px;
+            text-align: center;
+            font-size: 0.77rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(8, 20, 26, 0.66);
         }
 
         .runtime-token {
@@ -285,6 +374,26 @@
             background: var(--secondary);
             box-shadow: 0 0 16px rgba(115, 217, 207, 0.8);
             animation: tokenRun 6s infinite cubic-bezier(0.45, 0, 0.55, 1);
+        }
+
+        .runtime-token::before {
+            content: "";
+            position: absolute;
+            inset: -8px;
+            border-radius: inherit;
+            border: 1px solid rgba(115, 217, 207, 0.5);
+            animation: tokenPulse 1.2s ease-in-out infinite;
+            opacity: 0.5;
+        }
+
+        .runtime-token::after {
+            content: "";
+            position: absolute;
+            inset: -22px;
+            border-radius: 50%;
+            border: 1px solid rgba(115, 217, 207, 0.32);
+            opacity: 0;
+            animation: tokenHalo 2.4s infinite ease-out;
         }
 
         .capsule-contrast {
@@ -376,42 +485,136 @@
             }
         }
 
-        @keyframes connectorPulse {
-            0%, 100% {
-                opacity: 0.2;
+        @keyframes flowPulse {
+            0% {
+                transform: translateX(-110%);
             }
 
-            50% {
-                opacity: 0.75;
+            100% {
+                transform: translateX(110%);
+            }
+        }
+
+        @keyframes linePulse {
+            0%, 20%, 100% {
+                opacity: 0.22;
+            }
+
+            30%, 56% {
+                opacity: 0.95;
             }
         }
 
         @keyframes tokenRun {
-            0%, 15% {
+            0%, 12% {
                 left: 10%;
+                top: 96px;
+                opacity: 0.85;
+            }
+
+            24% {
+                left: 50%;
+                top: 96px;
                 opacity: 1;
             }
 
-            33% {
-                left: 42%;
+            34% {
+                left: 90%;
+                top: 96px;
+            }
+
+            46% {
+                left: 90%;
+                top: 172px;
+                opacity: 1;
+            }
+
+            58% {
+                left: 50%;
+                top: 172px;
+            }
+
+            70% {
+                left: 10%;
+                top: 172px;
+                opacity: 1;
+            }
+
+            88%, 100% {
+                left: 10%;
+                top: 96px;
+                opacity: 0.15;
+            }
+        }
+
+        @keyframes tokenPulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.45;
             }
 
             50% {
-                left: 51%;
+                transform: scale(1.38);
+                opacity: 0.05;
+            }
+        }
+
+        @keyframes tokenHalo {
+            0% {
+                opacity: 0;
+                transform: scale(0.55);
             }
 
-            67% {
-                left: 58%;
-            }
-
-            83% {
-                left: 90%;
+            24% {
+                opacity: 0.55;
+                transform: scale(1);
             }
 
             100% {
-                left: 10%;
-                opacity: 0.6;
+                opacity: 0;
+                transform: scale(1.45);
             }
+        }
+
+        @keyframes nodePulse {
+            0%, 15%, 100% {
+                transform: scale(0.93);
+                opacity: 0.5;
+                border-color: rgba(255, 255, 255, 0.16);
+                box-shadow: none;
+            }
+
+            20%, 35% {
+                transform: scale(1.02);
+                opacity: 1;
+                border-color: rgba(255, 138, 61, 0.9);
+                box-shadow: 0 14px 30px rgba(255, 138, 61, 0.28);
+            }
+        }
+
+        .node-core-phase {
+            animation: nodePulse 6s infinite;
+        }
+
+        .node-cap-phase {
+            animation: nodePulse 6s infinite;
+            animation-delay: 1.3s;
+        }
+
+        .node-out-phase {
+            animation: nodePulse 6s infinite;
+            animation-delay: 2.5s;
+        }
+
+        .node-evidence-phase {
+            animation: nodePulse 6s infinite;
+            animation-delay: 3.5s;
+        }
+
+        .flow-chip:nth-child(2) {
+            background: rgba(255, 138, 61, 0.11);
+            border-color: rgba(255, 138, 61, 0.42);
+            color: #ffeed9;
         }
 
         @media (max-width: 1100px) {
@@ -730,20 +933,30 @@
                 </p>
                 <div class="capsule-chart">
                     <div class="capsule-chart-frame">
-                        <div class="connector"></div>
+                        <div class="flow-line flow-line-main"></div>
+                        <div class="flow-line flow-line-return"></div>
                         <span class="runtime-token" aria-hidden="true"></span>
-                        <div class="capsule-node node-core">
+                        <div class="capsule-node flow-node-state node-core node-core-phase">
                             <strong>Person / Capsule</strong>
                             <div class="chip">Core continuity</div>
                         </div>
-                        <div class="capsule-node node-cap">
+                        <div class="capsule-node flow-node-state node-cap node-cap-phase">
                             <strong>Core Engine</strong>
-                            <div class="chip">Context / state</div>
+                            <div class="chip">Policy check</div>
                         </div>
-                        <div class="capsule-node node-out">
+                        <div class="capsule-node flow-node-state node-out node-out-phase">
                             <strong>Capability Adapter</strong>
-                            <div class="chip">Chat / AI / Services</div>
+                            <div class="chip">Execution / output</div>
                         </div>
+                        <div class="capsule-node flow-node-state node-out node-evidence node-evidence-phase">
+                            <strong>Evidence Sink</strong>
+                            <div class="chip">Receipt + replay</div>
+                        </div>
+                    </div>
+                    <div class="flow-legend">
+                        <span class="flow-chip">Request</span>
+                        <span class="flow-chip">Decision boundary</span>
+                        <span class="flow-chip">Execution + receipt</span>
                     </div>
                     <p class="section-intro">The token illustrates request flow: person continuity stays local, core evaluates constraints, adapters execute and return an outcome to be attached as evidence.</p>
                 </div>
