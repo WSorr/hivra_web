@@ -379,29 +379,41 @@
         }
 
         .path-step {
-            display: grid;
-            grid-template-columns: 42px minmax(0, 1fr);
-            gap: 14px;
-            align-items: start;
-            padding: 6px 0;
+            position: relative;
+            padding: 12px 0 16px 56px;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             margin-top: 4px;
         }
 
         .path-step strong {
-            display: inline-grid;
-            place-items: center;
+            position: absolute;
+            left: 0;
+            top: 12px;
             width: 42px;
             height: 42px;
             border-radius: 14px;
+            display: inline-grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 1rem;
+            border-radius: 14px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .path-step h3 {
+            margin: 0 0 8px;
+            color: var(--text);
+            font-size: 1.06rem;
+            letter-spacing: -0.01em;
         }
 
         .path-step p {
             color: var(--muted);
             margin: 0;
             line-height: 1.52;
+            margin-left: 0;
+            margin-bottom: 0;
         }
 
         .path-step:first-of-type {
@@ -695,15 +707,18 @@
                         </div>
                         <div class="path-step">
                             <strong>1</strong>
-                            <p><strong>Genesis forms.</strong> A fully seeded capsule establishes the first protocol ground and publishes the initial relation map.</p>
+                            <h3>Genesis forms.</h3>
+                            <p>A fully seeded capsule establishes the first protocol ground and publishes the initial relation map.</p>
                         </div>
                         <div class="path-step">
                             <strong>2</strong>
-                            <p><strong>Trust links appear.</strong> Proto capsules connect through selective starter sharing and rules-based relationship formation.</p>
+                            <h3>Trust links appear.</h3>
+                            <p>Proto capsules connect through selective starter sharing and rules-based relationship formation.</p>
                         </div>
                         <div class="path-step">
                             <strong>3</strong>
-                            <p><strong>Network effects compound.</strong> Each new capsule adds surface area for exchange while preserving local meaning and autonomy.</p>
+                            <h3>Network effects compound.</h3>
+                            <p>Each new capsule adds surface area for exchange while preserving local meaning and autonomy.</p>
                         </div>
                     </article>
 
