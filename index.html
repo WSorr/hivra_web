@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hivra | Distributed Value Network</title>
-    <meta name="description" content="Hivra is a concept platform for distributed value exchange, trusted relationships, and capsule-based network design.">
+    <title>Hivra | Person-First Runtime</title>
+    <meta name="description" content="Hivra is a reference implementation of a Person-First Runtime: persistent person-owned capsules, bounded capability context, and replaceable adapters for apps, transports, and services.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://hivra.space/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Hivra">
-    <meta property="og:title" content="Hivra | Distributed Value Network">
-    <meta property="og:description" content="A concept platform for distributed value exchange, trusted relationships, and capsule-based network design.">
+    <meta property="og:title" content="Hivra | Person-First Runtime">
+    <meta property="og:description" content="Hivra is a Person-First Runtime. Capsule is the continuity layer, capabilities are replaceable adapters.">
     <meta property="og:url" content="https://hivra.space/">
     <meta property="og:image" content="https://hivra.space/pictures/hivra-social-card.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Hivra | Distributed Value Network">
-    <meta name="twitter:description" content="A concept platform for distributed value exchange, trusted relationships, and capsule-based network design.">
+    <meta name="twitter:title" content="Hivra | Person-First Runtime">
+    <meta name="twitter:description" content="Person-owned Capsule runtime with explicit capabilities, evidence boundaries, and adapter-based interoperability.">
     <meta name="twitter:image" content="https://hivra.space/pictures/hivra-social-card.png">
     <meta name="theme-color" content="#08141a">
     <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
@@ -44,15 +42,23 @@
     </script>
     <style>
         .hero {
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--surface-border);
-            border-radius: calc(var(--radius-lg) + 6px);
             background:
                 linear-gradient(135deg, rgba(255, 138, 61, 0.12), transparent 38%),
                 linear-gradient(225deg, rgba(115, 217, 207, 0.12), transparent 34%),
                 var(--surface);
+            border: 1px solid var(--surface-border);
+            border-radius: calc(var(--radius-lg) + 4px);
             box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            padding: 32px;
+            display: grid;
+            gap: 24px;
+            grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
+            align-items: center;
         }
 
         .hero::before,
@@ -61,55 +67,49 @@
             position: absolute;
             border-radius: 999px;
             filter: blur(10px);
-            opacity: 0.8;
+            opacity: 0.55;
             pointer-events: none;
         }
 
         .hero::before {
-            width: 280px;
-            height: 280px;
-            top: -90px;
-            right: -40px;
-            background: radial-gradient(circle, rgba(255, 138, 61, 0.34), transparent 70%);
+            width: 240px;
+            height: 240px;
+            top: -120px;
+            right: -80px;
+            background: radial-gradient(circle, rgba(255, 138, 61, 0.3), transparent 70%);
         }
 
         .hero::after {
-            width: 340px;
-            height: 340px;
-            bottom: -140px;
-            left: -120px;
+            width: 280px;
+            height: 280px;
+            bottom: -120px;
+            left: -80px;
             background: radial-gradient(circle, rgba(115, 217, 207, 0.22), transparent 72%);
         }
 
-        .hero-grid {
+        .hero-copy {
             position: relative;
             z-index: 1;
-            display: grid;
-            grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
-            gap: 36px;
-            align-items: center;
-            padding: 68px;
         }
 
         .hero-copy h1 {
-            margin: 18px 0 18px;
+            margin: 14px 0 14px;
             font-family: "Iowan Old Style", "Palatino Linotype", serif;
-            font-size: clamp(3rem, 6vw, 5.8rem);
-            line-height: 0.96;
-            letter-spacing: -0.04em;
+            font-size: clamp(2.2rem, 5vw, 4.2rem);
+            line-height: 0.98;
+            letter-spacing: -0.03em;
         }
 
         .hero-copy p {
-            max-width: 680px;
-            color: #d5e8e5;
-            font-size: 1.1rem;
+            color: var(--muted);
+            max-width: 70ch;
         }
 
         .hero-actions {
+            margin-top: 22px;
             display: flex;
-            gap: 14px;
             flex-wrap: wrap;
-            margin-top: 28px;
+            gap: 12px;
         }
 
         .hero-primary,
@@ -117,18 +117,18 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-height: 52px;
-            padding: 0 22px;
+            min-height: 50px;
+            padding: 0 20px;
             border-radius: 999px;
-            text-decoration: none;
             font-weight: 700;
+            text-decoration: none;
             transition: 180ms ease;
         }
 
         .hero-primary {
             color: #08141a;
             background: linear-gradient(135deg, var(--primary), #ffbb6b);
-            box-shadow: 0 18px 34px rgba(255, 138, 61, 0.18);
+            box-shadow: 0 16px 30px rgba(255, 138, 61, 0.18);
         }
 
         .hero-secondary {
@@ -142,317 +142,281 @@
             transform: translateY(-2px);
         }
 
-        .hero-metrics {
-            display: flex;
-            gap: 18px;
-            flex-wrap: wrap;
-            margin-top: 34px;
-        }
-
-        .metric {
-            min-width: 140px;
-            padding: 16px 18px;
-            border-radius: var(--radius-sm);
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .metric strong {
-            display: block;
-            font-size: 1.6rem;
-            line-height: 1;
-        }
-
-        .metric span {
-            display: block;
-            margin-top: 8px;
+        .hero-note {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            background: rgba(5, 15, 21, 0.72);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--muted);
-            font-size: 0.92rem;
+            max-width: 560px;
+            position: relative;
+            z-index: 1;
         }
 
-        .signal-board {
-            padding: 26px;
-            border-radius: var(--radius-lg);
-            background: rgba(5, 15, 21, 0.82);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        .hero-note strong {
+            color: var(--text);
         }
 
-        .signal-board h2 {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #dcebe9;
-            letter-spacing: 0.03em;
+        .hero-note-grid {
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            color: var(--muted);
         }
 
-        .signal-list {
+        .hero-note-grid span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 34px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .panel-grid {
+            margin-top: 18px;
             display: grid;
             gap: 14px;
-            margin-top: 20px;
-        }
-
-        .signal-card {
-            padding: 16px;
-            border-radius: var(--radius-md);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .signal-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .signal-name {
-            font-weight: 700;
-            font-size: 1.05rem;
-        }
-
-        .signal-state {
-            padding: 6px 10px;
-            border-radius: 999px;
-            font-size: 0.76rem;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-        }
-
-        .signal-state.live {
-            color: #092016;
-            background: var(--success);
-        }
-
-        .signal-state.building {
-            color: #2a1804;
-            background: var(--warning);
-        }
-
-        .signal-card p {
-            margin-top: 12px;
-            color: var(--muted);
-            font-size: 0.95rem;
-        }
-
-        .signal-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 14px;
-        }
-
-        .signal-tags span {
-            padding: 6px 10px;
-            border-radius: 999px;
-            background: rgba(115, 217, 207, 0.09);
-            color: var(--secondary);
-            font-size: 0.78rem;
-            font-weight: 700;
-        }
-
-        .grid-3,
-        .grid-2 {
-            display: grid;
-            gap: 22px;
-        }
-
-        .grid-3 {
             grid-template-columns: repeat(3, minmax(0, 1fr));
         }
 
-        .grid-2 {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .panel,
-        .starter-card,
-        .path-card,
-        .cta-panel {
+        .model-panel {
+            padding: 22px;
             border-radius: var(--radius-lg);
             background: var(--surface);
             border: 1px solid var(--surface-border);
             box-shadow: var(--shadow);
         }
 
-        .panel,
-        .path-card,
-        .cta-panel {
-            padding: 28px;
+        .model-panel strong {
+            color: var(--text);
+            display: block;
+            margin-bottom: 8px;
         }
 
-        .section-head {
-            display: flex;
-            align-items: end;
-            justify-content: space-between;
-            gap: 18px;
-            margin-bottom: 22px;
+        .model-panel p,
+        .model-panel ul {
+            color: var(--muted);
         }
 
-        .section-head h2 {
+        .model-panel ul {
+            margin: 10px 0 0;
+            padding-left: 18px;
+            display: grid;
+            gap: 8px;
+        }
+
+        .panel-note {
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(115, 217, 207, 0.11);
+            color: #d8fbf6;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 10px;
+            display: inline-flex;
+        }
+
+        .section-title {
+            margin: 12px 0 12px;
+            font-size: clamp(1.9rem, 4vw, 3rem);
+            line-height: 1;
             font-family: "Iowan Old Style", "Palatino Linotype", serif;
-            font-size: clamp(2rem, 3.5vw, 3rem);
+            letter-spacing: -0.03em;
+        }
+
+        .section-text {
+            color: var(--muted);
+            max-width: 82ch;
+            margin: 0;
+        }
+
+        .axis-grid {
+            margin-top: 18px;
+            display: grid;
+            gap: 14px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .axis-grid .model-panel {
+            padding: 18px;
+        }
+
+        .boundary-grid {
+            margin-top: 18px;
+            display: grid;
+            gap: 14px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .capsule-chart {
+            margin-top: 18px;
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            box-shadow: var(--shadow);
+            padding: 20px;
+        }
+
+        .capsule-chart-frame {
+            position: relative;
+            height: 230px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background:
+                linear-gradient(180deg, rgba(255, 138, 61, 0.08), rgba(115, 217, 207, 0.05)),
+                rgba(8, 20, 26, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            margin-bottom: 12px;
+        }
+
+        .flow-line {
+            position: absolute;
+            left: 20%;
+            right: 20%;
+            height: 3px;
+            border-radius: 999px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.09);
+            box-shadow: inset 0 0 22px rgba(255, 255, 255, 0.1);
+        }
+
+        .flow-line::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+            transform: translateX(-110%);
+            animation: flowPulse 1.35s linear infinite;
+            opacity: 0.55;
+        }
+
+        .flow-line-main {
+            top: 80px;
+        }
+
+        .flow-line-return {
+            top: 156px;
+            left: 28%;
+            right: 27%;
+            transform: scaleX(-1);
+            animation-delay: 3s;
+        }
+
+        .flow-line-return::before {
+            animation-duration: 1.5s;
+        }
+
+        .runtime-node {
+            position: absolute;
+            width: 31%;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(8, 20, 26, 0.75);
+            color: var(--text);
+            padding: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .runtime-node strong {
+            font-size: 0.93rem;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .runtime-node .chip {
+            margin-top: 6px;
+            display: inline-flex;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: 0.73rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #dff7f5;
+            background: rgba(10, 31, 41, 0.72);
+            border: 1px solid rgba(115, 217, 207, 0.24);
+        }
+
+        .runtime-token {
+            position: absolute;
+            top: 68px;
+            left: 15%;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--secondary);
+            box-shadow: 0 0 16px rgba(115, 217, 207, 0.8);
+            animation: tokenRun 6s infinite cubic-bezier(0.45, 0, 0.55, 1);
+        }
+
+        .runtime-token::before {
+            content: "";
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 1px solid rgba(115, 217, 207, 0.5);
+            animation: tokenPulse 1.2s ease-in-out infinite;
+            opacity: 0.5;
+        }
+
+        .runtime-token::after {
+            content: "";
+            position: absolute;
+            inset: -22px;
+            border-radius: 50%;
+            border: 1px solid rgba(115, 217, 207, 0.32);
+            opacity: 0;
+            animation: tokenHalo 2.4s infinite ease-out;
+        }
+
+        .capsule-node-left { left: 6%; top: 24px; animation: driftLeft 6s infinite ease-in-out; }
+        .capsule-node-core { left: 34%; top: 24px; transform: translateX(-50%); border-color: rgba(255, 138, 61, 0.5); animation: driftCenter 6s infinite ease-in-out; }
+        .capsule-node-right { right: 6%; top: 24px; animation: driftRight 6s infinite ease-in-out; }
+        .capsule-node-evidence { left: 35%; top: 145px; transform: translateX(-50%); width: 36%; max-width: 38%; animation: driftCenter 6s infinite ease-in-out; border-color: rgba(123, 228, 149, 0.45); }
+
+        .chart-caption {
+            color: var(--muted);
+            margin: 0;
+            font-size: 0.94rem;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .cta-panel {
+            margin-top: 16px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 14px;
+            align-items: center;
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+
+        .cta-panel h2 {
+            margin: 10px 0 10px;
+            font-family: "Iowan Old Style", "Palatino Linotype", serif;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
             line-height: 1;
             letter-spacing: -0.03em;
         }
 
-        .section-head p {
-            max-width: 640px;
-            color: var(--muted);
-        }
-
-        .panel ul {
-            display: grid;
-            gap: 14px;
-            margin-top: 18px;
-            padding-left: 18px;
-            color: var(--muted);
-        }
-
-        .panel li strong,
-        .starter-card h3,
-        .path-card strong,
-        .cta-panel h2 {
-            color: var(--text);
-        }
-
-        .starter-grid {
-            display: grid;
-            grid-template-columns: repeat(5, minmax(0, 1fr));
-            gap: 16px;
-        }
-
-        .starter-card {
-            padding: 22px 18px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            color: var(--text);
-        }
-
-        .starter-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            opacity: 0.22;
-            background: radial-gradient(circle at top, var(--starter-color, rgba(255, 255, 255, 0.12)), transparent 62%);
-            pointer-events: none;
-        }
-
-        .starter-card span {
-            position: relative;
-            z-index: 1;
-            display: inline-grid;
-            place-items: center;
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 16px;
-            border-radius: 20px;
-            font-weight: 800;
-            font-size: 1.2rem;
-            color: #0a151c;
-            background: var(--starter-color, #9ec3c0);
-            border: 1px solid rgba(255, 255, 255, 0.24);
-            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
-            border: 1px solid color-mix(in srgb, var(--starter-color, #ffffff) 65%, #ffffff 35%);
-            box-shadow: 0 10px 22px color-mix(in srgb, var(--starter-color, #ffffff) 28%, transparent);
-            background:
-                linear-gradient(155deg, color-mix(in srgb, var(--starter-color, #ffffff) 92%, #ffffff 8%), var(--starter-color, #ffffff));
-        }
-
-        .starter-card p {
-            position: relative;
-            z-index: 1;
-            margin-top: 10px;
-            color: var(--muted);
-            font-size: 0.92rem;
-        }
-
-        .starter-card.juice { --starter-color: #ffd166; }
-        .starter-card.spark { --starter-color: #ff6b6b; }
-        .starter-card.seed { --starter-color: #7be495; }
-        .starter-card.pulse { --starter-color: #9b8cff; }
-        .starter-card.kick { --starter-color: #ff8cc6; }
-
-        .path-card {
-            display: grid;
-            gap: 18px;
-        }
-
-        .path-step {
-            display: flex;
-            gap: 14px;
-            align-items: flex-start;
-            padding: 12px 0 16px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            margin-top: 4px;
-        }
-
-        .path-step-index {
-            flex: 0 0 42px;
-            width: 42px;
-            height: 42px;
-            border-radius: 14px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.02rem;
-            line-height: 1;
-            border-radius: 14px;
-            margin-top: 2px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: var(--text);
-            flex-shrink: 0;
-        }
-
-        .path-step-content {
-            min-width: 0;
-        }
-
-        .path-step h3 {
-            margin: 0 0 8px;
-            color: var(--text);
-            font-size: 1.06rem;
-            letter-spacing: -0.01em;
-        }
-
-        .path-step p {
-            color: var(--muted);
-            margin: 0;
-            line-height: 1.52;
-            margin-left: 0;
-            margin-bottom: 0;
-        }
-
-        .path-step:first-of-type {
-            border-top: 0;
-            margin-top: 0;
-        }
-
-        .cta-panel {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) auto;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .cta-panel h2 {
-            font-family: "Iowan Old Style", "Palatino Linotype", serif;
-            font-size: clamp(2rem, 3vw, 2.8rem);
-            line-height: 1;
-            margin: 12px 0 14px;
-        }
-
-        .cta-panel p {
-            max-width: 680px;
-            color: var(--muted);
-        }
-
         .cta-links {
             display: flex;
-            gap: 12px;
             flex-wrap: wrap;
+            gap: 12px;
             justify-content: flex-end;
         }
 
@@ -476,8 +440,8 @@
 
         .release-link {
             color: var(--text);
-            background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
         }
 
         .cta-link:hover,
@@ -485,49 +449,89 @@
             transform: translateY(-2px);
         }
 
-        @media (max-width: 1180px) {
+        @media (max-width: 1100px) {
             .hero-grid,
-            .starter-grid,
-            .grid-3 {
-                grid-template-columns: 1fr;
-            }
-
-            .grid-2,
+            .panel-grid,
+            .axis-grid,
+            .boundary-grid,
+            .two-col,
             .cta-panel {
                 grid-template-columns: 1fr;
-            }
-
-            .cta-links {
-                justify-content: flex-start;
             }
         }
 
         @media (max-width: 720px) {
-            .hero-grid,
-            .panel,
-            .starter-card,
-            .path-card,
-            .cta-panel,
-            .signal-board {
+            .hero-grid {
                 padding: 22px;
             }
 
             .hero-actions,
             .cta-links {
                 flex-direction: column;
-                align-items: stretch;
             }
 
-            .hero-primary,
-            .hero-secondary,
-            .cta-link,
-            .release-link {
+            .hero-actions a,
+            .cta-links a {
                 width: 100%;
             }
 
-            .hero-metrics {
-                flex-direction: column;
+            .hero-note-grid {
+                grid-template-columns: 1fr;
             }
+
+            .runtime-node {
+                width: 44%;
+            }
+
+            .capsule-node-evidence {
+                width: 48%;
+            }
+        }
+
+        @keyframes flowPulse {
+            0% {
+                transform: translateX(-110%);
+            }
+
+            100% {
+                transform: translateX(110%);
+            }
+        }
+
+        @keyframes tokenRun {
+            0%, 12% { left: 15%; top: 80px; opacity: 0.85; }
+            24% { left: 50%; top: 80px; opacity: 1; }
+            34% { left: 85%; top: 80px; }
+            46% { left: 85%; top: 156px; opacity: 1; }
+            58% { left: 50%; top: 156px; }
+            70% { left: 15%; top: 156px; opacity: 1; }
+            88%, 100% { left: 15%; top: 80px; opacity: 0.15; }
+        }
+
+        @keyframes tokenPulse {
+            0%, 100% { transform: scale(1); opacity: 0.45; }
+            50% { transform: scale(1.38); opacity: 0.05; }
+        }
+
+        @keyframes tokenHalo {
+            0% { opacity: 0; transform: scale(0.55); }
+            24% { opacity: 0.55; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.45); }
+        }
+
+        @keyframes driftLeft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(7px); }
+        }
+
+        @keyframes driftCenter {
+            0%, 100% { transform: translateX(-50%); }
+            50% { transform: translate(-50%, 6px); }
+        }
+
+        @keyframes driftRight {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-7px); }
         }
     </style>
 </head>
@@ -558,206 +562,205 @@
         <div class="container">
             <section class="hero reveal" style="--reveal-delay: 0ms">
                 <div class="hero-grid">
-                    <div class="hero-copy">
-                        <span class="eyebrow">Capsule-based network design</span>
-                        <h1>Distributed value begins with structured relationships.</h1>
+                    <article class="hero-copy">
+                        <span class="eyebrow">Hivra home</span>
+                        <h1>Hivra is a Person-First Runtime.</h1>
                         <p>
-                            Hivra is a concept system for trust, starters, and capsule-driven exchange.
-                            Instead of treating the network as a flat graph, it frames coordination through
-                            relation layers that can seed, grow, and route value with more intention.
+                            We built Hivra as a reference implementation where the Capsule is the continuity
+                            anchor of a person, and capabilities are explicit adapters.
+                            Applications, AI, transport, and providers are replaceable surfaces.
                         </p>
                         <div class="hero-actions">
-                            <a href="network-v2.html" class="hero-primary">Explore the network</a>
-                            <a href="support.html" class="hero-secondary">Support the build</a>
+                            <a href="about.html" class="hero-primary">Read architecture</a>
+                            <a href="network-v2.html" class="hero-secondary">Open network map</a>
                         </div>
-                        <div class="hero-metrics">
-                            <div class="metric">
-                                <strong>5</strong>
-                                <span>Starter types in the current model</span>
-                            </div>
-                            <div class="metric">
-                                <strong>2</strong>
-                                <span>Visible capsule states on the public site</span>
-                            </div>
-                            <div class="metric">
-                                <strong>1</strong>
-                                <span>Shared visual system across all pages</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <aside class="signal-board">
-                        <h2>Current site signals</h2>
-                        <div class="signal-list">
-                        <div class="signal-card reveal" style="--reveal-delay: 80ms">
-                                <div class="signal-top">
-                                    <span class="signal-name">Network view</span>
-                                    <span class="signal-state live">Live</span>
-                                </div>
-                                <p>Capsule states and starter composition are now explained visually instead of being implied.</p>
-                                <div class="signal-tags">
-                                    <span>Genesis</span>
-                                    <span>Proto</span>
-                                    <span>Starters</span>
-                                </div>
-                            </div>
-                            <div class="signal-card reveal" style="--reveal-delay: 130ms">
-                                <div class="signal-top">
-                                    <span class="signal-name">Support layer</span>
-                                    <span class="signal-state live">Live</span>
-                                </div>
-                                <p>Direct contribution routes are exposed cleanly with wallet-by-wallet clarity.</p>
-                                <div class="signal-tags">
-                                    <span>Crypto</span>
-                                    <span>Funding</span>
-                                    <span>Infrastructure</span>
-                                </div>
-                            </div>
-                            <div class="signal-card reveal" style="--reveal-delay: 180ms">
-                                <div class="signal-top">
-                                    <span class="signal-name">About layer</span>
-                                    <span class="signal-state building">Building</span>
-                                </div>
-                                <p>The conceptual frame is ready for a fuller explanation of origin, goals, and relationship logic.</p>
-                                <div class="signal-tags">
-                                    <span>Story</span>
-                                    <span>Architecture</span>
-                                    <span>Intent</span>
-                                </div>
-                            </div>
-                        </div>
-                    </aside>
+                        <p class="hero-note">
+                            <strong>Current architecture in one line:</strong> person continuity first, bounded capability context, explicit trust setup.
+                            <span class="hero-note-grid">
+                                <span>Persistent Capsule</span>
+                                <span>Replaceable adapters</span>
+                                <span>Scoped evidence</span>
+                                <span>Trust as extension layer</span>
+                            </span>
+                        </p>
+                    </article>
                 </div>
             </section>
 
             <section class="section reveal" style="--reveal-delay: 70ms">
                 <div class="section-head">
                     <div>
-                        <span class="eyebrow">Core frame</span>
-                        <h2>What the public site is trying to make legible.</h2>
+                        <span class="eyebrow">The inversion</span>
+                        <h2 class="section-title">Person / Capsule, not account / platform.</h2>
                     </div>
-                    <p>The goal is not just to present Hivra as a name. It is to make the system readable: what a capsule is, how starters differ, and why relation architecture matters.</p>
+                    <p class="section-text">
+                        Hivra does not start from a social graph or protocol stack.
+                        It starts from a person runtime that must remain stable while everything around it can evolve.
+                    </p>
                 </div>
-
-                <div class="grid-3">
-                    <article class="panel reveal" style="--reveal-delay: 0ms">
-                        <span class="eyebrow">Capsules</span>
-                        <ul>
-                            <li><strong>Bounded network units.</strong> Capsules act as containers for starter logic, role, and growth state.</li>
-                            <li><strong>Different maturity levels.</strong> Genesis and Proto capsules signal whether a node is fully seeded or still emerging.</li>
-                            <li><strong>Readable at a glance.</strong> The visualization layer reduces explanation overhead by exposing state visually.</li>
-                        </ul>
+                <div class="panel-grid">
+                    <article class="model-panel">
+                        <span class="panel-note">Capsule</span>
+                        <strong>Stable continuity anchor</strong>
+                        <p>Capsule stores person continuity and remains durable across app and transport changes.</p>
                     </article>
-
-                    <article class="panel reveal" style="--reveal-delay: 70ms">
-                        <span class="eyebrow">Relationships</span>
-                        <ul>
-                            <li><strong>Not just connections.</strong> Relationships in Hivra are structured pathways with direction, inheritance, and meaning.</li>
-                            <li><strong>Trust can be selective.</strong> Starters and capsule states allow different relation surfaces to emerge without flattening the system.</li>
-                            <li><strong>Coordination becomes composable.</strong> The network is easier to reason about when relation logic is explicit.</li>
-                        </ul>
+                    <article class="model-panel">
+                        <span class="panel-note">Runtime</span>
+                        <strong>Local policy engine</strong>
+                        <p>Capsule policy controls what is accepted, what is forwarded, and what is rejected.</p>
                     </article>
-
-                    <article class="panel reveal" style="--reveal-delay: 140ms">
-                        <span class="eyebrow">Value flow</span>
-                        <ul>
-                            <li><strong>Designed instead of assumed.</strong> Exchange is framed as intentional routing through a relationship architecture.</li>
-                            <li><strong>Surface before scale.</strong> The site focuses on clarity now so the model can grow without losing coherence later.</li>
-                            <li><strong>Public artifact first.</strong> The current build establishes language, visual grammar, and navigational structure.</li>
-                        </ul>
+                    <article class="model-panel">
+                        <span class="panel-note">Adapters</span>
+                        <strong>Replaceable capabilities</strong>
+                        <p>Chat, AI, and trading capabilities can be replaced without rebuilding identity continuity.</p>
                     </article>
                 </div>
             </section>
 
-            <section class="section reveal" style="--reveal-delay: 140ms">
-                <div class="section-head">
-                    <div>
-                        <span class="eyebrow">Starter model</span>
-                        <h2>Five signals that define the current starter vocabulary.</h2>
-                    </div>
-                    <p>These are the starter types visualized on the network page. Each one implies a different quality of motion, initiation, or continuity inside a capsule.</p>
+            <section class="section reveal" style="--reveal-delay: 100ms">
+                <span class="eyebrow">What Capsule owns</span>
+                <h2 class="section-title">Current scope: only the continuity core.</h2>
+                <p class="section-text">
+                    We keep Capsule minimal and composable so it can survive protocol updates and application churn.
+                </p>
+                <div class="axis-grid">
+                    <article class="model-panel">
+                        <strong>Continuity</strong>
+                        <p>Persistent personal timeline and identity-related state.</p>
+                    </article>
+                    <article class="model-panel">
+                        <strong>Authenticated history</strong>
+                        <p>Evidence and transitions that describe how continuity changed over time.</p>
+                    </article>
+                    <article class="model-panel">
+                        <strong>Core state</strong>
+                        <p>Boundaries where security, acceptance, and capability context are resolved.</p>
+                    </article>
+                    <article class="model-panel">
+                        <strong>Evidence boundary</strong>
+                        <p>What happens in external systems stays in adapter-level evidence, not identity root.</p>
+                    </article>
+                    <article class="model-panel">
+                        <strong>Bounded context</strong>
+                        <p>All capability calls are matched against explicit context rather than implicit trust inheritance.</p>
+                    </article>
+                    <article class="model-panel">
+                        <strong>Local-first base</strong>
+                        <p>Person continuity remains local and portable across devices and sessions.</p>
+                    </article>
                 </div>
+            </section>
 
-                <div class="starter-grid">
-                    <article class="starter-card juice reveal" style="--reveal-delay: 0ms">
-                        <span>J</span>
-                        <h3>Juice</h3>
-                        <p>Energy, fuel, and immediate activation potential.</p>
+            <section class="section reveal" style="--reveal-delay: 130ms">
+                <span class="eyebrow">What Capsule does not mean</span>
+                <h2 class="section-title">Hard boundaries, explicit scope.</h2>
+                <div class="boundary-grid">
+                    <article class="model-panel">
+                        <strong>Not an account</strong>
+                        <p>Capsule can use accounts, but it is not a provider account itself.</p>
                     </article>
-                    <article class="starter-card spark reveal" style="--reveal-delay: 70ms">
-                        <span>S</span>
-                        <h3>Spark</h3>
-                        <p>Ignition, volatility, and the first visible pulse of action.</p>
+                    <article class="model-panel">
+                        <strong>Not a social graph node</strong>
+                        <p>Relationships are not implicit privilege surfaces by default.</p>
                     </article>
-                    <article class="starter-card seed reveal" style="--reveal-delay: 140ms">
-                        <span>Sd</span>
-                        <h3>Seed</h3>
-                        <p>Continuity, planting, and future-bearing relation logic.</p>
+                    <article class="model-panel">
+                        <strong>Not a wallet</strong>
+                        <p>Money modules are capabilities, not the identity layer.</p>
                     </article>
-                    <article class="starter-card pulse reveal" style="--reveal-delay: 210ms">
-                        <span>P</span>
-                        <h3>Pulse</h3>
-                        <p>Rhythm, recurrence, and time-based movement within a node.</p>
+                    <article class="model-panel">
+                        <strong>Not a transport identity</strong>
+                        <p>Protocol endpoints and networks are interchangeable adapters.</p>
                     </article>
-                    <article class="starter-card kick reveal" style="--reveal-delay: 280ms">
-                        <span>K</span>
-                        <h3>Kick</h3>
-                        <p>Directed force, push, and momentum transfer into a new path.</p>
+                </div>
+            </section>
+
+            <section class="section reveal" style="--reveal-delay: 160ms">
+                <div class="two-col">
+                    <article>
+                        <span class="eyebrow">Current architecture</span>
+                        <h2 class="section-title">Implemented now.</h2>
+                        <p class="section-text">We describe only behavior already present in the current stack.</p>
+                        <div class="panel-grid">
+                            <div class="model-panel">
+                                <strong>Person-first continuity</strong>
+                                <p>Capsule is the single continuity anchor.</p>
+                            </div>
+                            <div class="model-panel">
+                                <strong>Trust setup</strong>
+                                <p>Slots, Starters, and relationship initiation are part of the adapter layer.</p>
+                            </div>
+                            <div class="model-panel">
+                                <strong>Capability flow</strong>
+                                <p>Request, decision boundary, adapter execution, and evidence handling are explicit.</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article>
+                        <span class="eyebrow">Research direction</span>
+                        <h2 class="section-title">2026-2030 hypotheses.</h2>
+                        <p class="section-text">This is roadmap language, not current semantics.</p>
+                        <div class="model-panel">
+                            <strong>Intent-first execution</strong>
+                            <p>Agent execution and local planning move earlier in the stack.</p>
+                        </div>
+                        <div class="model-panel">
+                            <strong>Selective on-chain role</strong>
+                            <p>Blockchain is used where audit and settlement need it, not as universal truth.</p>
+                        </div>
+                        <div class="model-panel">
+                            <strong>Person principal for agents</strong>
+                            <p>Agents act through person continuity, not instead of it.</p>
+                        </div>
                     </article>
                 </div>
             </section>
 
             <section class="section reveal" style="--reveal-delay: 190ms">
-                <div class="grid-2">
-                    <article class="path-card reveal" style="--reveal-delay: 0ms">
-                        <div>
-                            <span class="eyebrow">Growth path</span>
-                            <h2 style="margin-top: 14px; font-family: 'Iowan Old Style', 'Palatino Linotype', serif; font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1;">How a capsule expands</h2>
-                        </div>
-                        <div class="path-step">
-                            <span class="path-step-index">1</span>
-                            <div class="path-step-content">
-                                <h3>Genesis forms.</h3>
-                                <p>A fully seeded capsule establishes the first protocol ground and publishes the initial relation map.</p>
-                            </div>
-                        </div>
-                        <div class="path-step">
-                            <span class="path-step-index">2</span>
-                            <div class="path-step-content">
-                                <h3>Trust links appear.</h3>
-                                <p>Proto capsules connect through selective starter sharing and rules-based relationship formation.</p>
-                            </div>
-                        </div>
-                        <div class="path-step">
-                            <span class="path-step-index">3</span>
-                            <div class="path-step-content">
-                                <h3>Network effects compound.</h3>
-                                <p>Each new capsule adds surface area for exchange while preserving local meaning and autonomy.</p>
-                            </div>
-                        </div>
-                    </article>
+                <span class="eyebrow">Capsule interaction</span>
+                <h2 class="section-title">Animated view of request flow.</h2>
+                <p class="section-text">
+                    A request enters the Capsule, runtime checks constraints, calls an adapter, and returns evidence to the continuity layer.
+                </p>
+                <div class="capsule-chart">
+                    <div class="capsule-chart-frame">
+                        <div class="flow-line flow-line-main"></div>
+                        <div class="flow-line flow-line-return"></div>
+                        <span class="runtime-token" aria-hidden="true"></span>
 
-                    <article class="path-card reveal" style="--reveal-delay: 120ms">
-                        <div>
-                            <span class="eyebrow">Why it matters</span>
-                            <h2 style="margin-top: 14px; font-family: 'Iowan Old Style', 'Palatino Linotype', serif; font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1;">A site for a network, not just a brand.</h2>
+                        <div class="runtime-node capsule-node-left">
+                            <strong>Person / Capsule</strong>
+                            <span class="chip">Continuity root</span>
                         </div>
-                        <p>Most protocol sites stop at slogans. Hivra benefits from a clearer frame: what capsules are, what starters do, and why decentralization here is architectural rather than cosmetic.</p>
-                        <p>This landing page is built to make the idea legible fast, then route visitors toward the network view and support page without forcing them through vague language first.</p>
-                    </article>
+                        <div class="runtime-node capsule-node-core">
+                            <strong>Core Engine</strong>
+                            <span class="chip">Policy decision</span>
+                        </div>
+                        <div class="runtime-node capsule-node-right">
+                            <strong>Capability Adapter</strong>
+                            <span class="chip">Execution</span>
+                        </div>
+                        <div class="runtime-node capsule-node-evidence">
+                            <strong>Evidence Sink</strong>
+                            <span class="chip">Receipt attachment</span>
+                        </div>
+                    </div>
+                    <p class="chart-caption">Token path illustrates request timing and explicit boundaries; continuity remains person-owned and central.</p>
                 </div>
             </section>
 
-            <section class="section reveal" style="--reveal-delay: 240ms">
+            <section class="section reveal" style="--reveal-delay: 220ms">
                 <div class="cta-panel">
                     <div>
-                        <span class="eyebrow">Next move</span>
-                        <h2>Use this as the base and keep expanding the system around it.</h2>
-                        <p>The shared layout is now fixed, the first screen reads like a product instead of a placeholder, and the content is structured enough to support the other pages. The latest public build is also linked directly from here.</p>
+                        <span class="eyebrow">Need the real context</span>
+                        <h2>See what is implemented and where we are heading.</h2>
+                        <p class="section-text">
+                            About page now follows the same architecture framing.
+                            This page stays close to the product reality and avoids invented semantics.
+                        </p>
                     </div>
                     <div class="cta-links">
-                        <a href="https://github.com/WSorr/Hivra-App/releases" class="release-link" target="_blank" rel="noopener noreferrer">View releases</a>
-                        <a href="network-v2.html" class="cta-link">Open visualization</a>
+                        <a href="about.html" class="cta-link">Go to About</a>
+                        <a href="https://github.com/WSorr/Hivra-App/releases" class="release-link" target="_blank" rel="noopener noreferrer">Releases</a>
                     </div>
                 </div>
             </section>
@@ -766,7 +769,7 @@
 
     <footer class="footer">
         <div class="footer-content">
-            <p>© 2025 Hivra. Capsule-based value and relationship architecture.</p>
+            <p>© 2025 Hivra. Person-First Runtime Reference.</p>
             <div class="footer-meta">
                 <a href="https://github.com/WSorr/Hivra-App" class="footer-github" target="_blank" rel="noopener noreferrer" aria-label="Open Hivra GitHub repository">
                     <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
@@ -777,6 +780,7 @@
             </div>
         </div>
     </footer>
+
     <script>
         const headerContainer = document.querySelector('.header-container');
         const navToggle = document.querySelector('.nav-toggle');
@@ -818,7 +822,10 @@
 
             const revealObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
-                    if (!entry.isIntersecting) return;
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+
                     markVisible(entry.target);
                     observer.unobserve(entry.target);
                 });
