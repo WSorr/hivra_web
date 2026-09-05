@@ -9,6 +9,7 @@ known_hosts
 authorized_keys
 *.env
 .env.local
+/scripts/deploy.local.env
 
 # System
 .DS_Store
