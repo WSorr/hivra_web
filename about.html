@@ -202,77 +202,120 @@
             overflow: hidden;
         }
 
-        .capsule-chart-frame {
+        .interaction-status {
+            margin: 0 0 10px;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 8px;
+            list-style: none;
+        }
+
+        .status-chip {
+            padding: 9px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(8, 20, 26, 0.66);
+            color: var(--muted);
+            font-size: 0.74rem;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 0.01em;
+            transition: 220ms ease;
+        }
+
+        .status-chip.active {
+            color: #eafcf9;
+            border-color: rgba(115, 217, 207, 0.58);
+            background: rgba(115, 217, 207, 0.14);
+            box-shadow: 0 12px 24px rgba(115, 217, 207, 0.16);
+            animation: statusPulse 2.6s infinite;
+        }
+
+        .interaction-graph {
             position: relative;
-            min-height: 250px;
+            height: 258px;
             border-radius: var(--radius-md);
             background:
                 linear-gradient(180deg, rgba(255, 138, 61, 0.08), rgba(115, 217, 207, 0.05)),
                 rgba(8, 20, 26, 0.45);
             border: 1px solid rgba(255, 255, 255, 0.09);
-            isolation: isolate;
             overflow: hidden;
+            isolation: isolate;
         }
 
-        .capsule-node {
+        .graph-svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .graph-edge {
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            opacity: 0.35;
+            transition: 220ms ease;
+            stroke-dasharray: 12 10;
+            stroke-dashoffset: 2;
+        }
+
+        .graph-edge.active {
+            opacity: 1;
+            stroke-dashoffset: 0;
+            filter: drop-shadow(0 0 9px rgba(115, 217, 207, 0.45));
+            animation: edgeFlow 1.25s linear infinite;
+        }
+
+        .edge-request { stroke: #7de7f5; }
+        .edge-policy { stroke: var(--primary); }
+        .edge-exec { stroke: #79e38e; }
+        .edge-return { stroke: #9a77ff; }
+        .edge-ack { stroke: rgba(115, 217, 207, 0.85); }
+
+        .graph-node {
             position: absolute;
-            width: 170px;
-            max-width: 42%;
-            border-radius: 16px;
+            --node-x-shift: 0px;
+            width: clamp(165px, 31%, 250px);
+            border-radius: 14px;
             border: 1px solid rgba(255, 255, 255, 0.16);
             background: rgba(8, 20, 26, 0.75);
             color: var(--text);
-            padding: 12px;
+            padding: 10px;
             box-shadow: var(--shadow);
+            transition: 220ms ease;
+            opacity: 0.58;
+            transform: translate(var(--node-x-shift), 0);
+            z-index: 2;
+            pointer-events: none;
         }
 
-        .capsule-node strong {
+        .graph-node.active {
+            opacity: 1;
+            transform: translate(var(--node-x-shift), -4px);
+            border-color: rgba(255, 138, 61, 0.7);
+            box-shadow: 0 14px 30px rgba(255, 138, 61, 0.22);
+        }
+
+        .node-person { left: 4%; top: 20px; }
+        .node-core { left: 50%; top: 20px; --node-x-shift: -50%; }
+        .node-adapter { right: 4%; top: 20px; }
+        .node-evidence { left: 50%; top: 160px; --node-x-shift: -50%; width: clamp(185px, 34%, 250px); }
+
+        .graph-node strong {
             margin-bottom: 4px;
-            font-size: 0.96rem;
+            display: block;
+            font-size: 0.93rem;
         }
 
-        .node-core {
-            left: 6%;
-            top: 22px;
-            animation: driftLeft 6s infinite ease-in-out;
-        }
-
-        .node-cap {
-            left: 50%;
-            top: 22px;
-            transform: translateX(-50%);
-            border-color: rgba(255, 138, 61, 0.5);
-            animation: driftCenter 6s infinite ease-in-out;
-        }
-
-        .node-out {
-            right: 6%;
-            top: 22px;
-            animation: driftRight 6s infinite ease-in-out;
-        }
-
-        .node-evidence {
-            left: 43%;
-            top: 170px;
-            transform: translateX(-50%);
-            width: 190px;
-            max-width: 52%;
-            animation: driftCenter 6s infinite ease-in-out;
-            border-color: rgba(123, 228, 149, 0.45);
-        }
-
-        .node-evidence .chip {
-            background: rgba(123, 228, 149, 0.16);
-        }
-
-        .chip {
-            margin-top: 8px;
+        .graph-chip {
+            margin-top: 6px;
             display: inline-flex;
             padding: 4px 8px;
             border-radius: 999px;
-            font-size: 0.76rem;
+            font-size: 0.73rem;
             font-weight: 700;
-            letter-spacing: 0.04em;
             text-transform: uppercase;
             color: #dff7f5;
             background: rgba(10, 31, 41, 0.72);
@@ -280,113 +323,42 @@
             pointer-events: none;
         }
 
-        .flow-line {
+        .graph-node.node-core .graph-chip,
+        .node-evidence .graph-chip {
+            color: #fff4e0;
+        }
+
+        .graph-node.node-core {
+            border-color: rgba(255, 138, 61, 0.52);
+        }
+
+        .node-evidence .graph-chip {
+            background: rgba(123, 228, 149, 0.16);
+        }
+
+        .graph-token {
             position: absolute;
-            left: 25%;
-            right: 25%;
-            height: 3px;
-            border-radius: 999px;
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.09);
-            box-shadow: inset 0 0 22px rgba(255, 255, 255, 0.1);
-        }
-
-        .flow-line::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
-            transform: translateX(-110%);
-            animation: flowPulse 1.4s linear infinite;
-            opacity: 0.55;
-        }
-
-        .flow-line-main {
-            top: 106px;
-            animation: linePulse 6s infinite;
-            animation-delay: 0.2s;
-        }
-
-        .flow-line-main::before {
-            animation-duration: 1.3s;
-        }
-
-        .flow-line-return {
-            top: 178px;
-            left: 32%;
-            right: 31%;
-            transform: scaleX(-1);
-            animation: linePulse 6s infinite;
-            animation-delay: 3.6s;
-        }
-
-        .flow-line-return::before {
-            animation-duration: 1.5s;
-        }
-
-        .flow-node-state {
-            position: absolute;
-            top: 62px;
-            transform: scale(0.93);
-            opacity: 0.58;
-            transition: 220ms ease;
-        }
-
-        .flow-node-state.active {
-            transform: translateY(-4px) scale(1);
-            opacity: 1;
-            border-color: rgba(255, 138, 61, 0.7);
-            box-shadow: 0 14px 30px rgba(255, 138, 61, 0.22);
-        }
-
-        .flow-legend {
-            margin-top: 6px;
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 8px;
-            padding-inline: 2px;
-        }
-
-        .flow-chip {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 32px;
-            border-radius: 999px;
-            padding: 0 10px;
-            text-align: center;
-            font-size: 0.77rem;
-            font-weight: 700;
-            letter-spacing: 0.03em;
-            text-transform: uppercase;
-            color: var(--text);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            background: rgba(8, 20, 26, 0.66);
-        }
-
-        .runtime-token {
-            position: absolute;
-            top: 96px;
-            left: 12%;
+            z-index: 4;
             width: 14px;
             height: 14px;
             border-radius: 50%;
             background: var(--secondary);
             box-shadow: 0 0 16px rgba(115, 217, 207, 0.8);
-            animation: tokenRun 6s infinite cubic-bezier(0.45, 0, 0.55, 1);
+            pointer-events: none;
+            transition: opacity 240ms ease;
         }
 
-        .runtime-token::before {
+        .graph-token::before {
             content: "";
             position: absolute;
             inset: -8px;
-            border-radius: inherit;
+            border-radius: 50%;
             border: 1px solid rgba(115, 217, 207, 0.5);
             animation: tokenPulse 1.2s ease-in-out infinite;
             opacity: 0.5;
         }
 
-        .runtime-token::after {
+        .graph-token::after {
             content: "";
             position: absolute;
             inset: -22px;
@@ -455,95 +427,23 @@
             color: var(--muted);
         }
 
-        @keyframes driftLeft {
-            0%, 100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(8px);
-            }
-        }
-
-        @keyframes driftCenter {
-            0%, 100% {
-                transform: translate(-50%, 0);
-            }
-
-            50% {
-                transform: translate(-50%, 6px);
-            }
-        }
-
-        @keyframes driftRight {
-            0%, 100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-8px);
-            }
-        }
-
-        @keyframes flowPulse {
+        @keyframes edgeFlow {
             0% {
-                transform: translateX(-110%);
+                stroke-dashoffset: 40;
             }
 
             100% {
-                transform: translateX(110%);
+                stroke-dashoffset: 0;
             }
         }
 
-        @keyframes linePulse {
-            0%, 20%, 100% {
-                opacity: 0.22;
+        @keyframes statusPulse {
+            0%, 100% {
+                box-shadow: 0 12px 24px rgba(115, 217, 207, 0.16);
             }
 
-            30%, 56% {
-                opacity: 0.95;
-            }
-        }
-
-        @keyframes tokenRun {
-            0%, 12% {
-                left: 10%;
-                top: 96px;
-                opacity: 0.85;
-            }
-
-            24% {
-                left: 50%;
-                top: 96px;
-                opacity: 1;
-            }
-
-            34% {
-                left: 90%;
-                top: 96px;
-            }
-
-            46% {
-                left: 90%;
-                top: 172px;
-                opacity: 1;
-            }
-
-            58% {
-                left: 50%;
-                top: 172px;
-            }
-
-            70% {
-                left: 10%;
-                top: 172px;
-                opacity: 1;
-            }
-
-            88%, 100% {
-                left: 10%;
-                top: 96px;
-                opacity: 0.15;
+            50% {
+                box-shadow: 0 0 0 rgba(115, 217, 207, 0);
             }
         }
 
@@ -576,47 +476,6 @@
             }
         }
 
-        @keyframes nodePulse {
-            0%, 15%, 100% {
-                transform: scale(0.93);
-                opacity: 0.5;
-                border-color: rgba(255, 255, 255, 0.16);
-                box-shadow: none;
-            }
-
-            20%, 35% {
-                transform: scale(1.02);
-                opacity: 1;
-                border-color: rgba(255, 138, 61, 0.9);
-                box-shadow: 0 14px 30px rgba(255, 138, 61, 0.28);
-            }
-        }
-
-        .node-core-phase {
-            animation: nodePulse 6s infinite;
-        }
-
-        .node-cap-phase {
-            animation: nodePulse 6s infinite;
-            animation-delay: 1.3s;
-        }
-
-        .node-out-phase {
-            animation: nodePulse 6s infinite;
-            animation-delay: 2.5s;
-        }
-
-        .node-evidence-phase {
-            animation: nodePulse 6s infinite;
-            animation-delay: 3.5s;
-        }
-
-        .flow-chip:nth-child(2) {
-            background: rgba(255, 138, 61, 0.11);
-            border-color: rgba(255, 138, 61, 0.42);
-            color: #ffeed9;
-        }
-
         @media (max-width: 1100px) {
             .about-hero,
             .about-grid,
@@ -644,16 +503,51 @@
                 width: 100%;
             }
 
-            .capsule-node {
-                width: 42%;
+            .interaction-status {
+                grid-template-columns: 1fr;
             }
 
-            .capsule-node strong {
-                font-size: 0.84rem;
+            .interaction-graph {
+                height: 320px;
             }
 
-            .capsule-node .chip {
-                font-size: 0.68rem;
+            .graph-node {
+                width: min(42%, 140px);
+                padding: 8px;
+            }
+
+            .graph-node strong {
+                font-size: 0.78rem;
+                line-height: 1.1;
+            }
+
+            .graph-chip {
+                font-size: 0.58rem;
+                padding: 3px 6px;
+            }
+
+            .node-person {
+                left: 12px;
+                top: 18px;
+            }
+
+            .node-core {
+                left: auto;
+                right: 12px;
+                top: 18px;
+                --node-x-shift: 0px;
+            }
+
+            .node-adapter {
+                right: 12px;
+                top: 178px;
+            }
+
+            .node-evidence {
+                left: 12px;
+                top: 178px;
+                width: min(42%, 140px);
+                --node-x-shift: 0px;
             }
         }
     </style>
@@ -932,31 +826,37 @@
                     Person continuity, core capsule processing, and adapter execution are decoupled and observable.
                 </p>
                 <div class="capsule-chart">
-                    <div class="capsule-chart-frame">
-                        <div class="flow-line flow-line-main"></div>
-                        <div class="flow-line flow-line-return"></div>
-                        <span class="runtime-token" aria-hidden="true"></span>
-                        <div class="capsule-node flow-node-state node-core node-core-phase">
+                    <ul class="interaction-status" aria-label="Capsule interaction stages">
+                        <li class="status-chip active" data-stage="request">Request enters Capsule</li>
+                        <li class="status-chip" data-stage="policy">Core policy check</li>
+                        <li class="status-chip" data-stage="execute">Adapter executes</li>
+                        <li class="status-chip" data-stage="evidence">Evidence returned</li>
+                    </ul>
+                    <div class="interaction-graph" data-capsule-interaction>
+                        <svg class="graph-svg" viewBox="0 0 900 258" preserveAspectRatio="none" aria-hidden="true">
+                            <path id="edge-person-core" class="graph-edge edge-request" d="M72 62 C 240 62 280 62 430 62"></path>
+                            <path id="edge-core-adapter" class="graph-edge edge-policy" d="M470 62 C 650 62 690 62 828 62"></path>
+                            <path id="edge-adapter-evidence" class="graph-edge edge-exec" d="M828 62 C 750 118 590 118 450 170"></path>
+                            <path id="edge-evidence-core" class="graph-edge edge-return" d="M450 170 C 600 170 470 102 430 102"></path>
+                            <path id="edge-core-person" class="graph-edge edge-ack" d="M430 62 C 350 62 172 62 72 62"></path>
+                        </svg>
+                        <span class="graph-token" aria-hidden="true"></span>
+                        <div class="graph-node node-person">
                             <strong>Person / Capsule</strong>
-                            <div class="chip">Core continuity</div>
+                            <span class="graph-chip">Continuity root</span>
                         </div>
-                        <div class="capsule-node flow-node-state node-cap node-cap-phase">
+                        <div class="graph-node node-core">
                             <strong>Core Engine</strong>
-                            <div class="chip">Policy check</div>
+                            <span class="graph-chip">Policy check</span>
                         </div>
-                        <div class="capsule-node flow-node-state node-out node-out-phase">
+                        <div class="graph-node node-adapter">
                             <strong>Capability Adapter</strong>
-                            <div class="chip">Execution / output</div>
+                            <span class="graph-chip">Execution</span>
                         </div>
-                        <div class="capsule-node flow-node-state node-out node-evidence node-evidence-phase">
+                        <div class="graph-node node-evidence">
                             <strong>Evidence Sink</strong>
-                            <div class="chip">Receipt + replay</div>
+                            <span class="graph-chip">Receipt + replay</span>
                         </div>
-                    </div>
-                    <div class="flow-legend">
-                        <span class="flow-chip">Request</span>
-                        <span class="flow-chip">Decision boundary</span>
-                        <span class="flow-chip">Execution + receipt</span>
                     </div>
                     <p class="section-intro">The token illustrates request flow: person continuity stays local, core evaluates constraints, adapters execute and return an outcome to be attached as evidence.</p>
                 </div>
@@ -988,6 +888,155 @@
                 navToggle.setAttribute('aria-expanded', String(isOpen));
             });
         }
+
+        const setupCapsuleInteraction = () => {
+            const graphs = document.querySelectorAll('[data-capsule-interaction]');
+            if (graphs.length === 0) {
+                return;
+            }
+
+            graphs.forEach(graphRoot => {
+                const chartRoot = graphRoot.closest('.capsule-chart') || graphRoot;
+                const svg = graphRoot.querySelector('.graph-svg');
+                const token = graphRoot.querySelector('.graph-token');
+                const statusChips = Array.from(chartRoot.querySelectorAll('.status-chip'));
+                const vb = svg?.viewBox && svg.viewBox.baseVal
+                    ? { width: svg.viewBox.baseVal.width, height: svg.viewBox.baseVal.height }
+                    : { width: 900, height: 258 };
+
+                if (!svg || !token || statusChips.length === 0) {
+                    return;
+                }
+
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    statusChips.forEach((chip, index) => {
+                        chip.classList.toggle('active', index === 0);
+                    });
+                    graphRoot.querySelector('.node-person')?.classList.add('active');
+                    graphRoot.querySelector('.node-core')?.classList.add('active');
+                    return;
+                }
+
+                const nodeElements = {
+                    person: graphRoot.querySelector('.node-person'),
+                    core: graphRoot.querySelector('.node-core'),
+                    adapter: graphRoot.querySelector('.node-adapter'),
+                    evidence: graphRoot.querySelector('.node-evidence')
+                };
+
+                const edgeElements = {
+                    request: graphRoot.querySelector('.edge-request'),
+                    policy: graphRoot.querySelector('.edge-policy'),
+                    execute: graphRoot.querySelector('.edge-exec'),
+                    return: graphRoot.querySelector('.edge-return'),
+                    ack: graphRoot.querySelector('.edge-ack')
+                };
+
+                const segments = [
+                    {
+                        id: 'edge-person-core',
+                        chipIndex: 0,
+                        activeNodes: ['person', 'core'],
+                        activeEdge: 'request',
+                        duration: 0.22
+                    },
+                    {
+                        id: 'edge-core-adapter',
+                        chipIndex: 1,
+                        activeNodes: ['core', 'adapter'],
+                        activeEdge: 'policy',
+                        duration: 0.2
+                    },
+                    {
+                        id: 'edge-adapter-evidence',
+                        chipIndex: 2,
+                        activeNodes: ['adapter', 'evidence'],
+                        activeEdge: 'execute',
+                        duration: 0.2
+                    },
+                    {
+                        id: 'edge-evidence-core',
+                        chipIndex: 3,
+                        activeNodes: ['core', 'evidence'],
+                        activeEdge: 'return',
+                        duration: 0.19
+                    },
+                    {
+                        id: 'edge-core-person',
+                        chipIndex: 3,
+                        activeNodes: ['core', 'person'],
+                        activeEdge: 'ack',
+                        duration: 0.19
+                    }
+                ].map(segment => {
+                    const path = svg.querySelector(`#${segment.id}`);
+                    if (!path) {
+                        return null;
+                    }
+
+                    return {
+                        ...segment,
+                        path,
+                        length: path.getTotalLength()
+                    };
+                }).filter(Boolean);
+
+                if (segments.length === 0) {
+                    return;
+                }
+
+                const cycleDuration = 7000;
+                const startTime = performance.now();
+
+                const animate = now => {
+                    const elapsed = (now - startTime) % cycleDuration;
+                    const cycleProgress = elapsed / cycleDuration;
+
+                    let remaining = cycleProgress;
+                    let segment = segments[segments.length - 1];
+                    let localProgress = 1;
+
+                    for (const current of segments) {
+                        if (remaining <= current.duration) {
+                            segment = current;
+                            localProgress = current.duration === 0 ? 0 : remaining / current.duration;
+                            break;
+                        }
+
+                        remaining -= current.duration;
+                    }
+
+                    const position = segment.path.getPointAtLength(Math.max(0, Math.min(segment.length, segment.length * localProgress)));
+                    const bounds = graphRoot.getBoundingClientRect();
+                    const x = (position.x / vb.width) * bounds.width - 7;
+                    const y = (position.y / vb.height) * bounds.height - 7;
+
+                    token.style.left = `${x}px`;
+                    token.style.top = `${y}px`;
+
+                    statusChips.forEach((chip, index) => {
+                        chip.classList.toggle('active', index === segment.chipIndex);
+                    });
+
+                    Object.values(edgeElements).forEach(edgeEl => {
+                        edgeEl?.classList.remove('active');
+                    });
+                    edgeElements[segment.activeEdge]?.classList.add('active');
+
+                    Object.values(nodeElements).forEach(nodeEl => {
+                        nodeEl?.classList.remove('active');
+                    });
+
+                    segment.activeNodes.forEach(nodeKey => {
+                        nodeElements[nodeKey]?.classList.add('active');
+                    });
+
+                    requestAnimationFrame(animate);
+                };
+
+                animate(startTime);
+            });
+        };
 
         const setupReveal = () => {
             const revealItems = document.querySelectorAll('.reveal');
@@ -1038,8 +1087,10 @@
 
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', setupReveal, { once: true });
+            document.addEventListener('DOMContentLoaded', setupCapsuleInteraction, { once: true });
         } else {
             setupReveal();
+            setupCapsuleInteraction();
         }
     </script>
 </body>
