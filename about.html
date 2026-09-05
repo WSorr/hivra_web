@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Hivra | Person-First Runtime</title>
-    <meta name="description" content="Hivra is a reference implementation of a Person-First Runtime: persistent capsules, bounded capability context, and replaceable external adapters.">
+    <meta name="description" content="Hivra is a reference implementation of a Person-First Runtime: persistent capsules, bounded capability context, Core/Ledger trust setup, and replaceable external adapters.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://hivra.space/about.html">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Hivra">
     <meta property="og:title" content="About Hivra | Person-First Runtime">
-    <meta property="og:description" content="Reference architecture for a person-owned digital principal with replaceable capabilities and trust scaffolding on top.">
+    <meta property="og:description" content="Reference architecture for a person-owned digital principal with replaceable capabilities and Core/Ledger trust setup.">
     <meta property="og:url" content="https://hivra.space/about.html">
     <meta property="og:image" content="https://hivra.space/pictures/hivra-social-card.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="About Hivra | Person-First Runtime">
-    <meta name="twitter:description" content="Reference architecture for a person-owned digital principal with replaceable capabilities and trust scaffolding on top.">
+    <meta name="twitter:description" content="Reference architecture for a person-owned digital principal with replaceable capabilities and Core/Ledger trust setup.">
     <meta name="twitter:image" content="https://hivra.space/pictures/hivra-social-card.png">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
@@ -615,7 +615,7 @@
                     </article>
                     <article class="axis-card">
                         <strong>Persistent local runtime</strong>
-                        <p>The runtime is continuously present and can carry state across devices and sessions.</p>
+                        <p>Capsule continuity remains stable across devices and sessions; runtime processes can start, stop, and recover around it.</p>
                     </article>
                     <article class="axis-card">
                         <strong>Replaceable capabilities</strong>
@@ -651,7 +651,7 @@
                     </article>
                     <article class="model-card">
                         <strong>Evidence policy</strong>
-                        <p>Operationally, the core layer remains responsible for what is retained and what is not.</p>
+                        <p>Core decides what becomes domain truth; external receipts and journals remain owned by their capability or effect boundary.</p>
                     </article>
                 </div>
             </section>
@@ -687,8 +687,8 @@
                 <span class="eyebrow">Trust layer</span>
                 <h2 class="section-title">Slots, Starters, Invitations, and Relationships.</h2>
                 <p class="section-intro">
-                    Trust is separate from the definition of Hivra itself.
-                    These are optional but important mechanisms that connect people and services through scoped consent and explicit path setup.
+                    Trust setup is part of the Core/Ledger domain, but it is not the whole definition of Hivra.
+                    These mechanisms connect people and services through scoped consent and explicit path setup.
                 </p>
 
                 <div class="about-grid">
@@ -702,7 +702,7 @@
                     </article>
                     <article class="axis-card">
                         <strong>Relationships</strong>
-                        <p>Observed outcomes of trust establishment, not the core identity definition.</p>
+                        <p>Ledger-backed outcomes of trust establishment, not a default social graph with implicit privilege.</p>
                     </article>
                 </div>
             </section>
@@ -711,7 +711,7 @@
                 <span class="eyebrow">Capabilities and adapters</span>
                 <h2 class="section-title">What applications can and cannot own.</h2>
                 <p class="section-intro">
-                    Capabilities are composable services. We can add, retire, or replace them while keeping core continuity untouched.
+                    Capabilities are composable plugins or modules. Transport and provider integrations are replaceable adapters behind them.
                 </p>
                 <div class="about-grid">
                     <article class="axis-card">
@@ -720,7 +720,7 @@
                     </article>
                     <article class="axis-card">
                         <strong>Replaceability</strong>
-                        <p>Any capability can be swapped if it keeps expected contracts and does not break continuity.</p>
+                        <p>Capabilities can rotate if they keep host API contracts and do not break continuity.</p>
                     </article>
                     <article class="axis-card">
                         <strong>Evidence boundary</strong>
@@ -733,7 +733,7 @@
                 <span class="eyebrow">External world</span>
                 <h2 class="section-title">Transport is always an adapter.</h2>
                 <p class="section-intro">
-                    Protocols and providers are interchangeable as long as they respect capability contracts.
+                    Protocols and providers are interchangeable adapters as long as they respect capability contracts.
                     Core truth remains person-bound.
                 </p>
                 <div class="about-grid">
@@ -781,9 +781,9 @@
                     <p class="status-mark" style="margin: 0;"><span class="status-dot good"></span>Implemented in current stack</p>
                     <ul class="capsule-list">
                         <li>Person-first continuity model anchored in Capsule.</li>
-                        <li>Core state, authenticated history, and capability context tracking.</li>
+                        <li>Core state, authenticated history, trust setup, and capability context tracking.</li>
                         <li>Starters + invitations + relationship path for trust setup.</li>
-                        <li>Adapters for transports and external modules with replaceable interfaces.</li>
+                        <li>Capability plugins with replaceable transport and provider adapters.</li>
                     </ul>
                     <p class="status-mark" style="margin: 0;"><span class="status-dot"></span>Intended but not implemented as core semantics</p>
                     <ul class="capsule-list">

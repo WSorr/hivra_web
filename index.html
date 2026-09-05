@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hivra | Person-First Runtime</title>
-    <meta name="description" content="Hivra is a reference implementation of a Person-First Runtime: persistent person-owned capsules, bounded capability context, and replaceable adapters for apps, transports, and services.">
+    <meta name="description" content="Hivra is a reference implementation of a Person-First Runtime: persistent person-owned capsules, bounded capability context, capability plugins, and replaceable transport or provider adapters.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://hivra.space/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Hivra">
     <meta property="og:title" content="Hivra | Person-First Runtime">
-    <meta property="og:description" content="Hivra is a Person-First Runtime. Capsule is the continuity layer, capabilities are replaceable adapters.">
+    <meta property="og:description" content="Hivra is a Person-First Runtime. Capsule is the continuity layer; capabilities use host APIs and transport or provider adapters.">
     <meta property="og:url" content="https://hivra.space/">
     <meta property="og:image" content="https://hivra.space/pictures/hivra-social-card.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Hivra | Person-First Runtime">
-    <meta name="twitter:description" content="Person-owned Capsule runtime with explicit capabilities, evidence boundaries, and adapter-based interoperability.">
+    <meta name="twitter:description" content="Person-owned Capsule runtime with explicit capabilities, Core/Ledger trust setup, and adapter-based interoperability.">
     <meta name="twitter:image" content="https://hivra.space/pictures/hivra-social-card.png">
     <meta name="theme-color" content="#08141a">
     <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
@@ -643,8 +643,8 @@
                         <h1>Hivra is a Person-First Runtime.</h1>
                         <p>
                             We built Hivra as a reference implementation where the Capsule is the continuity
-                            anchor of a person, and capabilities are explicit adapters.
-                            Applications, AI, transport, and providers are replaceable surfaces.
+                            anchor of a person. Capabilities are replaceable plugins that use host APIs,
+                            while transports and providers stay behind adapter boundaries.
                         </p>
                         <div class="hero-actions">
                             <a href="about.html" class="hero-primary">Read architecture</a>
@@ -654,7 +654,7 @@
                             <strong>Current architecture in one line:</strong> person continuity first, bounded capability context, explicit trust setup.
                             <span class="hero-note-grid">
                                 <span>Persistent Capsule</span>
-                                <span>Replaceable adapters</span>
+                                <span>Replaceable capabilities</span>
                                 <span>Scoped evidence</span>
                                 <span>Trust as extension layer</span>
                             </span>
@@ -686,9 +686,9 @@
                         <p>Capsule policy controls what is accepted, what is forwarded, and what is rejected.</p>
                     </article>
                     <article class="model-panel">
-                        <span class="panel-note">Adapters</span>
+                        <span class="panel-note">Capabilities</span>
                         <strong>Replaceable capabilities</strong>
-                        <p>Chat, AI, and trading capabilities can be replaced without rebuilding identity continuity.</p>
+                        <p>Chat, AI, and trading modules can be replaced without rebuilding identity continuity.</p>
                     </article>
                 </div>
             </section>
@@ -714,11 +714,11 @@
                     </article>
                     <article class="model-panel">
                         <strong>Evidence boundary</strong>
-                        <p>What happens in external systems stays in adapter-level evidence, not identity root.</p>
+                        <p>External effects remain outside the identity root; receipts and journals stay with their capability or effect boundary.</p>
                     </article>
                     <article class="model-panel">
                         <strong>Bounded context</strong>
-                        <p>All capability calls are matched against explicit context rather than implicit trust inheritance.</p>
+                        <p>All capability calls are matched against explicit context rather than implicit privilege.</p>
                     </article>
                     <article class="model-panel">
                         <strong>Local-first base</strong>
@@ -763,7 +763,7 @@
                             </div>
                             <div class="model-panel">
                                 <strong>Trust setup</strong>
-                                <p>Slots, Starters, and relationship initiation are part of the adapter layer.</p>
+                                <p>Slots, Starters, Invitations, and Relationships belong to Core/Ledger domain truth.</p>
                             </div>
                             <div class="model-panel">
                                 <strong>Capability flow</strong>
