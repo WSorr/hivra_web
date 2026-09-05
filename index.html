@@ -274,7 +274,7 @@
             margin: 0 0 10px;
             padding: 0;
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-template-columns: repeat(5, minmax(0, 1fr));
             gap: 8px;
             list-style: none;
         }
@@ -337,10 +337,10 @@
         }
 
         .edge-request { stroke: #7de7f5; }
-        .edge-policy { stroke: var(--primary); }
+        .edge-decision { stroke: var(--primary); }
         .edge-exec { stroke: #79e38e; }
-        .edge-return { stroke: #9a77ff; }
-        .edge-ack { stroke: rgba(115, 217, 207, 0.85); }
+        .edge-reconcile { stroke: #9a77ff; }
+        .edge-result { stroke: rgba(115, 217, 207, 0.85); }
 
         .graph-node {
             position: absolute;
@@ -367,9 +367,9 @@
         }
 
         .node-person { left: 4%; top: 20px; }
-        .node-core { left: 50%; top: 20px; --node-x-shift: -50%; }
+        .node-capability { left: 50%; top: 20px; --node-x-shift: -50%; }
         .node-adapter { right: 4%; top: 20px; }
-        .node-evidence { left: 50%; top: 160px; --node-x-shift: -50%; width: clamp(185px, 34%, 250px); }
+        .node-receipt { left: 50%; top: 160px; --node-x-shift: -50%; width: clamp(185px, 34%, 250px); }
 
         .graph-node strong {
             margin-bottom: 4px;
@@ -391,16 +391,16 @@
             pointer-events: none;
         }
 
-        .graph-node.node-core .graph-chip,
-        .node-evidence .graph-chip {
+        .graph-node.node-capability .graph-chip,
+        .node-receipt .graph-chip {
             color: #fff4e0;
         }
 
-        .graph-node.node-core {
+        .graph-node.node-capability {
             border-color: rgba(255, 138, 61, 0.52);
         }
 
-        .node-evidence .graph-chip {
+        .node-receipt .graph-chip {
             background: rgba(123, 228, 149, 0.16);
         }
 
@@ -590,7 +590,7 @@
                 top: 18px;
             }
 
-            .node-core {
+            .node-capability {
                 left: auto;
                 right: 12px;
                 top: 18px;
@@ -602,7 +602,7 @@
                 top: 178px;
             }
 
-            .node-evidence {
+            .node-receipt {
                 left: 12px;
                 top: 178px;
                 width: min(42%, 140px);
@@ -626,7 +626,7 @@
                 <span class="nav-toggle-line"></span>
             </button>
             <nav class="nav">
-                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html" class="nav-link" aria-current="page">Home</a>
                 <a href="network-v2.html" class="nav-link">Network</a>
                 <a href="about.html" class="nav-link">About</a>
                 <a href="support.html" class="nav-button">Support</a>
@@ -792,45 +792,46 @@
             </section>
 
             <section class="section reveal" style="--reveal-delay: 190ms">
-                <span class="eyebrow">Capsule interaction</span>
-                <h2 class="section-title">Animated view of request flow.</h2>
+                <span class="eyebrow">Capability lifecycle</span>
+                <h2 class="section-title">The person keeps continuity. Capabilities do the work.</h2>
                 <p class="section-text">
-                    A request enters the Capsule, runtime checks constraints, calls an adapter, and returns evidence to the continuity layer.
+                    A goal enters one capability owner. The owner decides within its bounds, an adapter executes, and the capability reconciles the receipt before returning a result.
                 </p>
                 <div class="capsule-chart">
                     <ul class="interaction-status" aria-label="Capsule interaction stages">
-                        <li class="status-chip active" data-stage="request">Request enters Capsule</li>
-                        <li class="status-chip" data-stage="policy">Core policy check</li>
+                        <li class="status-chip active" data-stage="request">Goal enters capability</li>
+                        <li class="status-chip" data-stage="decision">Capability decides</li>
                         <li class="status-chip" data-stage="execute">Adapter executes</li>
-                        <li class="status-chip" data-stage="evidence">Evidence returned</li>
+                        <li class="status-chip" data-stage="reconcile">Receipt reconciled</li>
+                        <li class="status-chip" data-stage="result">Result returns</li>
                     </ul>
                     <div class="interaction-graph" data-capsule-interaction>
                         <svg class="graph-svg" viewBox="0 0 900 258" preserveAspectRatio="none" aria-hidden="true">
-                            <path id="edge-person-core" class="graph-edge edge-request" d="M72 62 C 240 62 280 62 430 62"></path>
-                            <path id="edge-core-adapter" class="graph-edge edge-policy" d="M470 62 C 650 62 690 62 828 62"></path>
-                            <path id="edge-adapter-evidence" class="graph-edge edge-exec" d="M828 62 C 750 118 590 118 450 170"></path>
-                            <path id="edge-evidence-core" class="graph-edge edge-return" d="M450 170 C 600 170 470 102 430 102"></path>
-                            <path id="edge-core-person" class="graph-edge edge-ack" d="M430 62 C 350 62 172 62 72 62"></path>
+                            <path id="edge-person-capability" class="graph-edge edge-request"></path>
+                            <path id="edge-capability-adapter" class="graph-edge edge-decision"></path>
+                            <path id="edge-adapter-receipt" class="graph-edge edge-exec"></path>
+                            <path id="edge-receipt-capability" class="graph-edge edge-reconcile"></path>
+                            <path id="edge-capability-person" class="graph-edge edge-result"></path>
                         </svg>
                         <span class="graph-token" aria-hidden="true"></span>
                         <div class="graph-node node-person">
                             <strong>Person / Capsule</strong>
                             <span class="graph-chip">Continuity root</span>
                         </div>
-                        <div class="graph-node node-core">
-                            <strong>Core Engine</strong>
-                            <span class="graph-chip">Policy decision</span>
+                        <div class="graph-node node-capability">
+                            <strong>Capability Owner</strong>
+                            <span class="graph-chip">One decision path</span>
                         </div>
                         <div class="graph-node node-adapter">
                             <strong>Capability Adapter</strong>
                             <span class="graph-chip">Execution</span>
                         </div>
-                        <div class="graph-node node-evidence">
-                            <strong>Evidence Sink</strong>
-                            <span class="graph-chip">Receipt attachment</span>
+                        <div class="graph-node node-receipt">
+                            <strong>Receipt / Reconciliation</strong>
+                            <span class="graph-chip">Verified outcome</span>
                         </div>
                     </div>
-                    <p class="chart-caption">Token path illustrates request timing and explicit boundaries; continuity remains person-owned and central.</p>
+                    <p class="chart-caption">Core and Ledger remain the domain-truth boundary. External observations, decisions, and receipts stay with their capability unless a real Core use case accepts a domain transition.</p>
                 </div>
             </section>
 
@@ -897,65 +898,91 @@
                     return;
                 }
 
+                const applyResponsivePaths = () => {
+                    const mobile = graphRoot.clientWidth <= 720;
+                    const geometry = mobile
+                        ? {
+                            'edge-person-capability': 'M170 62 C350 62 550 62 730 62',
+                            'edge-capability-adapter': 'M730 78 C730 118 730 160 730 205',
+                            'edge-adapter-receipt': 'M730 220 C550 220 350 220 170 220',
+                            'edge-receipt-capability': 'M170 205 C350 170 550 115 730 78',
+                            'edge-capability-person': 'M730 48 C550 24 350 24 170 48'
+                        }
+                        : {
+                            'edge-person-capability': 'M72 62 C240 62 280 62 430 62',
+                            'edge-capability-adapter': 'M470 62 C650 62 690 62 828 62',
+                            'edge-adapter-receipt': 'M828 62 C750 118 590 118 450 170',
+                            'edge-receipt-capability': 'M450 170 C600 170 470 102 430 102',
+                            'edge-capability-person': 'M430 62 C350 38 172 38 72 62'
+                        };
+
+                    Object.entries(geometry).forEach(([id, pathData]) => {
+                        svg.querySelector(`#${id}`)?.setAttribute('d', pathData);
+                    });
+                };
+
+                applyResponsivePaths();
+
                 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    token.style.display = 'none';
                     statusChips.forEach((chip, index) => {
                         chip.classList.toggle('active', index === 0);
                     });
                     graphRoot.querySelector('.node-person')?.classList.add('active');
-                    graphRoot.querySelector('.node-core')?.classList.add('active');
+                    graphRoot.querySelector('.node-capability')?.classList.add('active');
                     return;
                 }
 
                 const nodeElements = {
                     person: graphRoot.querySelector('.node-person'),
-                    core: graphRoot.querySelector('.node-core'),
+                    capability: graphRoot.querySelector('.node-capability'),
                     adapter: graphRoot.querySelector('.node-adapter'),
-                    evidence: graphRoot.querySelector('.node-evidence')
+                    receipt: graphRoot.querySelector('.node-receipt')
                 };
 
                 const edgeElements = {
                     request: graphRoot.querySelector('.edge-request'),
-                    policy: graphRoot.querySelector('.edge-policy'),
+                    decision: graphRoot.querySelector('.edge-decision'),
                     execute: graphRoot.querySelector('.edge-exec'),
-                    return: graphRoot.querySelector('.edge-return'),
-                    ack: graphRoot.querySelector('.edge-ack')
+                    reconcile: graphRoot.querySelector('.edge-reconcile'),
+                    result: graphRoot.querySelector('.edge-result')
                 };
 
                 const segments = [
                     {
-                        id: 'edge-person-core',
+                        id: 'edge-person-capability',
                         chipIndex: 0,
-                        activeNodes: ['person', 'core'],
+                        activeNodes: ['person', 'capability'],
                         activeEdge: 'request',
-                        duration: 0.22
-                    },
-                    {
-                        id: 'edge-core-adapter',
-                        chipIndex: 1,
-                        activeNodes: ['core', 'adapter'],
-                        activeEdge: 'policy',
                         duration: 0.2
                     },
                     {
-                        id: 'edge-adapter-evidence',
+                        id: 'edge-capability-adapter',
+                        chipIndex: 1,
+                        activeNodes: ['capability', 'adapter'],
+                        activeEdge: 'decision',
+                        duration: 0.2
+                    },
+                    {
+                        id: 'edge-adapter-receipt',
                         chipIndex: 2,
-                        activeNodes: ['adapter', 'evidence'],
+                        activeNodes: ['adapter', 'receipt'],
                         activeEdge: 'execute',
                         duration: 0.2
                     },
                     {
-                        id: 'edge-evidence-core',
+                        id: 'edge-receipt-capability',
                         chipIndex: 3,
-                        activeNodes: ['core', 'evidence'],
-                        activeEdge: 'return',
-                        duration: 0.19
+                        activeNodes: ['receipt', 'capability'],
+                        activeEdge: 'reconcile',
+                        duration: 0.2
                     },
                     {
-                        id: 'edge-core-person',
-                        chipIndex: 3,
-                        activeNodes: ['core', 'person'],
-                        activeEdge: 'ack',
-                        duration: 0.19
+                        id: 'edge-capability-person',
+                        chipIndex: 4,
+                        activeNodes: ['capability', 'person'],
+                        activeEdge: 'result',
+                        duration: 0.2
                     }
                 ].map(segment => {
                     const path = svg.querySelector(`#${segment.id}`);
@@ -973,6 +1000,13 @@
                 if (segments.length === 0) {
                     return;
                 }
+
+                window.addEventListener('resize', () => {
+                    applyResponsivePaths();
+                    segments.forEach(segment => {
+                        segment.length = segment.path.getTotalLength();
+                    });
+                }, { passive: true });
 
                 const cycleDuration = 7000;
                 const startTime = performance.now();
