@@ -379,26 +379,35 @@
         }
 
         .path-step {
-            position: relative;
-            padding: 12px 0 16px 56px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            padding: 12px 0 16px 0;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             margin-top: 4px;
         }
 
-        .path-step strong {
-            position: absolute;
-            left: 0;
-            top: 12px;
+        .path-step-index {
+            flex: 0 0 42px;
             width: 42px;
             height: 42px;
             border-radius: 14px;
-            display: inline-grid;
-            place-items: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 1.02rem;
+            line-height: 1;
             border-radius: 14px;
+            margin-top: 2px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text);
+            flex-shrink: 0;
+        }
+
+        .path-step-content {
+            min-width: 0;
         }
 
         .path-step h3 {
@@ -706,19 +715,25 @@
                             <h2 style="margin-top: 14px; font-family: 'Iowan Old Style', 'Palatino Linotype', serif; font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1;">How a capsule expands</h2>
                         </div>
                         <div class="path-step">
-                            <strong>1</strong>
-                            <h3>Genesis forms.</h3>
-                            <p>A fully seeded capsule establishes the first protocol ground and publishes the initial relation map.</p>
+                            <span class="path-step-index">1</span>
+                            <div class="path-step-content">
+                                <h3>Genesis forms.</h3>
+                                <p>A fully seeded capsule establishes the first protocol ground and publishes the initial relation map.</p>
+                            </div>
                         </div>
                         <div class="path-step">
-                            <strong>2</strong>
-                            <h3>Trust links appear.</h3>
-                            <p>Proto capsules connect through selective starter sharing and rules-based relationship formation.</p>
+                            <span class="path-step-index">2</span>
+                            <div class="path-step-content">
+                                <h3>Trust links appear.</h3>
+                                <p>Proto capsules connect through selective starter sharing and rules-based relationship formation.</p>
+                            </div>
                         </div>
                         <div class="path-step">
-                            <strong>3</strong>
-                            <h3>Network effects compound.</h3>
-                            <p>Each new capsule adds surface area for exchange while preserving local meaning and autonomy.</p>
+                            <span class="path-step-index">3</span>
+                            <div class="path-step-content">
+                                <h3>Network effects compound.</h3>
+                                <p>Each new capsule adds surface area for exchange while preserving local meaning and autonomy.</p>
+                            </div>
                         </div>
                     </article>
 
