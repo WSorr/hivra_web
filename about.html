@@ -158,6 +158,82 @@
             color: var(--muted);
         }
 
+        .trajectory {
+            display: grid;
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .trajectory-item {
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            color: var(--muted);
+        }
+
+        .trajectory-item strong {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text);
+            font-size: 1.03rem;
+        }
+
+        .trajectory-item p {
+            margin: 0;
+        }
+
+        .capsule-diagram {
+            margin-top: 16px;
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            background: linear-gradient(180deg, rgba(10, 24, 32, 0.95), rgba(8, 20, 26, 0.88));
+            box-shadow: var(--shadow);
+        }
+
+        .capsule-steps {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .capsule-step {
+            position: relative;
+            border-radius: var(--radius-md);
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .capsule-step::after {
+            content: "→";
+            position: absolute;
+            right: -22px;
+            top: 48%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            color: var(--secondary);
+            opacity: 0.8;
+        }
+
+        .capsule-step:last-child::after {
+            display: none;
+        }
+
+        .capsule-step strong {
+            display: block;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .capsule-step p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.94rem;
+        }
+
         .section {
             margin-top: 28px;
         }
@@ -231,7 +307,7 @@
         <div class="header-container">
             <a href="index.html" class="logo" aria-label="Hivra home">
                 <span class="logo-mark">
-                    <img src="pictures/favicon.png" alt="Hivra" class="logo-img">
+                    <span class="logo-glyph" aria-hidden="true"></span>
                 </span>
                 <span class="logo-wordmark">Hivra</span>
             </a>
@@ -271,20 +347,20 @@
                         <span class="snapshot-chip">Relation-first</span>
                     </div>
                     <p class="snapshot-copy">
-                        Hivra treats invitations, capsules, and trust propagation as one coherent system rather than isolated product features.
+                        Hivra treats invitations, capsules, and trust propagation as a single governance system with memory, permissions, and evolution rules built in.
                     </p>
                     <div class="snapshot-grid">
                         <div class="snapshot-item">
                             <strong>Starter</strong>
-                            <p>A bounded invitation asset issued by a trusted peer.</p>
+                            <p>Starter is a bounded trust packet: bounded, auditable, and designed to prevent infinite trust fan-out.</p>
                         </div>
                         <div class="snapshot-item">
                             <strong>Capsule</strong>
-                            <p>A memory container that preserves role, state, and trust logic.</p>
+                            <p>Capsule is an active memory cell that stores role boundaries, acceptance state, and the rules for future delegation.</p>
                         </div>
                         <div class="snapshot-item">
                             <strong>Outcome</strong>
-                            <p>Accepted paths can become generative relationships instead of one-off access events.</p>
+                            <p>When accepted, relationships gain continuity: they can inherit policies and create new, traceable capability links.</p>
                         </div>
                     </div>
                 </aside>
@@ -299,16 +375,108 @@
 
                 <div class="about-grid">
                     <article class="about-panel">
-                        <strong>Relationships are first-class</strong>
-                        <p>A relationship has state, direction, context, and consequence. It is not background metadata.</p>
+                        <strong>Capsule as memory contract</strong>
+                        <p>Every relationship exists as a time-aware capsule. It does not just say “yes/no”: it tracks who gave trust, when, under which rules, and how it can evolve.</p>
                     </article>
                     <article class="about-panel">
-                        <strong>Capsules preserve memory</strong>
-                        <p>Capsules hold starter logic, role state, and bounded trust so the system can grow without becoming unreadable.</p>
+                        <strong>Structured growth</strong>
+                        <p>Capsule states are not flat lists. They are directional and hierarchical, so growth stays explainable even as the network expands.</p>
                     </article>
                     <article class="about-panel">
-                        <strong>Growth must stay legible</strong>
-                        <p>New peers and paths should remain explainable: why they exist, what they inherit, and what they can enable.</p>
+                        <strong>Safe delegation</strong>
+                        <p>Each capsule emits a “capability boundary”: exactly what can be shared, what cannot, and what expires when context changes.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section">
+                <span class="eyebrow">Capsule flow</span>
+                <h2 class="section-title">How a capsule behaves in real time.</h2>
+                <p class="section-intro">
+                    Instead of one-time invites, Hivra uses a compact lifecycle: seed → join → govern → inherit. That makes behavior predictable and recoverable.
+                </p>
+                <div class="about-notes">
+                    <article class="about-note">
+                        <strong>Seed</strong>
+                        <p>Starter creates an intentional entry point with explicit scope and expiry so trust cannot be blown through uncontrolled forwarding.</p>
+                    </article>
+                    <article class="about-note">
+                        <strong>Join</strong>
+                        <p>Recipient validates the starter, accepts under known terms, and receives only what the capsule explicitly allows.</p>
+                    </article>
+                    <article class="about-note">
+                        <strong>Govern</strong>
+                        <p>Capsule state tracks policy transitions, revocation states, and relationship lineage across accepted and rejected actions.</p>
+                    </article>
+                    <article class="about-note">
+                        <strong>Inherit</strong>
+                        <p>Approved paths can delegate bounded capability forward while preserving auditability and revocation control.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section">
+                <span class="eyebrow">Capsule lifecycle</span>
+                <h2 class="section-title">A short story: one path, four states.</h2>
+                <div class="capsule-diagram">
+                    <p class="section-intro">
+                        This is what happens when a capsule grows from an empty state to operational trust:
+                    </p>
+                    <div class="capsule-steps">
+                        <article class="capsule-step">
+                            <strong>0. Seed</strong>
+                            <p>A trusted peer emits a starter with explicit constraints: who can receive, what can be done, and where it expires.</p>
+                        </article>
+                        <article class="capsule-step">
+                            <strong>1. Verify</strong>
+                            <p>Recipient inspects and accepts under explicit policy. No hidden access, no implicit privilege inheritance.</p>
+                        </article>
+                        <article class="capsule-step">
+                            <strong>2. Govern</strong>
+                            <p>Capsule tracks lineage and state transitions: active, delegated, revoked, expired, or escalated.</p>
+                        </article>
+                        <article class="capsule-step">
+                            <strong>3. Generate</strong>
+                            <p>Approved links can pass bounded authority forward, but every delegation remains auditable and revocable.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <span class="eyebrow">Global trajectory</span>
+                <h2 class="section-title">From 2026 to 2030: how the stack shifts.</h2>
+                <p class="section-intro">
+                    We see seven converging lines that define the next architecture layer: AI as infrastructure, web3 as settlement, and humans as the persistent principal.
+                </p>
+                <div class="trajectory">
+                    <article class="trajectory-item">
+                        <strong>Agent identity is temporary.</strong>
+                        <p>Agents become execution actors, not fixed digital persons. Long-lived authority shifts to principal-to-delegate relationships.</p>
+                    </article>
+                    <article class="trajectory-item">
+                        <strong>Intent-first interaction.</strong>
+                        <p>The stack becomes Human -> Intent -> Personal Runtime -> agents -> services, while UI becomes a fallback layer instead of the center of control.</p>
+                    </article>
+                    <article class="trajectory-item">
+                        <strong>Local intelligence grows first.</strong>
+                        <p>On-device NPU handles context safety, summaries, anomaly detection, and planning support; cloud remains for heavy reasoning and solver work.</p>
+                    </article>
+                    <article class="trajectory-item">
+                        <strong>Blockchain becomes selective infrastructure.</strong>
+                        <p>Global consensus and global ordering stay for settlement, evidence, and disputes; many interactions move to local/pair state with receipts when global anchoring is needed.</p>
+                    </article>
+                    <article class="trajectory-item">
+                        <strong>Money becomes intent-space.</strong>
+                        <p>Users optimize purchasing power, risk, and constraints, while runtime composes settlement paths across rails (stablecoin, fiat, tokenized assets, service credits).</p>
+                    </article>
+                    <article class="trajectory-item">
+                        <strong>Financial primitives evolve to measurable outcomes.</strong>
+                        <p>Value can emerge as contract rights on future capacity or outcome (compute, inference, creator flows), not only as current ownership units.</p>
+                    </article>
+                    <article class="trajectory-item">
+                        <strong>Hivra’s stake.</strong>
+                        <p>The durable layer should be a person-owned digital principal with delegation surface — the part that can outlive any one model, runtime, chain, or partner.</p>
                     </article>
                 </div>
             </section>
@@ -317,21 +485,21 @@
                 <span class="eyebrow">Invitation model</span>
                 <h2 class="section-title">From starter to trusted path.</h2>
                 <p class="section-intro">
-                    In Hivra, an invitation is not a disposable signup link. A trusted peer issues a starter, a capsule tracks the path, and the result becomes accepted, rejected, or burned.
+                    In Hivra, an invitation is not a disposable signup link. A trusted peer issues a starter, and the capsule applies state rules before trust becomes operational.
                 </p>
 
                 <div class="about-notes">
                     <article class="about-note">
                         <strong>Starter</strong>
-                        <p>A controlled asset that opens a path under capsule rules instead of creating an unbounded access point.</p>
+                        <p>Starter encodes constraints for the first handoff: who can act, when, and with what confidence.</p>
                     </article>
                     <article class="about-note">
                         <strong>Capsule</strong>
-                        <p>The capsule remembers issuance, acceptance, expiry, and rejection so trust can evolve with structure.</p>
+                        <p>The capsule keeps the lineage graph: issuer, conditions, state transitions, and inherited obligations after each event.</p>
                     </article>
                     <article class="about-note">
                         <strong>Generative relationship</strong>
-                        <p>Acceptance does more than admit a peer. It creates a path that can produce future trusted growth.</p>
+                        <p>Acceptance is just the beginning. A valid path can later generate new delegates, new roles, and new value links.</p>
                     </article>
                 </div>
             </section>

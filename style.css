@@ -84,9 +84,68 @@ a {
     text-decoration: none;
 }
 
+.logo-mark {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 auto;
+    border-radius: 14px;
+    background:
+        linear-gradient(135deg, rgba(255, 138, 61, 0.2), rgba(115, 217, 207, 0.22)),
+        linear-gradient(145deg, #0f2d3a, #193847);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12), 0 12px 24px rgba(10, 31, 41, 0.32);
+    overflow: hidden;
+}
+
+.logo-glyph {
+    position: relative;
+    width: 22px;
+    height: 20px;
+    display: block;
+}
+
+.logo-glyph::before,
+.logo-glyph::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #ffffff, #d8feff);
+    opacity: 0.92;
+}
+
+.logo-glyph::before {
+    top: 0;
+    left: 4px;
+    box-shadow: 8px 7px 0 rgba(255, 255, 255, 0.94);
+}
+
+.logo-glyph::after {
+    left: 0;
+    bottom: 0;
+    width: 22px;
+    height: 5px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #ffb16a, #73d9cf);
+    box-shadow:
+        4px 0 0 0 rgba(255, 255, 255, 0.16),
+        4px -6px 0 0 rgba(255, 255, 255, 0.16);
+}
+
 .logo-img {
-    width: 80px;
-    height: auto;
+    display: none;
+}
+
+.logo-wordmark {
+    color: var(--text);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
 }
 
 .nav {
@@ -201,6 +260,54 @@ a {
     font-size: 0.92rem;
 }
 
+.footer-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.footer-github {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 999px;
+    text-decoration: none;
+    flex-shrink: 0;
+    color: #f3fbf9;
+    background: rgba(115, 217, 207, 0.08);
+    border: 1px solid rgba(115, 217, 207, 0.24);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+    transition: 180ms ease;
+}
+
+.footer-github:hover,
+.footer-github:focus-visible {
+    transform: translateY(-1px);
+    color: #ffffff;
+    border-color: rgba(115, 217, 207, 0.44);
+    background: rgba(115, 217, 207, 0.14);
+    outline: none;
+}
+
+.footer-github svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
+
+.footer-github-label {
+    font-size: 0.85rem;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
 .feature-primary {
     color: var(--primary);
 }
@@ -233,6 +340,19 @@ a {
         flex-direction: column;
         align-items: flex-start;
     }
+
+    .footer-meta {
+        justify-content: flex-start;
+    }
+
+    .footer-github {
+        width: 40px;
+        padding: 0;
+    }
+
+    .footer-github-label {
+        display: none;
+    }
 }
 
 @media (max-width: 900px) {
@@ -250,7 +370,16 @@ a {
     }
 
     .logo-img {
-        width: 68px;
+        width: 100%;
+    }
+
+    .logo-mark {
+        width: 42px;
+        height: 42px;
+    }
+
+    .logo-wordmark {
+        font-size: 1.28rem;
     }
 
     .nav {
