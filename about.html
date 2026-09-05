@@ -530,26 +530,31 @@
             });
         }
 
-        const revealItems = document.querySelectorAll('.reveal');
-
-        const enableReveal = () => {
+        const setupReveal = () => {
+            const revealItems = document.querySelectorAll('.reveal');
             if (revealItems.length === 0) {
                 return;
             }
 
             const markVisible = element => {
-                requestAnimationFrame(() => {
-                    element.classList.add('is-visible');
-                });
+                requestAnimationFrame(() => element.classList.add('is-visible'));
             };
 
             const isInViewport = element => {
                 const rect = element.getBoundingClientRect();
-                return rect.top < window.innerHeight * 0.96 && rect.bottom > 0;
+                return rect.top < window.innerHeight && rect.bottom > 0;
+            };
+
+            const revealNow = () => {
+                revealItems.forEach(el => {
+                    if (isInViewport(el)) {
+                        markVisible(el);
+                    }
+                });
             };
 
             if (!('IntersectionObserver' in window)) {
-                revealItems.forEach(markVisible);
+                revealNow();
                 return;
             }
 
@@ -560,23 +565,23 @@
                     observer.unobserve(entry.target);
                 });
             }, {
-                threshold: 0.16,
-                rootMargin: '0px 0px -20px 0px'
+                threshold: 0.12,
+                rootMargin: '0px 0px -5% 0px'
             });
 
             revealItems.forEach(el => revealObserver.observe(el));
+            revealNow();
 
-            requestAnimationFrame(() => {
-                revealItems.forEach(el => {
-                    if (isInViewport(el)) {
-                        markVisible(el);
-                        revealObserver.unobserve(el);
-                    }
-                });
-            });
+            window.addEventListener('scroll', () => {
+                requestAnimationFrame(revealNow);
+            }, { passive: true });
         };
 
-        document.addEventListener('DOMContentLoaded', enableReveal, { once: true });
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupReveal, { once: true });
+        } else {
+            setupReveal();
+        }
     </script>
 </body>
 </html>
