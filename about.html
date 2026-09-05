@@ -274,6 +274,186 @@
             margin-top: 22px;
         }
 
+        .capsule-visualization {
+            padding: 22px;
+            background: linear-gradient(180deg, rgba(255, 138, 61, 0.11), rgba(115, 217, 207, 0.06));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .capsule-visualization::before {
+            content: "";
+            position: absolute;
+            inset: 12px;
+            border-radius: calc(var(--radius-lg) - 6px);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .interaction-status {
+            position: relative;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            z-index: 1;
+        }
+
+        .status-chip {
+            position: relative;
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: #dff7f5;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(8, 20, 26, 0.68);
+        }
+
+        .status-chip::after {
+            content: "•";
+            display: inline-flex;
+            margin-left: 8px;
+            color: var(--secondary);
+            animation: pulse-status 1.1s infinite;
+        }
+
+        .status-chip.state-active::after {
+            color: var(--primary);
+        }
+
+        .status-chip.state-active {
+            border-color: rgba(255, 138, 61, 0.52);
+            box-shadow: 0 0 0 0 rgba(255, 138, 61, 0.25);
+            animation: chipPulse 1.6s infinite;
+        }
+
+        @keyframes pulse-status {
+            50% {
+                transform: scale(1.2);
+                opacity: 0.45;
+            }
+        }
+
+        @keyframes chipPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 138, 61, 0.32);
+            }
+            70% {
+                box-shadow: 0 0 0 9px rgba(255, 138, 61, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 138, 61, 0);
+            }
+        }
+
+        .interaction-graph-wrap {
+            position: relative;
+            z-index: 1;
+            margin-top: 14px;
+        }
+
+        .interaction-graph {
+            width: 100%;
+            height: 340px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .interaction-graph path,
+        .interaction-graph .node-glow,
+        .interaction-graph .graph-token {
+            transition: all 220ms ease;
+        }
+
+        .graph-edge {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.24);
+            stroke-width: 2.4;
+            stroke-linecap: round;
+        }
+
+        .graph-edge.active {
+            stroke: var(--secondary);
+            stroke-width: 3;
+            filter: drop-shadow(0 0 10px rgba(115, 217, 207, 0.55));
+            stroke-dasharray: 7 8;
+            animation: flowDash 1.7s linear infinite;
+        }
+
+        @keyframes flowDash {
+            to {
+                stroke-dashoffset: -120;
+            }
+        }
+
+        .capsule-node {
+            fill: rgba(8, 20, 26, 0.88);
+            stroke: rgba(255, 255, 255, 0.3);
+            stroke-width: 1.4;
+        }
+
+        .capsule-node.active {
+            fill: rgba(255, 138, 61, 0.25);
+            stroke: color-mix(in srgb, var(--secondary) 45%, white 55%);
+            stroke-width: 2;
+            filter: drop-shadow(0 0 14px rgba(255, 138, 61, 0.34));
+        }
+
+        .capsule-label {
+            font-size: 15px;
+            fill: var(--muted);
+            text-anchor: middle;
+            dominant-baseline: middle;
+            font-weight: 700;
+        }
+
+        .capsule-label.active {
+            fill: var(--text);
+        }
+
+        .capsule-title {
+            font-size: 11px;
+            fill: rgba(255, 255, 255, 0.72);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-anchor: middle;
+        }
+
+        .graph-token {
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.24));
+            fill: white;
+        }
+
+        .graph-pulse {
+            fill: rgba(255, 138, 61, 0.58);
+            opacity: 0.86;
+            animation: tokenPulse 1.4s ease-in-out infinite;
+        }
+
+        @keyframes tokenPulse {
+            50% {
+                r: 5;
+                opacity: 0.35;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .interaction-graph {
+                height: 300px;
+            }
+
+            .interaction-status {
+                justify-content: center;
+            }
+        }
+
         @media (max-width: 1100px) {
             .about-hero,
             .about-grid,
@@ -412,6 +592,56 @@
                         <strong>Inherit</strong>
                         <p>Approved paths can delegate bounded capability forward while preserving auditability and revocation control.</p>
                     </article>
+                </div>
+            </section>
+
+            <section class="section reveal" style="--reveal-delay: 160ms">
+                <span class="eyebrow">Capsule interaction</span>
+                <h2 class="section-title">Trust and capability in motion.</h2>
+                <p class="section-intro">
+                    See the trust capsule move through staged validation, governance, and issuance before capability can be inherited.
+                </p>
+                <div class="capsule-visualization">
+                    <div class="interaction-status" id="interaction-status" role="status" aria-live="polite">
+                        <span class="status-chip state-active" data-state="seed" id="chip-seed">Seed</span>
+                        <span class="status-chip" data-state="join" id="chip-join">Validate</span>
+                        <span class="status-chip" data-state="govern" id="chip-govern">Govern</span>
+                        <span class="status-chip" data-state="generate" id="chip-generate">Generate</span>
+                    </div>
+                    <div class="interaction-graph-wrap">
+                        <svg class="interaction-graph" viewBox="0 0 780 320" role="img" aria-label="Animated capsule interaction diagram">
+                            <path id="edge-seed" class="graph-edge" d="M140 164 C230 112, 360 112, 470 168" />
+                            <path id="edge-join" class="graph-edge" d="M470 168 C540 168, 540 252, 470 252" />
+                            <path id="edge-generate" class="graph-edge" d="M470 252 C540 252, 620 252, 646 168" />
+                            <path id="edge-return" class="graph-edge" d="M646 168 C570 84, 260 84, 140 164" />
+
+                            <circle class="capsule-node" id="node-seed" cx="140" cy="164" r="42" />
+                            <circle class="capsule-node" id="node-join" cx="470" cy="168" r="42" />
+                            <circle class="capsule-node" id="node-generate" cx="646" cy="168" r="42" />
+                            <circle class="capsule-node" id="node-govern" cx="470" cy="252" r="42" />
+
+                            <g id="labels">
+                                <text x="140" y="162" class="capsule-label" id="label-seed">Seed Capsule</text>
+                                <text x="140" y="178" class="capsule-title">Start</text>
+
+                                <text x="470" y="166" class="capsule-label" id="label-join">Join Capsule</text>
+                                <text x="470" y="182" class="capsule-title">Validate</text>
+
+                                <text x="646" y="166" class="capsule-label" id="label-generate">Generate Capsule</text>
+                                <text x="646" y="182" class="capsule-title">Issue</text>
+
+                                <text x="470" y="250" class="capsule-label" id="label-govern">Govern Capsule</text>
+                                <text x="470" y="266" class="capsule-title">State</text>
+                            </g>
+
+                            <circle id="interaction-token" class="graph-token" r="10" cx="140" cy="164" />
+                            <circle id="interaction-pulse" class="graph-pulse" r="0" cx="140" cy="164" />
+                            <circle class="capsule-node" id="node-glow-seed" cx="140" cy="164" r="58" opacity="0.24" />
+                            <circle class="capsule-node" id="node-glow-join" cx="470" cy="168" r="58" opacity="0" />
+                            <circle class="capsule-node" id="node-glow-govern" cx="470" cy="252" r="58" opacity="0" />
+                            <circle class="capsule-node" id="node-glow-generate" cx="646" cy="168" r="58" opacity="0" />
+                        </svg>
+                    </div>
                 </div>
             </section>
 
@@ -581,6 +811,117 @@
             document.addEventListener('DOMContentLoaded', setupReveal, { once: true });
         } else {
             setupReveal();
+        }
+
+        const setupCapsuleInteraction = () => {
+            const token = document.getElementById('interaction-token');
+            const tokenPulse = document.getElementById('interaction-pulse');
+            const statusChips = Array.from(document.querySelectorAll('.status-chip'));
+            if (!token || !tokenPulse || statusChips.length === 0) {
+                return;
+            }
+
+            const edges = {
+                seed: document.getElementById('edge-seed'),
+                join: document.getElementById('edge-join'),
+                govern: document.getElementById('edge-generate'),
+                generate: document.getElementById('edge-return')
+            };
+
+            const nodeStates = {
+                seed: {
+                    node: document.getElementById('node-seed'),
+                    glow: document.getElementById('node-glow-seed'),
+                    label: document.getElementById('label-seed')
+                },
+                join: {
+                    node: document.getElementById('node-join'),
+                    glow: document.getElementById('node-glow-join'),
+                    label: document.getElementById('label-join')
+                },
+                govern: {
+                    node: document.getElementById('node-govern'),
+                    glow: document.getElementById('node-glow-govern'),
+                    label: document.getElementById('label-govern')
+                },
+                generate: {
+                    node: document.getElementById('node-generate'),
+                    glow: document.getElementById('node-glow-generate'),
+                    label: document.getElementById('label-generate')
+                }
+            };
+
+            const stages = ['seed', 'join', 'govern', 'generate'];
+            const durations = {
+                seed: 2600,
+                join: 2300,
+                govern: 2400,
+                generate: 2200
+            };
+
+            const setActiveStage = stage => {
+                statusChips.forEach(chip => {
+                    chip.classList.toggle('state-active', chip.dataset.state === stage);
+                });
+
+                Object.entries(nodeStates).forEach(([key, item]) => {
+                    const active = key === stage;
+                    if (!item || !item.node || !item.glow || !item.label) return;
+                    item.node.classList.toggle('active', active);
+                    item.label.classList.toggle('active', active);
+                    item.glow.style.opacity = active ? '0.22' : '0';
+                });
+
+                Object.entries(edges).forEach(([key, edge]) => {
+                    if (!edge) return;
+                    edge.classList.toggle('active', key === stage);
+                });
+            };
+
+            const runTokenFlow = (stageIndex = 0) => {
+                const stage = stages[stageIndex];
+                const pathEl = edges[stage];
+                if (!pathEl) {
+                    requestAnimationFrame(() => runTokenFlow((stageIndex + 1) % stages.length));
+                    return;
+                }
+
+                const pathLength = pathEl.getTotalLength();
+                const startedAt = performance.now();
+                const duration = durations[stage];
+
+                setActiveStage(stage);
+
+                const step = now => {
+                    const elapsed = now - startedAt;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 2);
+                    const point = pathEl.getPointAtLength(pathLength * eased);
+                    token.setAttribute('cx', point.x);
+                    token.setAttribute('cy', point.y);
+                    tokenPulse.setAttribute('cx', point.x);
+                    tokenPulse.setAttribute('cy', point.y);
+
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                        return;
+                    }
+
+                    requestAnimationFrame(() => {
+                        runTokenFlow((stageIndex + 1) % stages.length);
+                    });
+                };
+
+                requestAnimationFrame(step);
+            };
+
+            runTokenFlow();
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupCapsuleInteraction, { once: true });
+        } else {
+            setupCapsuleInteraction();
         }
     </script>
 </body>
