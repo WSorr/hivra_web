@@ -656,11 +656,11 @@
                 <div class="about-grid">
                     <article class="axis-card">
                         <strong>Person / Capsule</strong>
-                        <p>Capsule is the personal runtime anchor — persistent and identity-rich but not an account in a platform sense.</p>
+                        <p>Capsule is the personal runtime anchor: persistent, stateful, and not an account in a platform sense.</p>
                     </article>
                     <article class="axis-card">
                         <strong>Persistent local runtime</strong>
-                        <p>Capsule continuity remains stable across devices and sessions; runtime processes can start, stop, and recover around it.</p>
+                        <p>Capsule continuity remains stable across installations and sessions; runtime processes can start, stop, and recover around it.</p>
                     </article>
                     <article class="axis-card">
                         <strong>Replaceable capabilities</strong>
@@ -676,7 +676,7 @@
                 <div class="about-grid">
                     <article class="model-card">
                         <strong>Continuity</strong>
-                        <p>A durable thread that ties identity and state over time.</p>
+                        <p>A durable thread that ties person-owned state and authenticated history over time.</p>
                     </article>
                     <article class="model-card">
                         <strong>Authenticated history</strong>
@@ -692,11 +692,11 @@
                     </article>
                     <article class="model-card">
                         <strong>Adapter contracts</strong>
-                        <p>Ports for external services are not merged into core identity; they are attached as replaceable interfaces.</p>
+                        <p>Ports for external services are not merged into Core truth; they are attached as replaceable interfaces.</p>
                     </article>
                     <article class="model-card">
-                        <strong>Evidence policy</strong>
-                        <p>Core decides what becomes domain truth; external receipts and journals remain owned by their capability or effect boundary.</p>
+                        <strong>Evidence boundary</strong>
+                        <p>Core accepts domain truth through defined transitions; external receipts and journals remain owned by their capability or effect boundary.</p>
                     </article>
                 </div>
             </section>
@@ -715,7 +715,7 @@
                     </p>
                     <p class="model-note">
                         <strong>Not a wallet</strong>
-                        <span>Financial modules are capabilities, not the identity core.</span>
+                        <span>Financial modules are capabilities, not the continuity core.</span>
                     </p>
                     <p class="model-note">
                         <strong>Not a transport identity</strong>
@@ -733,7 +733,7 @@
                 <h2 class="section-title">Slots, Starters, Invitations, and Relationships.</h2>
                 <p class="section-intro">
                     Trust setup is part of the Core/Ledger domain, but it is not the whole definition of Hivra.
-                    These mechanisms connect people and services through scoped consent and explicit path setup.
+                    These mechanisms establish explicit trust paths without turning Hivra into a universal control relay.
                 </p>
 
                 <div class="about-grid">
@@ -769,7 +769,7 @@
                     </article>
                     <article class="axis-card">
                         <strong>Evidence boundary</strong>
-                        <p>Effects and receipts stay tied to the external service policy and are not merged back as identity claims.</p>
+                        <p>Effects and receipts stay tied to the provider or capability boundary and are not merged back as person continuity by default.</p>
                     </article>
                 </div>
             </section>
@@ -788,7 +788,7 @@
                     </article>
                     <article class="model-card">
                         <strong>Evidence separation</strong>
-                        <p>Activity logs, proofs, and attestations are structured at boundaries where trust is delegated.</p>
+                        <p>Activity logs, proofs, and attestations stay at explicit capability or provider boundaries.</p>
                     </article>
                     <article class="model-card">
                         <strong>No protocol lock-in</strong>
@@ -811,7 +811,7 @@
                     </article>
                     <article class="model-note">
                         <strong>Composable future</strong>
-                        <span>New modules can be introduced without redesigning the identity layer.</span>
+                        <span>New modules can be introduced without redesigning the continuity core.</span>
                     </article>
                 </div>
             </section>
@@ -832,8 +832,8 @@
                     </ul>
                     <p class="status-mark" style="margin: 0;"><span class="status-dot"></span>Intended but not implemented as core semantics</p>
                     <ul class="capsule-list">
-                        <li>Any claim that "bounded authority forwarding" or lifecycle inheritance is already a complete warrant protocol.</li>
-                        <li>Directional/hierarchical trust graph semantics as default behavior.</li>
+                        <li>A complete warrant protocol beyond the implemented trust setup.</li>
+                        <li>Default tree-shaped trust graph semantics.</li>
                     </ul>
                 </div>
             </section>
@@ -846,7 +846,7 @@
                 </p>
                 <div class="trajectory">
                     <article class="trajectory-item">
-                        <strong>Agent identity is execution-first.</strong>
+                        <strong>Agents are execution-first.</strong>
                         <p>Agents become service actors, while person continuity remains the durable principal.</p>
                     </article>
                     <article class="trajectory-item">
@@ -904,7 +904,7 @@
                             <span class="graph-chip">Retry + restart</span>
                         </div>
                     </div>
-                    <p class="section-intro">The same owner survives retry, restart, and reconnect. Core/Ledger receives only accepted domain truth; an external effect does not become identity history merely because it occurred.</p>
+                    <p class="section-intro">The same owner survives retry, restart, and reconnect. Core/Ledger receives only accepted domain truth; an external effect does not become Capsule history merely because it occurred.</p>
                 </div>
             </section>
         </div>
