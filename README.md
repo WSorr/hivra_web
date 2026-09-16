@@ -27,6 +27,19 @@ python3 -m http.server 8765
 Open <http://127.0.0.1:8765/>. Check desktop and mobile widths, keyboard
 navigation, reduced-motion behavior, internal links, and browser console errors.
 
+## Site Verification
+
+Run the same source smoke check used by pull requests:
+
+```sh
+./scripts/ci-site.sh
+```
+
+The check serves the current tree locally and verifies required pages, internal
+links, stylesheets, and image assets. A scheduled GitHub Actions job runs the
+same verifier against <https://hivra.space/> and checks the public TLS
+certificate. Production verification requires no VPS credentials.
+
 ## Deployment
 
 Deployment is an operator action. Server identity and SSH configuration stay
