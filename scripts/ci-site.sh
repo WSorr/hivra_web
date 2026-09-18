@@ -6,15 +6,6 @@ SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 ROOT_DIR=$(dirname "$SCRIPT_DIR")
 PYTHON_BIN=${PYTHON_BIN:-python3}
 PUBLIC_BASE_URL=${1:-}
-PORT=${PORT:-8765}
-SERVER_PID=
-
-cleanup() {
-  if [ -n "$SERVER_PID" ]; then
-    kill "$SERVER_PID" 2>/dev/null || true
-  fi
-}
-trap cleanup EXIT INT TERM
 
 for file in \
   index.html \
@@ -34,36 +25,13 @@ done
 
 sh -n "$ROOT_DIR/scripts/run.sh" "$ROOT_DIR/scripts/ci-site.sh"
 
-if [ -z "$PUBLIC_BASE_URL" ]; then
-  PUBLIC_BASE_URL="http://127.0.0.1:$PORT/"
-  (
-    cd "$ROOT_DIR"
-    "$PYTHON_BIN" -m http.server "$PORT" >/tmp/hivra_web_smoke_server.log 2>&1
-  ) &
-  SERVER_PID=$!
-
-  attempts=0
-  until "$PYTHON_BIN" - "$PUBLIC_BASE_URL" <<'PY'
-import sys
-import urllib.request
-
-with urllib.request.urlopen(sys.argv[1], timeout=1):
-    pass
-PY
-  do
-    attempts=$((attempts + 1))
-    if [ "$attempts" -ge 20 ]; then
-      echo "Local site server did not start" >&2
-      exit 1
-    fi
-    sleep 0.25
-  done
-fi
-
-"$PYTHON_BIN" - "$PUBLIC_BASE_URL" <<'PY'
+"$PYTHON_BIN" - "$ROOT_DIR" "$PUBLIC_BASE_URL" <<'PY'
 from __future__ import annotations
 
 from html.parser import HTMLParser
+import mimetypes
+import os
+from pathlib import Path
 import re
 import socket
 import ssl
@@ -71,9 +39,15 @@ import sys
 import time
 import urllib.parse
 import urllib.request
+import xml.etree.ElementTree as ElementTree
 
 
-BASE_URL = sys.argv[1]
+ROOT_DIR = Path(sys.argv[1]).resolve()
+PUBLIC_BASE_URL = sys.argv[2]
+REMOTE = bool(PUBLIC_BASE_URL)
+BASE_URL = PUBLIC_BASE_URL.rstrip("/") + "/" if REMOTE else "https://source.invalid/"
+CANONICAL_BASE_URL = "https://hivra.space/"
+CANONICAL_SITEMAP_URL = urllib.parse.urljoin(CANONICAL_BASE_URL, "sitemap.xml")
 REQUIRED_PATHS = (
     "index.html",
     "about.html",
@@ -82,6 +56,12 @@ REQUIRED_PATHS = (
     "robots.txt",
     "sitemap.xml",
 )
+EXPECTED_SITEMAP_URLS = {
+    CANONICAL_BASE_URL,
+    urllib.parse.urljoin(CANONICAL_BASE_URL, "about.html"),
+    urllib.parse.urljoin(CANONICAL_BASE_URL, "network-v2.html"),
+    urllib.parse.urljoin(CANONICAL_BASE_URL, "support.html"),
+}
 IGNORED_SCHEMES = {"data", "javascript", "mailto", "tel"}
 MAX_BYTES = 5 * 1024 * 1024
 
@@ -97,23 +77,55 @@ class References(HTMLParser):
                 self.values.append(value.strip())
 
 
-def fetch(url: str) -> tuple[bytes, str]:
+def fail(message: str) -> None:
+    print(f"FAIL {message}", file=sys.stderr)
+    raise SystemExit(1)
+
+
+def validate_body(url: str, body: bytes) -> None:
+    if not body:
+        fail(f"{url}: empty response")
+    if len(body) > MAX_BYTES:
+        fail(f"{url}: response exceeds {MAX_BYTES} bytes")
+
+
+def local_file(url: str) -> tuple[bytes, str]:
+    parsed = urllib.parse.urlparse(url)
+    relative_path = urllib.parse.unquote(parsed.path).lstrip("/") or "index.html"
+    target = (ROOT_DIR / relative_path).resolve()
+    if os.path.commonpath((str(ROOT_DIR), str(target))) != str(ROOT_DIR):
+        fail(f"{url}: path escapes the source tree")
+    if not target.is_file():
+        fail(f"{url}: missing source file {relative_path}")
+    with target.open("rb") as source:
+        body = source.read(MAX_BYTES + 1)
+    validate_body(url, body)
+    content_type = mimetypes.guess_type(target.name)[0] or "application/octet-stream"
+    return body, content_type
+
+
+def remote_file(url: str) -> tuple[bytes, str]:
     request = urllib.request.Request(url, headers={"User-Agent": "hivra-site-smoke/1"})
     try:
         with urllib.request.urlopen(request, timeout=15) as response:
             status = response.getcode()
+            final_url = response.geturl()
             body = response.read(MAX_BYTES + 1)
             content_type = response.headers.get_content_type()
     except Exception as error:
-        print(f"FAIL {url}: {error}", file=sys.stderr)
-        raise SystemExit(1) from None
+        fail(f"{url}: {error}")
     if status != 200:
-        raise RuntimeError(f"{url}: HTTP {status}")
-    if not body:
-        raise RuntimeError(f"{url}: empty response")
-    if len(body) > MAX_BYTES:
-        raise RuntimeError(f"{url}: response exceeds {MAX_BYTES} bytes")
+        fail(f"{url}: HTTP {status}")
+    final = urllib.parse.urlparse(final_url)
+    base = urllib.parse.urlparse(BASE_URL)
+    if (final.scheme, final.netloc) != (base.scheme, base.netloc):
+        fail(f"{url}: redirected outside {base.netloc}")
+    validate_body(url, body)
     return body, content_type
+
+
+def fetch(url: str) -> tuple[bytes, str]:
+    return remote_file(url) if REMOTE else local_file(url)
 
 
 def local_url(reference: str, source_url: str) -> str | None:
@@ -132,12 +144,14 @@ def local_url(reference: str, source_url: str) -> str | None:
 
 
 def check_tls() -> None:
+    if not REMOTE:
+        return
     parsed = urllib.parse.urlparse(BASE_URL)
     if parsed.scheme != "https":
-        return
+        fail("public verification requires HTTPS")
     host = parsed.hostname
     if not host:
-        raise RuntimeError("HTTPS base URL has no host")
+        fail("HTTPS base URL has no host")
     port = parsed.port or 443
     context = ssl.create_default_context()
     with socket.create_connection((host, port), timeout=15) as connection:
@@ -146,8 +160,42 @@ def check_tls() -> None:
     expires_at = ssl.cert_time_to_seconds(certificate["notAfter"])
     remaining_days = int((expires_at - time.time()) // 86400)
     if remaining_days < 14:
-        raise RuntimeError(f"TLS certificate expires in {remaining_days} days")
+        fail(f"TLS certificate expires in {remaining_days} days")
     print(f"OK TLS certificate: {remaining_days} days remaining")
+
+
+def validate_robots(text: str) -> None:
+    sitemap_urls = set()
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        name, separator, value = line.partition(":")
+        if separator and name.strip().lower() == "sitemap":
+            sitemap_urls.add(value.strip())
+    if CANONICAL_SITEMAP_URL not in sitemap_urls:
+        fail(f"robots.txt must reference {CANONICAL_SITEMAP_URL}")
+
+
+def validate_sitemap(text: str) -> set[str]:
+    try:
+        root = ElementTree.fromstring(text)
+    except ElementTree.ParseError as error:
+        fail(f"sitemap.xml: invalid XML: {error}")
+    locations = {
+        element.text.strip()
+        for element in root.iter()
+        if element.tag.rsplit("}", 1)[-1] == "loc" and element.text
+    }
+    missing = EXPECTED_SITEMAP_URLS - locations
+    if missing:
+        fail(f"sitemap.xml: missing URLs: {', '.join(sorted(missing))}")
+    for location in locations:
+        parsed = urllib.parse.urlparse(location)
+        canonical = urllib.parse.urlparse(CANONICAL_BASE_URL)
+        if (parsed.scheme, parsed.netloc) != (canonical.scheme, canonical.netloc):
+            fail(f"sitemap.xml: non-canonical URL {location}")
+    return locations
 
 
 check_tls()
@@ -162,14 +210,25 @@ while queue:
     body, content_type = fetch(url)
     print(f"OK {url} [{content_type}]")
 
-    text = body.decode("utf-8", errors="strict") if content_type.startswith("text/") else ""
+    path = urllib.parse.urlparse(url).path
+    is_text = content_type.startswith("text/") or path.endswith((".html", ".css", ".txt", ".xml"))
+    text = body.decode("utf-8", errors="strict") if is_text else ""
     references: list[str] = []
-    if content_type == "text/html" or urllib.parse.urlparse(url).path.endswith(".html"):
+    if content_type == "text/html" or path.endswith(".html"):
         parser = References()
         parser.feed(text)
         references.extend(parser.values)
-    if content_type == "text/css" or urllib.parse.urlparse(url).path.endswith(".css"):
+    if content_type == "text/css" or path.endswith(".css"):
         references.extend(re.findall(r"url\(\s*['\"]?([^'\")]+)", text))
+    if path.endswith("robots.txt"):
+        validate_robots(text)
+    if path.endswith("sitemap.xml"):
+        for location in validate_sitemap(text):
+            if REMOTE:
+                references.append(location)
+            else:
+                location_path = urllib.parse.urlparse(location).path.lstrip("/")
+                references.append(location_path or "index.html")
 
     for reference in references:
         resolved = local_url(reference, url)

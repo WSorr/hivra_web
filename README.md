@@ -35,10 +35,12 @@ Run the same source smoke check used by pull requests:
 ./scripts/ci-site.sh
 ```
 
-The check serves the current tree locally and verifies required pages, internal
-links, stylesheets, and image assets. A scheduled GitHub Actions job runs the
-same verifier against <https://hivra.space/> and checks the public TLS
-certificate. Production verification requires no VPS credentials.
+The check reads the current tree directly and verifies required pages, internal
+links, stylesheets, image assets, `robots.txt`, and `sitemap.xml`. It does not
+start a local network server or read deployment configuration. A scheduled
+GitHub Actions job runs the same verifier against <https://hivra.space/> and
+checks the public TLS certificate. Production verification requires no VPS
+credentials.
 
 ## Deployment
 
