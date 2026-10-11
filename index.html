@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hivra | Person-First Runtime</title>
-    <meta name="description" content="Hivra is a reference implementation of a Person-First Runtime: persistent person-owned capsules, bounded capability context, capability plugins, and replaceable transport or provider adapters.">
+    <meta name="description" content="Hivra explores a digital foundation you control: your own identity, authenticated history, and direct relationships, with applications and shared infrastructure around them.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://hivra.space/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Hivra">
     <meta property="og:title" content="Hivra | Person-First Runtime">
-    <meta property="og:description" content="Hivra is a Person-First Runtime. Capsule is the continuity layer; capabilities use host APIs and transport or provider adapters.">
+    <meta property="og:description" content="A digital foundation you control. Hivra explores independent participation, pairwise relationships, and replaceable applications through an experimental Person-First Runtime.">
     <meta property="og:url" content="https://hivra.space/">
     <meta property="og:image" content="https://hivra.space/pictures/hivra-social-card.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Hivra | Person-First Runtime">
-    <meta name="twitter:description" content="Person-owned Capsule runtime with explicit capabilities, Core/Ledger trust setup, and adapter-based interoperability.">
+    <meta name="twitter:description" content="A digital foundation you control. Independent participants and relationships, with useful applications and shared infrastructure around them.">
     <meta name="twitter:image" content="https://hivra.space/pictures/hivra-social-card.png">
     <meta name="theme-color" content="#08141a">
     <link rel="icon" href="pictures/favicon.ico" type="image/x-icon">
@@ -684,24 +684,29 @@
             <section class="hero reveal" style="--reveal-delay: 0ms">
                 <div class="hero-grid">
                     <article class="hero-copy">
-                        <span class="eyebrow">Hivra home</span>
-                        <h1>Hivra is a Person-First Runtime.</h1>
+                        <span class="eyebrow">Hivra</span>
+                        <h1>Your own foundation for life online.</h1>
                         <p>
-                            We built Hivra as a reference implementation where the Capsule is the continuity
-                            anchor of a person. Capabilities are replaceable plugins that use host APIs,
-                            while transports and providers stay behind adapter boundaries.
+                            Usually, going online starts with an app, an account, and the rules of its operator.
+                            Hivra explores another starting point: a digital foundation you establish and
+                            control, then use with applications and shared services.
+                        </p>
+                        <p>
+                            We call it a Capsule. It holds your identity, signed history, and your side of
+                            relationships with other independent participants. Hivra is a working experiment
+                            in this approach, called a Person-First Runtime.
                         </p>
                         <div class="hero-actions">
                             <a href="about.html" class="hero-primary">Read architecture</a>
                             <a href="network-v2.html" class="hero-secondary">Open state explorer</a>
                         </div>
                         <p class="hero-note">
-                            <strong>Current architecture in one line:</strong> person continuity first, bounded capability context, explicit trust setup.
+                            <strong>Durable participants and relationships.</strong> Replaceable software and infrastructure.
                             <span class="hero-note-grid">
-                                <span>Persistent Capsule</span>
-                                <span>Replaceable capabilities</span>
-                                <span>Scoped evidence</span>
-                                <span>Trust as extension layer</span>
+                                <span>Your own identity</span>
+                                <span>History you keep</span>
+                                <span>Pairwise relationships</span>
+                                <span>Applications you choose</span>
                             </span>
                         </p>
                     </article>
@@ -711,86 +716,95 @@
             <section class="section reveal" style="--reveal-delay: 70ms">
                 <div class="section-head">
                     <div>
-                        <span class="eyebrow">The inversion</span>
-                        <h2 class="section-title">Person / Capsule, not account / platform.</h2>
+                        <span class="eyebrow">A different starting point</span>
+                        <h2 class="section-title">Start with the participant.</h2>
                     </div>
                     <p class="section-text">
-                        Hivra does not start from a social graph or protocol stack.
-                        It starts from a person runtime that must remain stable while everything around it can evolve.
+                        Applications made participation convenient by providing accounts, storage, and services
+                        together. Personal computing and local-first software now make more arrangements
+                        practical. Hivra explores what a participant can maintain independently, while still
+                        making use of shared infrastructure.
                     </p>
                 </div>
                 <div class="panel-grid">
                     <article class="model-panel">
-                        <span class="panel-note">Capsule</span>
-                        <strong>Stable continuity anchor</strong>
-                        <p>Capsule stores person continuity and remains durable across app and transport changes.</p>
+                        <span class="panel-note">Your foundation</span>
+                        <strong>Establish a Capsule</strong>
+                        <p>Create a local identity and signing authority without registering with a mandatory Hivra account server or directory.</p>
                     </article>
                     <article class="model-panel">
-                        <span class="panel-note">Runtime</span>
-                        <strong>Core semantic boundary</strong>
-                        <p>Core semantics define accepted state transitions and the bounded context available to capabilities.</p>
+                        <span class="panel-note">Your relationships</span>
+                        <strong>Connect as independent parties</strong>
+                        <p>Two participants establish a verifiable relationship. Each keeps their own side, rather than relying on an application's contact list.</p>
                     </article>
                     <article class="model-panel">
-                        <span class="panel-note">Capabilities</span>
-                        <strong>Replaceable capabilities</strong>
-                        <p>Chat, AI, and trading modules can be replaced without rebuilding person or Capsule continuity.</p>
+                        <span class="panel-note">Your applications</span>
+                        <strong>Add useful software</strong>
+                        <p>Applications provide interfaces and specialized work. Their access is bounded; they do not become the source of your Capsule identity.</p>
                     </article>
                 </div>
             </section>
 
             <section class="section reveal" style="--reveal-delay: 100ms">
-                <span class="eyebrow">What Capsule owns</span>
-                <h2 class="section-title">Current scope: only the continuity core.</h2>
+                <span class="eyebrow">Pairwise relationships</span>
+                <h2 class="section-title">A relationship has two independent sides.</h2>
                 <p class="section-text">
-                    We keep Capsule minimal and composable so it can survive protocol updates and application churn.
+                    A channel delivers messages. The relationship belongs with its participants.
+                    Hivra records each side in its Capsule's signed history, so the relationship can remain
+                    even when a particular application is closed or unavailable.
                 </p>
                 <div class="axis-grid">
                     <article class="model-panel">
-                        <strong>Continuity</strong>
-                        <p>Persistent authenticated history and Core state that stay anchored to the person.</p>
+                        <strong>Mutual recognition</strong>
+                        <p>Relationships are established between two Capsules through an explicit invitation and acceptance.</p>
                     </article>
                     <article class="model-panel">
-                        <strong>Authenticated history</strong>
-                        <p>Evidence and transitions that describe how continuity changed over time.</p>
+                        <strong>Each side speaks for itself</strong>
+                        <p>Signed evidence lets each side verify the other. Carrying a message gives an intermediary no authority to sign for either participant.</p>
                     </article>
                     <article class="model-panel">
-                        <strong>Core state</strong>
-                        <p>Boundaries where security, acceptance, and capability context are resolved.</p>
+                        <strong>Access is a separate decision</strong>
+                        <p>A relationship alone grants no general access to private data or permission to act on someone's behalf.</p>
                     </article>
                     <article class="model-panel">
-                        <strong>Evidence boundary</strong>
-                        <p>External effects remain outside Core truth unless accepted through a defined capability or effect boundary.</p>
+                        <strong>Private by default</strong>
+                        <p>There is no global discovery directory. Public visibility would need a separate application and an explicit sharing choice.</p>
                     </article>
                     <article class="model-panel">
-                        <strong>Bounded context</strong>
-                        <p>All capability calls are matched against explicit context rather than implicit privilege.</p>
+                        <strong>Useful between interactions</strong>
+                        <p>A quiet relationship remains in retained history. Reaching the other participant still requires an available delivery channel.</p>
                     </article>
                     <article class="model-panel">
-                        <strong>Local-first base</strong>
-                        <p>Person continuity remains local-first and recoverable across installations without promising protocol lock-in.</p>
+                        <strong>Recovery needs preparation</strong>
+                        <p>A recovery phrase restores identity. Restoring history needs a compatible backup or available authenticated history as well.</p>
                     </article>
                 </div>
             </section>
 
             <section class="section reveal" style="--reveal-delay: 130ms">
-                <span class="eyebrow">What Capsule does not mean</span>
-                <h2 class="section-title">Hard boundaries, explicit scope.</h2>
+                <span class="eyebrow">A possible application</span>
+                <h2 class="section-title">Independent on both sides.</h2>
+                <p class="section-text">
+                    Imagine your relationships with a bank, a hospital, a fitness center, and other people.
+                    Each party could keep its own history and authority, and verify shared facts.
+                    These are conceptual possibilities, not current Hivra institutional integrations.
+                </p>
                 <div class="boundary-grid">
                     <article class="model-panel">
-                        <strong>Not an account</strong>
-                        <p>Capsule can use accounts, but it is not a provider account itself.</p>
+                        <strong>You and a bank</strong>
+                        <p>A future application could exchange authenticated records between independent parties. The bank would still operate its accounts and services.</p>
                     </article>
                     <article class="model-panel">
-                        <strong>Not a social graph node</strong>
-                        <p>Relationships are not implicit privilege surfaces by default.</p>
+                        <strong>You and a hospital</strong>
+                        <p>A future health application could keep a longitudinal history locally, receive authenticated clinical records, and share selected information. Institutions would retain their own records and legal responsibilities.</p>
                     </article>
                     <article class="model-panel">
-                        <strong>Not a wallet</strong>
-                        <p>Money modules are capabilities, not the continuity core.</p>
+                        <strong>You and a fitness center</strong>
+                        <p>An application could verify a membership fact without receiving your wider history. Such access would need its own rules and implementation.</p>
                     </article>
                     <article class="model-panel">
-                        <strong>Not a transport identity</strong>
-                        <p>Protocol endpoints and networks are interchangeable adapters.</p>
+                        <strong>You and other people</strong>
+                        <p>Applications could use an established relationship for different activities. Medical, financial, and other application records would stay outside Capsule Core.</p>
                     </article>
                 </div>
             </section>
@@ -798,49 +812,51 @@
             <section class="section reveal" style="--reveal-delay: 160ms">
                 <div class="two-col">
                     <article>
-                        <span class="eyebrow">Current architecture</span>
-                        <h2 class="section-title">Implemented now.</h2>
-                        <p class="section-text">We describe only behavior already present in the current stack.</p>
+                        <span class="eyebrow">Available to test</span>
+                        <h2 class="section-title">A working experimental runtime.</h2>
+                        <p class="section-text">As of 11 October 2026, <a href="https://github.com/WSorr/Hivra-App/releases/tag/v1.0.4-test1">v1.0.4-test1</a> is the latest test release for macOS and Android. It is not a stable release.</p>
                         <div class="panel-grid">
                             <div class="model-panel">
-                                <strong>Person-first continuity</strong>
-                                <p>Capsule is the single continuity anchor.</p>
+                                <strong>Implemented in 1.x</strong>
+                                <p>Local Capsule identity, signed history, invitation-based relationships, and a host for installed plugins.</p>
                             </div>
                             <div class="model-panel">
-                                <strong>Trust setup</strong>
-                                <p>Slots, Starters, Invitations, and Relationships belong to Core/Ledger domain truth.</p>
+                                <strong>Experimental release</strong>
+                                <p>Packaged launch and restart checks passed. Full recovery and migration qualification is deferred; the macOS build is unsigned and not notarized.</p>
                             </div>
                             <div class="model-panel">
-                                <strong>Capability flow</strong>
-                                <p>Request, decision boundary, adapter execution, and evidence handling are explicit.</p>
+                                <strong>Development continues</strong>
+                                <p>Source changes and plugin work can be ahead of released builds. See <a href="https://github.com/WSorr/Hivra-App/blob/main/docs/development-control.md">current development status</a> for their evidence and limits.</p>
                             </div>
                         </div>
                     </article>
                     <article>
                         <span class="eyebrow">Research direction</span>
-                        <h2 class="section-title">2026-2030 hypotheses.</h2>
-                        <p class="section-text">This is roadmap language, not current semantics.</p>
+                        <h2 class="section-title">What this could make possible.</h2>
+                        <p class="section-text">Hivra combines known technical capabilities. Its wider applications remain questions to explore, not promised outcomes.</p>
                         <div class="model-panel">
-                            <strong>Intent-first execution</strong>
-                            <p>Agent execution and local planning move earlier in the stack.</p>
+                            <strong>More work at the edge</strong>
+                            <p>Local computing and AI tools may let participants do more themselves, while shared services remain useful.</p>
                         </div>
                         <div class="model-panel">
-                            <strong>Selective on-chain role</strong>
-                            <p>Blockchain is used where audit and settlement need it, not as universal truth.</p>
+                            <strong>More ways to communicate</strong>
+                            <p>Peer-to-peer networking may widen delivery options. Reachability and infrastructure dependencies still need testing.</p>
                         </div>
                         <div class="model-panel">
-                            <strong>Future service actors</strong>
-                            <p>Autonomous service execution remains research direction, not current Core semantics.</p>
+                            <strong>Independent continuation</strong>
+                            <p>Continuing the same Capsule through a separate implementation is a research goal, not a demonstrated interoperability guarantee.</p>
                         </div>
                     </article>
                 </div>
             </section>
 
             <section class="section reveal" style="--reveal-delay: 190ms">
-                <span class="eyebrow">Capability lifecycle</span>
-                <h2 class="section-title">The person keeps continuity. Capabilities do the work.</h2>
+                <span class="eyebrow">Applications in practice</span>
+                <h2 class="section-title">Software works within granted access.</h2>
                 <p class="section-text">
-                    A goal enters one capability owner. The owner decides within its bounds, an adapter executes, and the capability reconciles the receipt before returning a result.
+                    Applications provide useful interfaces and workflows. The runtime mediates their access;
+                    external services execute permitted requests and return evidence of the outcome.
+                    Running locally or remotely does not by itself grant authority.
                 </p>
                 <div class="capsule-chart">
                     <ul class="interaction-status" aria-label="Capsule interaction stages">
@@ -876,18 +892,17 @@
                             <span class="graph-chip">Verified outcome</span>
                         </div>
                     </div>
-                    <p class="chart-caption">Core and Ledger remain the domain-truth boundary. External observations, decisions, and receipts stay with their capability unless a real Core use case accepts a domain transition.</p>
+                    <p class="chart-caption">This diagram illustrates one application request. Its result stays with the responsible application; it does not automatically become part of the Capsule's foundational history.</p>
                 </div>
             </section>
 
             <section class="section reveal" style="--reveal-delay: 220ms">
                 <div class="cta-panel">
                     <div>
-                        <span class="eyebrow">Need the real context</span>
-                        <h2>See what is implemented and where we are heading.</h2>
+                        <span class="eyebrow">Explore Hivra</span>
+                        <h2>Read the architecture. Inspect the experiment.</h2>
                         <p class="section-text">
-                            About page now follows the same architecture framing.
-                            This page stays close to the product reality and avoids invented semantics.
+                            Follow the reasoning, inspect the technical evidence, or try a published test build.
                         </p>
                     </div>
                     <div class="cta-links">
