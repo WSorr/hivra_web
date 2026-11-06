@@ -4,6 +4,7 @@ set -eu
 
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 ROOT_DIR=$(dirname "$SCRIPT_DIR")
+SOURCE_DIR=${HIVRA_SITE_SOURCE_DIR:-$ROOT_DIR}
 PYTHON_BIN=${PYTHON_BIN:-python3}
 PUBLIC_BASE_URL=${1:-}
 
@@ -16,16 +17,17 @@ for file in \
   robots.txt \
   sitemap.xml \
   README.md \
-  scripts/run.sh; do
+  scripts/run.sh \
+  scripts/stage-site.sh; do
   if [ ! -f "$ROOT_DIR/$file" ]; then
     echo "Missing required file: $file" >&2
     exit 1
   fi
 done
 
-sh -n "$ROOT_DIR/scripts/run.sh" "$ROOT_DIR/scripts/ci-site.sh"
+sh -n "$ROOT_DIR/scripts/run.sh" "$ROOT_DIR/scripts/ci-site.sh" "$ROOT_DIR/scripts/stage-site.sh"
 
-"$PYTHON_BIN" - "$ROOT_DIR" "$PUBLIC_BASE_URL" <<'PY'
+"$PYTHON_BIN" - "$SOURCE_DIR" "$PUBLIC_BASE_URL" <<'PY'
 from __future__ import annotations
 
 from html.parser import HTMLParser

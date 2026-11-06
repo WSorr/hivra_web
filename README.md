@@ -44,7 +44,19 @@ credentials.
 
 ## Deployment
 
-Deployment is an operator action. Server identity and SSH configuration stay
+Every push to `main` runs source verification, publishes the public website
+over SSH, and then checks the deployed pages and TLS certificate. Pull requests
+run source verification only. Manual workflow runs and the daily schedule check
+production without deploying. Running production deployments are not cancelled
+by newer pushes.
+
+GitHub Actions uses repository secrets `VPS_HOST`, `VPS_PORT`, `VPS_USER`,
+`VPS_SSH_KEY`, and `VPS_KNOWN_HOSTS`. The dedicated deployment key is restricted
+on the server to write-only rsync within the website directory, with no shell
+or forwarding access. The host key is pinned; the personal administration key
+is not used by CI.
+
+For manual operator deployment, server identity and SSH configuration stay
 outside Git in `scripts/deploy.local.env` or equivalent environment variables:
 
 ```sh
@@ -60,8 +72,11 @@ Always inspect the exact file set before deployment:
 ./scripts/run.sh vps deploy CONFIRM
 ```
 
-The deploy command synchronizes only public website files. It excludes Git,
-local operator configuration, scripts, and deployment working directories.
+Both deployment paths use `scripts/stage-site.sh` to select the public pages,
+stylesheet, images, `robots.txt`, and `sitemap.xml`. Git metadata, local operator
+configuration, workflows, README files, and scripts are not published. Symbolic
+links in public assets are rejected. Removed public files are removed from the
+server during deployment.
 
 ## Security
 
