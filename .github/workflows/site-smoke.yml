@@ -14,7 +14,7 @@ permissions:
 
 concurrency:
   group: site-smoke-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   source-smoke:
@@ -26,9 +26,54 @@ jobs:
         uses: actions/checkout@v4
       - name: Verify source tree
         run: ./scripts/ci-site.sh
+      - name: Verify staged public website
+        run: |
+          ./scripts/stage-site.sh "$RUNNER_TEMP/public-site"
+          HIVRA_SITE_SOURCE_DIR="$RUNNER_TEMP/public-site" ./scripts/ci-site.sh
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: source-smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout verified revision
+        uses: actions/checkout@v4
+      - name: Stage public website
+        run: |
+          ./scripts/stage-site.sh "$RUNNER_TEMP/public-site"
+          HIVRA_SITE_SOURCE_DIR="$RUNNER_TEMP/public-site" ./scripts/ci-site.sh
+      - name: Deploy over restricted SSH
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          : "${VPS_HOST:?Missing VPS_HOST secret}"
+          : "${VPS_PORT:?Missing VPS_PORT secret}"
+          : "${VPS_USER:?Missing VPS_USER secret}"
+          : "${VPS_SSH_KEY:?Missing VPS_SSH_KEY secret}"
+          : "${VPS_KNOWN_HOSTS:?Missing VPS_KNOWN_HOSTS secret}"
+          umask 077
+          ssh_dir=$(mktemp -d "$RUNNER_TEMP/hivra-ssh.XXXXXX")
+          trap 'rm -rf -- "$ssh_dir"' EXIT
+          printf '%s\n' "$VPS_SSH_KEY" > "$ssh_dir/key"
+          printf '%s\n' "$VPS_KNOWN_HOSTS" > "$ssh_dir/known_hosts"
+          rsync -rlptz --delete-delay --delay-updates --safe-links \
+            -e "ssh -p $VPS_PORT -i $ssh_dir/key -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$ssh_dir/known_hosts -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3" \
+            "$RUNNER_TEMP/public-site/" "$VPS_USER@$VPS_HOST:./"
 
   production-health:
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    needs: [source-smoke, deploy]
+    if: >-
+      always() && !cancelled() &&
+      (github.event_name == 'schedule' ||
+       github.event_name == 'workflow_dispatch' ||
+       needs.deploy.result == 'success')
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:

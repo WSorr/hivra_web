@@ -43,15 +43,13 @@ require_confirm() {
 rsync_site() {
   mode=$1
   check_key
+  staging=$(mktemp -d)
+  trap 'rm -rf -- "$staging"' EXIT HUP INT TERM
+  "$SCRIPT_DIR/stage-site.sh" "$staging/public"
   rsync -av --delete $mode \
     -e "ssh -o ConnectTimeout=12 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 -o IdentitiesOnly=yes -i $VPS_KEY" \
-    "$ROOT_DIR/" \
-    "$VPS_USER@$VPS_HOST:/var/www/hivra.space/" \
-    --exclude '.git' \
-    --exclude '.DS_Store' \
-    --exclude '.openai' \
-    --exclude 'scripts' \
-    --exclude 'deploy'
+    "$staging/public/" \
+    "$VPS_USER@$VPS_HOST:/var/www/hivra.space/"
 }
 
 vps_deploy_preview() {
