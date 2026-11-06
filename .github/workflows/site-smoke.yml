@@ -23,7 +23,9 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Verify source tree
         run: ./scripts/ci-site.sh
       - name: Verify staged public website
@@ -38,7 +40,9 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout verified revision
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Stage public website
         run: |
           ./scripts/stage-site.sh "$RUNNER_TEMP/public-site"
@@ -78,6 +82,8 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Verify public website
         run: ./scripts/ci-site.sh https://hivra.space/
